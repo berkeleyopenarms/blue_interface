@@ -203,6 +203,7 @@ class ROSBridgeClient(WebSocketClient):
         Args:
             message(ws4py.messaging.Message): A message that sent from ROS server.
         """
+        message.data = message.data.decode()
         data = json.loads(message.data)
         if 'topic' in data:
             dispatcher.send(data.get('topic'), message=data.get('msg'))
