@@ -21,3 +21,5 @@ while True:
     for des_pos in recorded_positions:
         curr_pos = koko.get_joint_positions()
         while (np.linalg.norm(np.subtract(des_pos, curr_pos)) > error):
+            koko.set_joint_positions(des_pos)
+            curr_pos = koko.get_joint_positions()
