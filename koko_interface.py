@@ -10,7 +10,7 @@ class KokoInterface:
         self._RBC = ROSBridgeClient(ip, port)
 
         # ROS Topic Names
-        _ROS_SET_JOINT_POSITIONSS_TOPIC = "/koko_controllers/joint_positions_controller/command"
+        _ROS_SET_JOINT_POSITIONS_TOPIC = "/koko_controllers/joint_positions_controller/command"
         _ROS_JOINT_STATE_TOPIC = "/joint_states"
         _ROS_SET_CARTESIAN_POSE_TOPIC = "/koko_controllers/cartesian_pose_controller/command"
         _ROS_SET_P_TERMS_TOPIC = "/p_terms" # temporary
@@ -23,7 +23,7 @@ class KokoInterface:
 
         # Create Subscribers, Publishers, and Service Clients
         self._joint_state_subscriber = self._RBC.subscriber(_ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_positions_callback)
-        self._joint_positions_publisher = self._RBC.publisher(_ROS_SET_JOINT_POSITIONSS_TOPIC, "std_msgs/Float64MultiArray")
+        self._joint_positions_publisher = self._RBC.publisher(_ROS_SET_JOINT_POSITIONS_TOPIC, "std_msgs/Float64MultiArray")
         self._cartesian_pose_publisher = self._RBC.publisher(_ROS_SET_CARTESIAN_POSE_TOPIC, "geometry_msgs/PoseStamped")
         self._p_terms_publisher = self._RBC.publisher(_ROS_SET_P_TERMS_TOPIC, "std_msgs/Float64MultiArray")
         self._d_terms_publisher = self._RBC.publisher(_ROS_SET_D_TERMS_TOPIC, "std_msgs/Float64MultiArray")
