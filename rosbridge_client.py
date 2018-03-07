@@ -496,3 +496,4 @@ class _Goal(object):
         """
         if callable(self._on_feedback):
             self._on_feedback(feedback, status)
+

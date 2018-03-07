@@ -1,0 +1,14 @@
+<launch>
+
+  <!-- Position the robot in the world-->
+  <node
+    name="transformer"
+    pkg="tf"
+    type="static_transform_publisher"
+    args="0.0 0.0 0.0 0.0 0.0 0.0 1 world base_link 100" />
+
+  <!-- Accept connections from our Python API via rosbridge -->
+  <include
+    file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+
+</launch>

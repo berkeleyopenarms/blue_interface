@@ -2,7 +2,9 @@
 from rosbridge_client import ROSBridgeClient
 import time
 import warnings
+import threading
 from enum import Enum
+import numpy as np
 
 class KokoInterface:
 
@@ -10,11 +12,14 @@ class KokoInterface:
         self._RBC = ROSBridgeClient(ip, port)
 
         # ROS Topic Names
-        _ROS_SET_JOINT_POSITIONSS_TOPIC = "/koko_controllers/joint_positions_controller/command"
+        _ROS_JOINT_POSITIONS_TOPIC = "/koko_controllers/joint_positions_controller/command"
         _ROS_JOINT_STATE_TOPIC = "/joint_states"
-        _ROS_SET_CARTESIAN_POSE_TOPIC = "/koko_controllers/cartesian_pose_controller/command"
-        _ROS_SET_P_TERMS_TOPIC = "/p_terms" # temporary
-        _ROS_SET_D_TERMS_TOPIC = "/d_terms" # temporary
+        _ROS_CARTESIAN_POSE_TOPIC = "/koko_controllers/cartesian_pose_controller/command"
+        _ROS_TF_TOPIC = "/tf"
+
+        # Frame names
+        self._WORLD_FRAME = "world"
+        self._END_EFFECTOR_FRAME = "foo"
 
         self.joint_positions = None
         self.cartesian_pose = None
@@ -22,21 +27,23 @@ class KokoInterface:
         self._joint_names = ["base_roll_joint", "shoulder_lift_joint", "shoulder_roll_joint", "elbow_lift_joint", "elbow_roll_joint", "wrist_lift_joint", "wrist_roll_joint"]
 
         # Create Subscribers, Publishers, and Service Clients
-        self._joint_state_subscriber = self._RBC.subscriber(_ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_positions_callback)
-        self._joint_positions_publisher = self._RBC.publisher(_ROS_SET_JOINT_POSITIONSS_TOPIC, "std_msgs/Float64MultiArray")
-        self._cartesian_pose_publisher = self._RBC.publisher(_ROS_SET_CARTESIAN_POSE_TOPIC, "geometry_msgs/PoseStamped")
-        self._p_terms_publisher = self._RBC.publisher(_ROS_SET_P_TERMS_TOPIC, "std_msgs/Float64MultiArray")
-        self._d_terms_publisher = self._RBC.publisher(_ROS_SET_D_TERMS_TOPIC, "std_msgs/Float64MultiArray")
-        self._switch_controller_service_client = self._RBC.service("controller_manager/switch_controller", "controller_manager_msgs/SwitchController")
+        # self._joint_state_subscriber = self._RBC.subscriber(_ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_positions_callback)
+        # self._joint_positions_publisher = self._RBC.publisher(_ROS_JOINT_POSITIONS_TOPIC, "std_msgs/Float64MultiArray")
+        self._tf_service_client = self._RBC.service("/republish_tfs", "tf2_web_republisher/RepublishTFs")
+        # self._cartesian_pose_publisher = self._RBC.publisher(_ROS_CARTESIAN_POSE_TOPIC, "geometry_msgs/PoseStamped")
+        # self._switch_controller_service_client = self._RBC.service("controller_manager/switch_controller", "controller_manager_msgs/SwitchController")
 
-        while self.joint_positions == None:
-            time.sleep(0.1)
+        # while self.joint_positions == None:
+        #     time.sleep(0.1)
+
+        time.sleep(1)
+        self._call_tf_service()
 
     def set_joint_positions(self, joint_positions):
         """
         Moves arm to specified positions in joint space.
 
-        @param joint_positions: a list of 7 joint angles, in radians, ordered from proximal to distal
+        @param joint_positions: a numpy array  of 7 joint angles, in radians, ordered from proximal to distal
         """
         if self.control_mode == KokoControlMode.JOINT_POSITIONS:
             joint_positions_msg = {
@@ -52,8 +59,8 @@ class KokoInterface:
         """
         Moves end effector to specified pose in Cartesian space.
 
-        @param position: a list containing Cartesian coordinates in the base_link frame
-        @param orientation: a quaternion defined in the base_link frame
+        @param position: a numpy array containing Cartesian coordinates (x,y,z) in the base_link frame
+        @param orientation: a numpy array containing a quaternion (x,y,z,w) defined in the base_link frame
         """
         if self.control_mode == KokoControlMode.CARTESIAN_POSE:
             position_msg = {
@@ -79,7 +86,7 @@ class KokoInterface:
                 "pose": pose_msg
             }
 
-            self.set_cartesian_pose_publisher.publish(cartesian_pose_msg)
+            self._cartesian_pose_publisher.publish(cartesian_pose_msg)
         else:
             warnings.warn("KokoControlMode is not CARTESIAN_POSE.")
 
@@ -102,7 +109,7 @@ class KokoInterface:
         if mode == self.control_mode:
             return
 
-        if self.control_mode == Koko_ControlMode.CONTROL_OFF:
+        if self.control_mode == KokoControlMode.CONTROL_OFF:
             if mode == KokoControlMode.JOINT_POSITIONS:
                 request_msg = {
                     "start_controllers": ["koko_controllers/joint_position_controller"],
@@ -147,43 +154,20 @@ class KokoInterface:
                     "strictness": 2 # Strict
                 }
 
-        def switch_controller_callback(message):
-            if message == 1:
+        s = threading.Semaphore(0)
+
+        def switch_controller_callback(success, values):
+            if success:
                 self.control_mode = mode
+                s.release()
 
         self._switch_controller_service_client.request(request_msg, switch_controller_callback)
+        s.acquire()
 
         return mode == self.control_mode
 
-    def disable_control(self):
-        # TODO temporary, will be replaced with set_control_mode functionality
-        p_terms_msg = {
-            "layout" : {},
-            "data": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        }
-
-        d_terms_msg = {
-            "layout" : {},
-            "data": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        }
-
-        self._p_terms_publisher.publish(p_terms_msg)
-        self._d_terms_publisher.publish(d_terms_msg)
-
-    def enable_control(self):
-        # TODO temporary, will be replaced with set_control_mode functionality
-        p_terms_msg = {
-            "layout" : {},
-            "data": [25.0, 25.0, 15.0, 15.0, 10.0, 5.0, 5.0]
-        }
-
-        d_terms_msg = {
-            "layout" : {},
-            "data": [3.0, 4.0, 3.0, 2.0, 2.0, 1.0, 1.0]
-        }
-
-        self._p_terms_publisher.publish(p_terms_msg)
-        self._d_terms_publisher.publish(d_terms_msg)
+    def get_control_mode(self):
+        return self.control_mode
 
     def _joint_positions_callback(self, message):
         joint_positions_temp = []
@@ -192,6 +176,25 @@ class KokoInterface:
             joint_positions_temp.append(message["position"][self.index])
         self.joint_positions = joint_positions_temp
 
+    def _process_tfs(self, message):
+        print(message)
+
+    def _call_tf_service(self):
+        goal_msg = {
+            "source_frames": [self._END_EFFECTOR_FRAME],
+            "target_frame": self._WORLD_FRAME,
+            "angular_thres": 0.0,
+            "trans_thres": 0.0,
+            "rate": 10.0,
+            "timeout": 200.0
+        }
+
+        def _tf_service_callback(success, values):
+            if success:
+                self._tf_subscriber = self._RBC.subscriber(values["topic_name"], "geometry_msgs/TransformStamped[]", self._process_tfs)
+                print(values["topic_name"])
+
+        self._tf_service_client.request(goal_msg, _tf_service_callback)
 
 class KokoControlMode(Enum):
     # TODO add torque control mode
