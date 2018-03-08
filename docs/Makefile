@@ -1,3 +1,3 @@
 docs:
 	doxygen
-	moxygen ./xml
+	moxygen ./xml -o README.md
