@@ -55,14 +55,15 @@ class KokoInterface:
         else:
             warnings.warn("KokoControlMode is not JOINT_POSITIONS.")
 
-    def set_cartesian_pose(self, position, orientation):
+    def set_cartesian_pose(self, target_pose):
         """
         Moves end effector to specified pose in Cartesian space.
 
-        @param position: a numpy array containing Cartesian coordinates (x,y,z) in the base_link frame
-        @param orientation: a numpy array containing a quaternion (x,y,z,w) defined in the base_link frame
+        @param target_pose: {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]} where position and orientation are defined in the world frame
         """
         if self.control_mode == KokoControlMode.CARTESIAN_POSE:
+            position = target_pose["position"]
+            orientation = target_pose["orientation"]
             position_msg = {
                 "x": position[0],
                 "y": position[1],
@@ -89,14 +90,6 @@ class KokoInterface:
             self._cartesian_pose_publisher.publish(cartesian_pose_msg)
         else:
             warnings.warn("KokoControlMode is not CARTESIAN_POSE.")
-
-    def get_joint_positions(self):
-        """
-        Returns the current position of the arm in joint space.
-
-        @return: a list of 7 angles, in radians, ordered from proximal to distal
-        """
-        return self.joint_positions
 
     def set_control_mode(self, mode):
         # TODO add torque control mode
@@ -166,6 +159,22 @@ class KokoInterface:
 
         return mode == self.control_mode
 
+    def get_joint_positions(self):
+        """
+        Returns the current position of the arm in joint space.
+
+        @return: a list of 7 angles, in radians, ordered from proximal to distal
+        """
+        return self.joint_positions
+
+    def get_cartesian_pose(self):
+        """
+        Returns the current cartesian pose of the end effector with respect to the world frame.
+
+        @return: {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]}
+        """
+        return self.cartesian_pose
+
     def get_control_mode(self):
         return self.control_mode
 
@@ -177,22 +186,27 @@ class KokoInterface:
         self.joint_positions = joint_positions_temp
 
     def _process_tfs(self, message):
-        print(message)
+        pose = message["transforms"][0]["transform"]
+        trans = pose["translation"]
+        rot = pose["rotation"]
+        cartesian_pose_temp = {}
+        cartesian_pose_temp["position"] = np.array([trans["x"], trans["y"], trans["z"]])
+        cartesian_pose_temp["orientation"] = np.array([rot["x"], rot["y"], rot["z"], rot["w"]])
+        self.cartesian_pose = cartesian_pose_temp
 
     def _call_tf_service(self):
         goal_msg = {
             "source_frames": [self._END_EFFECTOR_FRAME],
             "target_frame": self._WORLD_FRAME,
-            "angular_thres": 0.0,
-            "trans_thres": 0.0,
-            "rate": 10.0,
-            "timeout": 200.0
+            "angular_thres": 1,
+            "trans_thres": 1,
+            "rate": 2,
+            "timeout": {"secs": 2.0, "nsecs": 0.0}
         }
 
         def _tf_service_callback(success, values):
             if success:
-                self._tf_subscriber = self._RBC.subscriber(values["topic_name"], "geometry_msgs/TransformStamped[]", self._process_tfs)
-                print(values["topic_name"])
+                self._tf_subscriber = self._RBC.subscriber(values["topic_name"], "tf2_web_republisher/TFArray", self._process_tfs)
 
         self._tf_service_client.request(goal_msg, _tf_service_callback)
 
