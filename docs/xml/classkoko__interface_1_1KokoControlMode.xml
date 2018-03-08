@@ -52,24 +52,24 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="52">
+      <node id="6">
         <label>koko_interface.KokoControlMode</label>
         <link refid="classkoko__interface_1_1KokoControlMode"/>
-        <childnode refid="53" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="53">
+      <node id="7">
         <label>Enum</label>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="54">
+      <node id="8">
         <label>koko_interface.KokoControlMode</label>
         <link refid="classkoko__interface_1_1KokoControlMode"/>
-        <childnode refid="55" relation="public-inheritance">
+        <childnode refid="9" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="55">
+      <node id="9">
         <label>Enum</label>
       </node>
     </collaborationgraph>
