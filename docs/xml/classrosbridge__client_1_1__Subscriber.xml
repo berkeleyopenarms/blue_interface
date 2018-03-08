@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classrosbridge__client_1_1__Subscriber" kind="class" language="Python" prot="public">
+    <compoundname>rosbridge_client::_Subscriber</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrosbridge__client_1_1__Subscriber_1a6e33ba05393e9b5e85a81885db41ae16" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client._Subscriber::_rosbridge</definition>
+        <argsstring></argsstring>
+        <name>_rosbridge</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="294" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1__Subscriber_1a503a8ed99729f922695dd3bee9b35db6" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client._Subscriber::_topic_name</definition>
+        <argsstring></argsstring>
+        <name>_topic_name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="295" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1__Subscriber_1a6663857e21ffbf0f4c23371f541aa26e" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client._Subscriber::_cb</definition>
+        <argsstring></argsstring>
+        <name>_cb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="296" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrosbridge__client_1_1__Subscriber_1ab7f1f516b3180b06e0f610f3874549c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client._Subscriber.__init__</definition>
+        <argsstring>(self, rosbridge, topic_name, cb=None)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>rosbridge</type>
+          <defname>rosbridge</defname>
+        </param>
+        <param>
+          <type>topic_name</type>
+          <defname>topic_name</defname>
+        </param>
+        <param>
+          <type>cb</type>
+          <defname>cb</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+<para>Constructor for <ref refid="classrosbridge__client_1_1__Subscriber" kindref="compound">_Subscriber</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rosbridge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classrosbridge__client_1_1ROSBridgeClient" kindref="compound">ROSBridgeClient</ref> object. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topic_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS topic name. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function will be called when a message is received on that topic. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="293" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="293" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1__Subscriber_1a072cb9bcfa1a8db1f721d669206dac8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client._Subscriber.topic_name</definition>
+        <argsstring>(self)</argsstring>
+        <name>topic_name</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="301" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="301" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1__Subscriber_1a69094f92927d9978e1ece3ac3f277a26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client._Subscriber.unregister</definition>
+        <argsstring>(self)</argsstring>
+        <name>unregister</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+<para>Remove the current callback function from listening to the topic, and from the rosbridge client subscription list. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="307" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="307" bodyend="312"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="49">
+        <label>object</label>
+      </node>
+      <node id="48">
+        <label>rosbridge_client._Subscriber</label>
+        <link refid="classrosbridge__client_1_1__Subscriber"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="51">
+        <label>object</label>
+      </node>
+      <node id="50">
+        <label>rosbridge_client._Subscriber</label>
+        <link refid="classrosbridge__client_1_1__Subscriber"/>
+        <childnode refid="51" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/brent/koko_interface/rosbridge_client.py" line="285" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="285" bodyend="313"/>
+    <listofallmembers>
+      <member refid="classrosbridge__client_1_1__Subscriber_1ab7f1f516b3180b06e0f610f3874549c1" prot="public" virt="non-virtual"><scope>rosbridge_client::_Subscriber</scope><name>__init__</name></member>
+      <member refid="classrosbridge__client_1_1__Subscriber_1a6663857e21ffbf0f4c23371f541aa26e" prot="private" virt="non-virtual"><scope>rosbridge_client::_Subscriber</scope><name>_cb</name></member>
+      <member refid="classrosbridge__client_1_1__Subscriber_1a6e33ba05393e9b5e85a81885db41ae16" prot="private" virt="non-virtual"><scope>rosbridge_client::_Subscriber</scope><name>_rosbridge</name></member>
+      <member refid="classrosbridge__client_1_1__Subscriber_1a503a8ed99729f922695dd3bee9b35db6" prot="private" virt="non-virtual"><scope>rosbridge_client::_Subscriber</scope><name>_topic_name</name></member>
+      <member refid="classrosbridge__client_1_1__Subscriber_1a072cb9bcfa1a8db1f721d669206dac8c" prot="public" virt="non-virtual"><scope>rosbridge_client::_Subscriber</scope><name>topic_name</name></member>
+      <member refid="classrosbridge__client_1_1__Subscriber_1a69094f92927d9978e1ece3ac3f277a26" prot="public" virt="non-virtual"><scope>rosbridge_client::_Subscriber</scope><name>unregister</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

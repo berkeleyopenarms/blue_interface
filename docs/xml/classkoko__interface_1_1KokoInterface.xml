@@ -1,0 +1,389 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classkoko__interface_1_1KokoInterface" kind="class" language="Python" prot="public">
+    <compoundname>koko_interface::KokoInterface</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoInterface_1a0b7bf1153951af6574cacd8ee94fed60" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>koko_interface.KokoInterface::_RBC</definition>
+        <argsstring></argsstring>
+        <name>_RBC</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="12" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoInterface_1a655f11a806e2c7e00579d2cab9db10e4" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>koko_interface.KokoInterface::_WORLD_FRAME</definition>
+        <argsstring></argsstring>
+        <name>_WORLD_FRAME</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="33" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoInterface_1ae119c9cf1ad28ce63f446573f9f593c8" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>koko_interface.KokoInterface::_END_EFFECTOR_FRAME</definition>
+        <argsstring></argsstring>
+        <name>_END_EFFECTOR_FRAME</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="34" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoInterface_1a1e7e51ef1bef9b4e8457578b78c62346" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>koko_interface.KokoInterface::_joint_names</definition>
+        <argsstring></argsstring>
+        <name>_joint_names</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="39" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoInterface_1ab183e2d71c057c16ee9a17f63037296e" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>koko_interface.KokoInterface::_tf_service_client</definition>
+        <argsstring></argsstring>
+        <name>_tf_service_client</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="44" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoInterface_1ab013b9d5be5f9db788aa8e3001593d74" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>koko_interface.KokoInterface::_tf_subscriber</definition>
+        <argsstring></argsstring>
+        <name>_tf_subscriber</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="206" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoInterface_1a28d2873e3b1fcdc4f606a07cbf81d210" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>koko_interface.KokoInterface::joint_positions</definition>
+        <argsstring></argsstring>
+        <name>joint_positions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="36" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoInterface_1a30ad900674c0c86e1591b319cec4a6c0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>koko_interface.KokoInterface::cartesian_pose</definition>
+        <argsstring></argsstring>
+        <name>cartesian_pose</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="37" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoInterface_1a574b916f7eef570c7a02df84bd1c7b19" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>koko_interface.KokoInterface::control_mode</definition>
+        <argsstring></argsstring>
+        <name>control_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="38" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoInterface_1a188c53b5a1fa6d13f4056320017c9d29" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>koko_interface.KokoInterface::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="187" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classkoko__interface_1_1KokoInterface_1aaf543c0820da6c38ee61d423d995da0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def koko_interface.KokoInterface.__init__</definition>
+        <argsstring>(self, ip, port=9090)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>ip</type>
+          <defname>ip</defname>
+        </param>
+        <param>
+          <type>port</type>
+          <defname>port</defname>
+          <defval>9090</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="11" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="11" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classkoko__interface_1_1KokoInterface_1a8001867f243714800f78a34b54d44421" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def koko_interface.KokoInterface.set_joint_positions</definition>
+        <argsstring>(self, joint_positions)</argsstring>
+        <name>set_joint_positions</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>joint_positions</type>
+          <defname>joint_positions</defname>
+        </param>
+        <briefdescription>
+<para>Moves arm to specified positions in joint space. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>joint_positions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a numpy array of 7 joint angles, in radians, ordered from proximal to distal </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="59" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="59" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classkoko__interface_1_1KokoInterface_1a11cf37925d4d98477a95734704e1c958" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def koko_interface.KokoInterface.set_cartesian_pose</definition>
+        <argsstring>(self, position, orientation)</argsstring>
+        <name>set_cartesian_pose</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>position</type>
+          <defname>position</defname>
+        </param>
+        <param>
+          <type>orientation</type>
+          <defname>orientation</defname>
+        </param>
+        <briefdescription>
+<para>Moves end effector to specified pose in Cartesian space. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a numpy array containing Cartesian coordinates (x,y,z) in the base_link frame </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>orientation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a numpy array containing a quaternion (x,y,z,w) defined in the base_link frame </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="76" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="76" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classkoko__interface_1_1KokoInterface_1aef18bb753953d1d47a1225fe19bf5ef1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def koko_interface.KokoInterface.get_joint_positions</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_joint_positions</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+<para>Returns the current position of the arm in joint space. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>: a list of 7 angles, in radians, ordered from proximal to distal </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="110" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="110" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classkoko__interface_1_1KokoInterface_1a27bbfb3dbb835d72674ecfaec6b26c03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def koko_interface.KokoInterface.set_control_mode</definition>
+        <argsstring>(self, mode)</argsstring>
+        <name>set_control_mode</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>mode</type>
+          <defname>mode</defname>
+        </param>
+        <briefdescription>
+<para>Allows user to switch between available control modes. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a <ref refid="classkoko__interface_1_1KokoControlMode" kindref="compound">KokoControlMode</ref> member <ndash/> CONTROL_OFF, JOINT_POSITIONS, or CARTESIAN_POSE </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>: a boolean that indicates success in setting the control mode </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="119" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="119" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classkoko__interface_1_1KokoInterface_1ab15cbe6d263b88ccfd667f16b43bef83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def koko_interface.KokoInterface.get_control_mode</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_control_mode</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="181" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="181" bodyend="183"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classkoko__interface_1_1KokoInterface_1a40c964067ec3fc4390852e0fcac212ee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def koko_interface.KokoInterface._joint_positions_callback</definition>
+        <argsstring>(self, message)</argsstring>
+        <name>_joint_positions_callback</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>message</type>
+          <defname>message</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="184" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="184" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classkoko__interface_1_1KokoInterface_1a7995d92b12f7de9e28d9dad331b24c56" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def koko_interface.KokoInterface._process_tfs</definition>
+        <argsstring>(self, message)</argsstring>
+        <name>_process_tfs</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>message</type>
+          <defname>message</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="191" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="191" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classkoko__interface_1_1KokoInterface_1a7242e997f59f03587c4189ae520117fd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def koko_interface.KokoInterface._call_tf_service</definition>
+        <argsstring>(self)</argsstring>
+        <name>_call_tf_service</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="194" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="194" bodyend="210"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/brent/koko_interface/koko_interface.py" line="9" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="9" bodyend="211"/>
+    <listofallmembers>
+      <member refid="classkoko__interface_1_1KokoInterface_1aaf543c0820da6c38ee61d423d995da0b" prot="public" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>__init__</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a7242e997f59f03587c4189ae520117fd" prot="private" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>_call_tf_service</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1ae119c9cf1ad28ce63f446573f9f593c8" prot="private" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>_END_EFFECTOR_FRAME</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a1e7e51ef1bef9b4e8457578b78c62346" prot="private" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>_joint_names</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a40c964067ec3fc4390852e0fcac212ee" prot="private" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>_joint_positions_callback</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a7995d92b12f7de9e28d9dad331b24c56" prot="private" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>_process_tfs</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a0b7bf1153951af6574cacd8ee94fed60" prot="private" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>_RBC</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1ab183e2d71c057c16ee9a17f63037296e" prot="private" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>_tf_service_client</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1ab013b9d5be5f9db788aa8e3001593d74" prot="private" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>_tf_subscriber</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a655f11a806e2c7e00579d2cab9db10e4" prot="private" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>_WORLD_FRAME</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a30ad900674c0c86e1591b319cec4a6c0" prot="public" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>cartesian_pose</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a574b916f7eef570c7a02df84bd1c7b19" prot="public" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>control_mode</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1ab15cbe6d263b88ccfd667f16b43bef83" prot="public" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>get_control_mode</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1aef18bb753953d1d47a1225fe19bf5ef1" prot="public" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>get_joint_positions</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a188c53b5a1fa6d13f4056320017c9d29" prot="public" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>index</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a28d2873e3b1fcdc4f606a07cbf81d210" prot="public" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>joint_positions</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a11cf37925d4d98477a95734704e1c958" prot="public" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>set_cartesian_pose</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a27bbfb3dbb835d72674ecfaec6b26c03" prot="public" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>set_control_mode</name></member>
+      <member refid="classkoko__interface_1_1KokoInterface_1a8001867f243714800f78a34b54d44421" prot="public" virt="non-virtual"><scope>koko_interface::KokoInterface</scope><name>set_joint_positions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

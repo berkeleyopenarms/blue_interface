@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classkoko__interface_1_1KokoControlMode" kind="class" language="Python" prot="public">
+    <compoundname>koko_interface::KokoControlMode</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">Enum</basecompoundref>
+      <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoControlMode_1aeff4940fbe001dcbea496f46036be537" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int koko_interface.KokoControlMode::CONTROL_OFF</definition>
+        <argsstring></argsstring>
+        <name>CONTROL_OFF</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="213" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoControlMode_1a48aeed29a1cf89133e8234db6686a97f" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int koko_interface.KokoControlMode::JOINT_POSITIONS</definition>
+        <argsstring></argsstring>
+        <name>JOINT_POSITIONS</name>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="214" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classkoko__interface_1_1KokoControlMode_1a50012db284322542e2bbfb25026909d7" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int koko_interface.KokoControlMode::CARTESIAN_POSE</definition>
+        <argsstring></argsstring>
+        <name>CARTESIAN_POSE</name>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/koko_interface.py" line="215" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="52">
+        <label>koko_interface.KokoControlMode</label>
+        <link refid="classkoko__interface_1_1KokoControlMode"/>
+        <childnode refid="53" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>Enum</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="54">
+        <label>koko_interface.KokoControlMode</label>
+        <link refid="classkoko__interface_1_1KokoControlMode"/>
+        <childnode refid="55" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>Enum</label>
+      </node>
+    </collaborationgraph>
+    <location file="/home/brent/koko_interface/koko_interface.py" line="211" column="1" bodyfile="/home/brent/koko_interface/koko_interface.py" bodystart="211" bodyend="216"/>
+    <listofallmembers>
+      <member refid="classkoko__interface_1_1KokoControlMode_1a50012db284322542e2bbfb25026909d7" prot="public" virt="non-virtual"><scope>koko_interface::KokoControlMode</scope><name>CARTESIAN_POSE</name></member>
+      <member refid="classkoko__interface_1_1KokoControlMode_1aeff4940fbe001dcbea496f46036be537" prot="public" virt="non-virtual"><scope>koko_interface::KokoControlMode</scope><name>CONTROL_OFF</name></member>
+      <member refid="classkoko__interface_1_1KokoControlMode_1a48aeed29a1cf89133e8234db6686a97f" prot="public" virt="non-virtual"><scope>koko_interface::KokoControlMode</scope><name>JOINT_POSITIONS</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

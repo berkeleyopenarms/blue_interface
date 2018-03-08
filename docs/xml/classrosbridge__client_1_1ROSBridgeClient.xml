@@ -1,0 +1,629 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classrosbridge__client_1_1ROSBridgeClient" kind="class" language="Python" prot="public">
+    <compoundname>rosbridge_client::ROSBridgeClient</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">WebSocketClient</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrosbridge__client_1_1ROSBridgeClient_1a0cee4b49f835bbe9710a9bfd1daf59bb" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client.ROSBridgeClient::_connected</definition>
+        <argsstring></argsstring>
+        <name>_connected</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="26" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1ROSBridgeClient_1ae3b41a371d887a2e32e4e9917f286257" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client.ROSBridgeClient::_id_counter</definition>
+        <argsstring></argsstring>
+        <name>_id_counter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="27" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1ROSBridgeClient_1ab2e175f81ef018536328c3a0ba91a858" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client.ROSBridgeClient::_publishers</definition>
+        <argsstring></argsstring>
+        <name>_publishers</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="28" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1ROSBridgeClient_1a0f21fa1d7091416e7380880a42d5f298" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client.ROSBridgeClient::_subscribers</definition>
+        <argsstring></argsstring>
+        <name>_subscribers</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="29" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1ROSBridgeClient_1aae9b9dbf97b1c890e87ecc141cb68913" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client.ROSBridgeClient::_services</definition>
+        <argsstring></argsstring>
+        <name>_services</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="30" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1ROSBridgeClient_1a6c456f26c6be461d2a585495f519db88" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client.ROSBridgeClient::_action_clients</definition>
+        <argsstring></argsstring>
+        <name>_action_clients</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="31" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1a4d4bd7f7420e54f5f1018f21ca165f8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.__init__</definition>
+        <argsstring>(self, ip, port=9090)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>ip</type>
+          <defname>ip</defname>
+        </param>
+        <param>
+          <type>port</type>
+          <defname>port</defname>
+          <defval>9090</defval>
+        </param>
+        <briefdescription>
+<para>Constructor for <ref refid="classrosbridge__client_1_1ROSBridgeClient" kindref="compound">ROSBridgeClient</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The robot IP address. port (int, optional): The WebSocket port number for rosbridge. Defaults to 9090. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="24" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="24" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1ae38cc794f42ac51f8be3989ac4fda18b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.id_counter</definition>
+        <argsstring>(self)</argsstring>
+        <name>id_counter</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+<para>Generate an auto-incremental ID starts from 1. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A auto-incremented ID. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="43" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="43" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1abfde5092083f35ca46d2d355a4d0addf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.publisher</definition>
+        <argsstring>(self, topic_name, message_type, latch=False, queue_size=1)</argsstring>
+        <name>publisher</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>topic_name</type>
+          <defname>topic_name</defname>
+        </param>
+        <param>
+          <type>message_type</type>
+          <defname>message_type</defname>
+        </param>
+        <param>
+          <type>latch</type>
+          <defname>latch</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>queue_size</type>
+          <defname>queue_size</defname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Create a <ref refid="classrosbridge__client_1_1__Publisher" kindref="compound">_Publisher</ref> object if the given topic hasn&apos;t been advertised, otherwise return the existing publisher that is currently advertising the topic. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>topic_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS topic name. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS message type, such as <computeroutput>std_msgs/String</computeroutput>. latch (bool, optional): Whether the topic is latched when publishing. Defaults to False. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>queue_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The queue created at bridge side for re-publishing. Defaults to 1.</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="classrosbridge__client_1_1__Publisher" kindref="compound">_Publisher</ref> object. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="59" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="59" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1aba3a71ffaa43a3be49e569bfd7132765" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.unregister_publisher</definition>
+        <argsstring>(self, topic_name)</argsstring>
+        <name>unregister_publisher</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>topic_name</type>
+          <defname>topic_name</defname>
+        </param>
+        <briefdescription>
+<para>Stop advertising on the given topic. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>topic_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS topic name. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="74" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="74" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1a5848414ef65379d8f8fdd79d59daf788" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.subscriber</definition>
+        <argsstring>(self, topic_name, message_type, cb)</argsstring>
+        <name>subscriber</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>topic_name</type>
+          <defname>topic_name</defname>
+        </param>
+        <param>
+          <type>message_type</type>
+          <defname>message_type</defname>
+        </param>
+        <param>
+          <type>cb</type>
+          <defname>cb</defname>
+        </param>
+        <briefdescription>
+<para>Create a <ref refid="classrosbridge__client_1_1__Subscriber" kindref="compound">_Subscriber</ref> object on a given topic with a callback function. </para>        </briefdescription>
+        <detaileddescription>
+<para>If the topic hasn&apos;t been subscribed yet, subscribe the topic. Otherwise, it adds the subscriber with callback function into the topic subscription list.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>topic_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS topic name. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS message type, such as <computeroutput>std_msgs/String</computeroutput>. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function will be called when a message is received on that topic.</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="classrosbridge__client_1_1__Subscriber" kindref="compound">_Subscriber</ref> object. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="92" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="92" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1a934bed55ffd2cb06157cec98ed7d2efb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.unsubscribe</definition>
+        <argsstring>(self, subscriber)</argsstring>
+        <name>unsubscribe</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classrosbridge__client_1_1ROSBridgeClient_1a5848414ef65379d8f8fdd79d59daf788" kindref="member">subscriber</ref></type>
+          <defname>subscriber</defname>
+        </param>
+        <briefdescription>
+<para>Remove a callback subscriber from its topic subscription list. </para>        </briefdescription>
+        <detaileddescription>
+<para>If there is no callback subscribers in the subscription list. It will unsubscribe the topic.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>subscriber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A subscriber with callback function that listen to the topic. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="117" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="117" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1acd8c490a49fd9cd64468dfac2b9580a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.service</definition>
+        <argsstring>(self, service_name, service_type)</argsstring>
+        <name>service</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>service_name</type>
+          <defname>service_name</defname>
+        </param>
+        <param>
+          <type>service_type</type>
+          <defname>service_type</defname>
+        </param>
+        <briefdescription>
+<para>Create a ROS service client. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>service_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS service name. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>service_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS service type.</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="classrosbridge__client_1_1__Service" kindref="compound">_Service</ref> object. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="144" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="144" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1ab4ebda6ee5ec77c64160110bb7155928" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.register_service_callback</definition>
+        <argsstring>(self, service_id, cb)</argsstring>
+        <name>register_service_callback</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>service_id</type>
+          <defname>service_id</defname>
+        </param>
+        <param>
+          <type>cb</type>
+          <defname>cb</defname>
+        </param>
+        <briefdescription>
+<para>Register a service callback with a service request ID. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>service_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The service request ID. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function will be called when the service server responses. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="153" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="153" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1ac1df1881e665ae4078ce957fdf32160b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.action_client</definition>
+        <argsstring>(self, server_name, action_name)</argsstring>
+        <name>action_client</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>server_name</type>
+          <defname>server_name</defname>
+        </param>
+        <param>
+          <type>action_name</type>
+          <defname>action_name</defname>
+        </param>
+        <briefdescription>
+<para>Create a ROS action client if there was no client created for the action server. </para>        </briefdescription>
+        <detaileddescription>
+<para>Otherwise return that action client.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>server_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS action server name. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>action_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS action name.</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="classrosbridge__client_1_1__ActionClient" kindref="compound">_ActionClient</ref> object. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="166" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="166" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1adbc3a76d30b6b1ad90721dce99da7253" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.unregister_action_client</definition>
+        <argsstring>(self, server_name, action_name)</argsstring>
+        <name>unregister_action_client</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>server_name</type>
+          <defname>server_name</defname>
+        </param>
+        <param>
+          <type>action_name</type>
+          <defname>action_name</defname>
+        </param>
+        <briefdescription>
+<para>Unregister the action client with server and action name. </para>        </briefdescription>
+        <detaileddescription>
+<para>Remove it from the internal action client dict.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>server_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS action server name. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>action_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS action name. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="180" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="180" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1a2f9d6ba51cef6f6569ed7178ddbd6a7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.opened</definition>
+        <argsstring>(self)</argsstring>
+        <name>opened</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+<para>Called when the connection to ROS established. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="185" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="185" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1ae7563ccdf301dac0e121c67ac7b5bb29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.closed</definition>
+        <argsstring>(self, code, reason=None)</argsstring>
+        <name>closed</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>code</type>
+          <defname>code</defname>
+        </param>
+        <param>
+          <type>reason</type>
+          <defname>reason</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+<para>Called when the connection to ROS disconnected. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A status code. reason (str, opitonal): A human readable message. Defaults to None. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="195" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="195" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1a08b399d6d5818adac190fa13f1de362e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.received_message</definition>
+        <argsstring>(self, message)</argsstring>
+        <name>received_message</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>message</type>
+          <defname>message</defname>
+        </param>
+        <briefdescription>
+<para>Called when message received from ROS server. </para>        </briefdescription>
+        <detaileddescription>
+<para>Only handle the message with <computeroutput>topic</computeroutput> or <computeroutput>service</computeroutput> keywords and trigger corresponding callback functions.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A message that sent from ROS server. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="205" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="205" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1ROSBridgeClient_1ac913d8903d90cd20c6ecdbee1e05edfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client.ROSBridgeClient.unhandled_error</definition>
+        <argsstring>(self, error)</argsstring>
+        <name>unhandled_error</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>error</type>
+          <defname>error</defname>
+        </param>
+        <briefdescription>
+<para>Called when a socket or OS error is raised. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A human readable error message. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="223" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="223" bodyend="226"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classrosbridge__client_1_1ROSBridgeClient" kindref="compound">ROSBridgeClient</ref> extends WebSocketClient and manages connection to the server and all interactions with ROS. </para>    </briefdescription>
+    <detaileddescription>
+<para>It keeps a record of all publishers, subscriber, service request callbacks and action clients. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="59">
+        <label>WebSocketClient</label>
+      </node>
+      <node id="58">
+        <label>rosbridge_client.ROSBridgeClient</label>
+        <link refid="classrosbridge__client_1_1ROSBridgeClient"/>
+        <childnode refid="59" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="61">
+        <label>WebSocketClient</label>
+      </node>
+      <node id="60">
+        <label>rosbridge_client.ROSBridgeClient</label>
+        <link refid="classrosbridge__client_1_1ROSBridgeClient"/>
+        <childnode refid="61" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/brent/koko_interface/rosbridge_client.py" line="17" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="17" bodyend="227"/>
+    <listofallmembers>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1a4d4bd7f7420e54f5f1018f21ca165f8f" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>__init__</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1a6c456f26c6be461d2a585495f519db88" prot="private" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>_action_clients</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1a0cee4b49f835bbe9710a9bfd1daf59bb" prot="private" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>_connected</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1ae3b41a371d887a2e32e4e9917f286257" prot="private" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>_id_counter</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1ab2e175f81ef018536328c3a0ba91a858" prot="private" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>_publishers</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1aae9b9dbf97b1c890e87ecc141cb68913" prot="private" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>_services</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1a0f21fa1d7091416e7380880a42d5f298" prot="private" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>_subscribers</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1ac1df1881e665ae4078ce957fdf32160b" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>action_client</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1ae7563ccdf301dac0e121c67ac7b5bb29" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>closed</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1ae38cc794f42ac51f8be3989ac4fda18b" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>id_counter</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1a2f9d6ba51cef6f6569ed7178ddbd6a7e" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>opened</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1abfde5092083f35ca46d2d355a4d0addf" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>publisher</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1a08b399d6d5818adac190fa13f1de362e" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>received_message</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1ab4ebda6ee5ec77c64160110bb7155928" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>register_service_callback</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1acd8c490a49fd9cd64468dfac2b9580a5" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>service</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1a5848414ef65379d8f8fdd79d59daf788" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>subscriber</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1ac913d8903d90cd20c6ecdbee1e05edfb" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>unhandled_error</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1adbc3a76d30b6b1ad90721dce99da7253" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>unregister_action_client</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1aba3a71ffaa43a3be49e569bfd7132765" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>unregister_publisher</name></member>
+      <member refid="classrosbridge__client_1_1ROSBridgeClient_1a934bed55ffd2cb06157cec98ed7d2efb" prot="public" virt="non-virtual"><scope>rosbridge_client::ROSBridgeClient</scope><name>unsubscribe</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

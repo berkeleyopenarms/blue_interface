@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classtf__client_1_1TFClient" kind="class" language="Python" prot="public">
+    <compoundname>tf_client::TFClient</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classtf__client_1_1TFClient_1a5428e6d8f93c2193a22b0b04c27d873d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>tf_client.TFClient::RBC</definition>
+        <argsstring></argsstring>
+        <name>RBC</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/tf_client.py" line="3" column="1" bodyfile="/home/brent/koko_interface/tf_client.py" bodystart="3" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtf__client_1_1TFClient_1a42d041cb8036ed3145c92e22d14b4921" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>tf_client.TFClient::tf_service_client</definition>
+        <argsstring></argsstring>
+        <name>tf_service_client</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/tf_client.py" line="6" column="1" bodyfile="/home/brent/koko_interface/tf_client.py" bodystart="6" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtf__client_1_1TFClient_1a4a31830c14e2c650db9280547cf42ee5" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>tf_client.TFClient::_tf_subscriber</definition>
+        <argsstring></argsstring>
+        <name>_tf_subscriber</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/tf_client.py" line="29" column="1" bodyfile="/home/brent/koko_interface/tf_client.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtf__client_1_1TFClient_1a8edc8e47d671ce0b123b4c6789679394" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def tf_client.TFClient.__init__</definition>
+        <argsstring>(self, ip, port, options)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>ip</type>
+          <defname>ip</defname>
+        </param>
+        <param>
+          <type>port</type>
+          <defname>port</defname>
+        </param>
+        <param>
+          <type>options</type>
+          <defname>options</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/tf_client.py" line="2" column="1" bodyfile="/home/brent/koko_interface/tf_client.py" bodystart="2" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classtf__client_1_1TFClient_1adae0b76f2fcf0dc4a20beacd1f730af8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def tf_client.TFClient.updateGoal</definition>
+        <argsstring>()</argsstring>
+        <name>updateGoal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/tf_client.py" line="16" column="1" bodyfile="/home/brent/koko_interface/tf_client.py" bodystart="16" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classtf__client_1_1TFClient_1aae9c6ce7334fd4c3be7692657a48ca6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def tf_client.TFClient.updateGoal_callback</definition>
+        <argsstring>(self, topic_name)</argsstring>
+        <name>updateGoal_callback</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>topic_name</type>
+          <defname>topic_name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/tf_client.py" line="28" column="1" bodyfile="/home/brent/koko_interface/tf_client.py" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classtf__client_1_1TFClient_1ae4c93dbacad72dbb84ed8139442e6864" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def tf_client.TFClient.process_tf_callback</definition>
+        <argsstring>(self, message)</argsstring>
+        <name>process_tf_callback</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>message</type>
+          <defname>message</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/tf_client.py" line="31" column="1" bodyfile="/home/brent/koko_interface/tf_client.py" bodystart="31" bodyend="34"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/brent/koko_interface/tf_client.py" line="1" column="1" bodyfile="/home/brent/koko_interface/tf_client.py" bodystart="1" bodyend="34"/>
+    <listofallmembers>
+      <member refid="classtf__client_1_1TFClient_1a8edc8e47d671ce0b123b4c6789679394" prot="public" virt="non-virtual"><scope>tf_client::TFClient</scope><name>__init__</name></member>
+      <member refid="classtf__client_1_1TFClient_1a4a31830c14e2c650db9280547cf42ee5" prot="private" virt="non-virtual"><scope>tf_client::TFClient</scope><name>_tf_subscriber</name></member>
+      <member refid="classtf__client_1_1TFClient_1ae4c93dbacad72dbb84ed8139442e6864" prot="public" virt="non-virtual"><scope>tf_client::TFClient</scope><name>process_tf_callback</name></member>
+      <member refid="classtf__client_1_1TFClient_1a5428e6d8f93c2193a22b0b04c27d873d" prot="public" virt="non-virtual"><scope>tf_client::TFClient</scope><name>RBC</name></member>
+      <member refid="classtf__client_1_1TFClient_1a42d041cb8036ed3145c92e22d14b4921" prot="public" virt="non-virtual"><scope>tf_client::TFClient</scope><name>tf_service_client</name></member>
+      <member refid="classtf__client_1_1TFClient_1adae0b76f2fcf0dc4a20beacd1f730af8" prot="public" virt="non-virtual"><scope>tf_client::TFClient</scope><name>updateGoal</name></member>
+      <member refid="classtf__client_1_1TFClient_1aae9c6ce7334fd4c3be7692657a48ca6e" prot="public" virt="non-virtual"><scope>tf_client::TFClient</scope><name>updateGoal_callback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

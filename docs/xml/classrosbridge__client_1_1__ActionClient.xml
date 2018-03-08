@@ -1,0 +1,418 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classrosbridge__client_1_1__ActionClient" kind="class" language="Python" prot="public">
+    <compoundname>rosbridge_client::_ActionClient</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrosbridge__client_1_1__ActionClient_1aea43fc9a3e74f1f21cdaed3cb4b816c1" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client._ActionClient::_rosbridge</definition>
+        <argsstring></argsstring>
+        <name>_rosbridge</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="356" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1__ActionClient_1afdba23026c3ac9004782756aad75ccb5" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client._ActionClient::_server_name</definition>
+        <argsstring></argsstring>
+        <name>_server_name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="357" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1__ActionClient_1ab673b59785c8be6009433598129cf8e0" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client._ActionClient::_action_name</definition>
+        <argsstring></argsstring>
+        <name>_action_name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="358" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1__ActionClient_1a6de7dd1134d12b6c0f3ba12a4503d152" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client._ActionClient::_goals</definition>
+        <argsstring></argsstring>
+        <name>_goals</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="359" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1__ActionClient_1a1030e35ca5042d1af61220da421fce9a" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client._ActionClient::_usage</definition>
+        <argsstring></argsstring>
+        <name>_usage</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="360" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1__ActionClient_1a17803bc896ee32e938e87123e9c9758f" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client._ActionClient::_feedback_sub</definition>
+        <argsstring></argsstring>
+        <name>_feedback_sub</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="362" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1__ActionClient_1a6e015166cfe0364f27ce19b6acbc812d" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client._ActionClient::_result_sub</definition>
+        <argsstring></argsstring>
+        <name>_result_sub</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="363" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1__ActionClient_1a886bd52c0740e529e60ace1354ec0352" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client._ActionClient::_goal_pub</definition>
+        <argsstring></argsstring>
+        <name>_goal_pub</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="365" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrosbridge__client_1_1__ActionClient_1ae834733fac5595d990f213783f2f1db2" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>rosbridge_client._ActionClient::_cancel_pub</definition>
+        <argsstring></argsstring>
+        <name>_cancel_pub</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="366" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrosbridge__client_1_1__ActionClient_1a79b86d9a4c6909ecfc44b7ffbd091354" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client._ActionClient.__init__</definition>
+        <argsstring>(self, rosbridge, server_name, action_name)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>rosbridge</type>
+          <defname>rosbridge</defname>
+        </param>
+        <param>
+          <type>server_name</type>
+          <defname>server_name</defname>
+        </param>
+        <param>
+          <type>action_name</type>
+          <defname>action_name</defname>
+        </param>
+        <briefdescription>
+<para>Constructor for <ref refid="classrosbridge__client_1_1__ActionClient" kindref="compound">_ActionClient</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rosbridge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classrosbridge__client_1_1ROSBridgeClient" kindref="compound">ROSBridgeClient</ref> object. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>server_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS action server name. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>action_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ROS action name. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="355" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="355" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1__ActionClient_1aba8927b675dc635076f97110b5cf401e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client._ActionClient.usage</definition>
+        <argsstring>(self)</argsstring>
+        <name>usage</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="369" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="369" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1__ActionClient_1a362dae5630bcbf22b39984797c28b0db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client._ActionClient.usage</definition>
+        <argsstring>(self, value)</argsstring>
+        <name>usage</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="373" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="373" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1__ActionClient_1adbf822ca30fcae15faf0ad080f0c6be2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client._ActionClient.on_feedback</definition>
+        <argsstring>(self, message)</argsstring>
+        <name>on_feedback</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>message</type>
+          <defname>message</defname>
+        </param>
+        <briefdescription>
+<para>Callback when a feedback message received. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A feedback message received from ROS action server. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="381" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="381" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1__ActionClient_1ada532b56ed3d4a383212b0e54670545f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client._ActionClient.on_result</definition>
+        <argsstring>(self, message)</argsstring>
+        <name>on_result</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>message</type>
+          <defname>message</defname>
+        </param>
+        <briefdescription>
+<para>Callback when a result message received. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A result message received from ROS action server. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="391" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="391" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1__ActionClient_1a29788da4893bfbd67cba894116efbeae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client._ActionClient.send_goal</definition>
+        <argsstring>(self, goal_message, on_result, on_feedback)</argsstring>
+        <name>send_goal</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>goal_message</type>
+          <defname>goal_message</defname>
+        </param>
+        <param>
+          <type><ref refid="classrosbridge__client_1_1__ActionClient_1ada532b56ed3d4a383212b0e54670545f" kindref="member">on_result</ref></type>
+          <defname>on_result</defname>
+        </param>
+        <param>
+          <type><ref refid="classrosbridge__client_1_1__ActionClient_1adbf822ca30fcae15faf0ad080f0c6be2" kindref="member">on_feedback</ref></type>
+          <defname>on_feedback</defname>
+        </param>
+        <briefdescription>
+<para>Send a goal to the ROS action server. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>goal_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A message to send to ROS action server. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>on_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A callback function to be called when a feedback message received. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>on_feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A callback function to be called when a result message received. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="403" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="403" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1__ActionClient_1a55f112c7417133d35b6078d3bb6710fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client._ActionClient.cancel_goal</definition>
+        <argsstring>(self, goal_id)</argsstring>
+        <name>cancel_goal</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>goal_id</type>
+          <defname>goal_id</defname>
+        </param>
+        <briefdescription>
+<para>Cancel a goal with a given goal ID. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>goal_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ID of the goal to be cancelled. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="414" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="414" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classrosbridge__client_1_1__ActionClient_1a8b94079cddbb7573800f05adf14de56f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def rosbridge_client._ActionClient.unregister</definition>
+        <argsstring>(self)</argsstring>
+        <name>unregister</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+<para>Reduce the usage of the action client. </para>        </briefdescription>
+        <detaileddescription>
+<para>If the usage is 0, unregister its publishers and subscribers. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/rosbridge_client.py" line="418" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="418" bodyend="427"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="33">
+        <label>object</label>
+      </node>
+      <node id="32">
+        <label>rosbridge_client._ActionClient</label>
+        <link refid="classrosbridge__client_1_1__ActionClient"/>
+        <childnode refid="33" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="35">
+        <label>object</label>
+      </node>
+      <node id="34">
+        <label>rosbridge_client._ActionClient</label>
+        <link refid="classrosbridge__client_1_1__ActionClient"/>
+        <childnode refid="35" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/brent/koko_interface/rosbridge_client.py" line="347" column="1" bodyfile="/home/brent/koko_interface/rosbridge_client.py" bodystart="347" bodyend="428"/>
+    <listofallmembers>
+      <member refid="classrosbridge__client_1_1__ActionClient_1a79b86d9a4c6909ecfc44b7ffbd091354" prot="public" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>__init__</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1ab673b59785c8be6009433598129cf8e0" prot="private" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>_action_name</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1ae834733fac5595d990f213783f2f1db2" prot="private" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>_cancel_pub</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1a17803bc896ee32e938e87123e9c9758f" prot="private" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>_feedback_sub</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1a886bd52c0740e529e60ace1354ec0352" prot="private" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>_goal_pub</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1a6de7dd1134d12b6c0f3ba12a4503d152" prot="private" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>_goals</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1a6e015166cfe0364f27ce19b6acbc812d" prot="private" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>_result_sub</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1aea43fc9a3e74f1f21cdaed3cb4b816c1" prot="private" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>_rosbridge</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1afdba23026c3ac9004782756aad75ccb5" prot="private" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>_server_name</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1a1030e35ca5042d1af61220da421fce9a" prot="private" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>_usage</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1a55f112c7417133d35b6078d3bb6710fe" prot="public" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>cancel_goal</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1adbf822ca30fcae15faf0ad080f0c6be2" prot="public" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>on_feedback</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1ada532b56ed3d4a383212b0e54670545f" prot="public" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>on_result</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1a29788da4893bfbd67cba894116efbeae" prot="public" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>send_goal</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1a8b94079cddbb7573800f05adf14de56f" prot="public" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>unregister</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1aba8927b675dc635076f97110b5cf401e" prot="public" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>usage</name></member>
+      <member refid="classrosbridge__client_1_1__ActionClient_1a362dae5630bcbf22b39984797c28b0db" prot="public" virt="non-virtual"><scope>rosbridge_client::_ActionClient</scope><name>usage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

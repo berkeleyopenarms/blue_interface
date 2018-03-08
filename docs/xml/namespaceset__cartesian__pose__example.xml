@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespaceset__cartesian__pose__example" kind="namespace" language="Python">
+    <compoundname>set_cartesian_pose_example</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="set__cartesian__pose__example_8py_1ab573754bd8b84ac72d36b5ec30772044" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>set_cartesian_pose_example.koko</definition>
+        <argsstring></argsstring>
+        <name>koko</name>
+        <initializer>= <ref refid="classkoko__interface_1_1KokoInterface" kindref="compound">KokoInterface</ref>(&quot;127.0.0.1&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/brent/koko_interface/set_cartesian_pose_example.py" line="6" column="1" bodyfile="/home/brent/koko_interface/set_cartesian_pose_example.py" bodystart="6" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/brent/koko_interface/set_cartesian_pose_example.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.11">
+  <compound refid="classrosbridge__client_1_1__ActionClient" kind="class"><name>rosbridge_client::_ActionClient</name>
+    <member refid="classrosbridge__client_1_1__ActionClient_1aea43fc9a3e74f1f21cdaed3cb4b816c1" kind="variable"><name>_rosbridge</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1afdba23026c3ac9004782756aad75ccb5" kind="variable"><name>_server_name</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1ab673b59785c8be6009433598129cf8e0" kind="variable"><name>_action_name</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1a6de7dd1134d12b6c0f3ba12a4503d152" kind="variable"><name>_goals</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1a1030e35ca5042d1af61220da421fce9a" kind="variable"><name>_usage</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1a17803bc896ee32e938e87123e9c9758f" kind="variable"><name>_feedback_sub</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1a6e015166cfe0364f27ce19b6acbc812d" kind="variable"><name>_result_sub</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1a886bd52c0740e529e60ace1354ec0352" kind="variable"><name>_goal_pub</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1ae834733fac5595d990f213783f2f1db2" kind="variable"><name>_cancel_pub</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1a79b86d9a4c6909ecfc44b7ffbd091354" kind="function"><name>__init__</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1aba8927b675dc635076f97110b5cf401e" kind="function"><name>usage</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1a362dae5630bcbf22b39984797c28b0db" kind="function"><name>usage</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1adbf822ca30fcae15faf0ad080f0c6be2" kind="function"><name>on_feedback</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1ada532b56ed3d4a383212b0e54670545f" kind="function"><name>on_result</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1a29788da4893bfbd67cba894116efbeae" kind="function"><name>send_goal</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1a55f112c7417133d35b6078d3bb6710fe" kind="function"><name>cancel_goal</name></member>
+    <member refid="classrosbridge__client_1_1__ActionClient_1a8b94079cddbb7573800f05adf14de56f" kind="function"><name>unregister</name></member>
+  </compound>
+  <compound refid="classrosbridge__client_1_1__Goal" kind="class"><name>rosbridge_client::_Goal</name>
+    <member refid="classrosbridge__client_1_1__Goal_1a37dfcf3fc912c7bd62946048d509b2aa" kind="variable"><name>_id</name></member>
+    <member refid="classrosbridge__client_1_1__Goal_1ad7f1117a7f266ffa9e249ea6b038c746" kind="variable"><name>_message</name></member>
+    <member refid="classrosbridge__client_1_1__Goal_1abce87f62de3a6d37b7bce99fe4b71c04" kind="variable"><name>_is_finished</name></member>
+    <member refid="classrosbridge__client_1_1__Goal_1af540ed73843917341fb99c94e534a4b9" kind="variable"><name>_on_result</name></member>
+    <member refid="classrosbridge__client_1_1__Goal_1a152151e25085cdabddad9e8fec122d44" kind="variable"><name>_on_feedback</name></member>
+    <member refid="classrosbridge__client_1_1__Goal_1ac92f5e42a4cd74bcede2ec41844e19ee" kind="function"><name>__init__</name></member>
+    <member refid="classrosbridge__client_1_1__Goal_1a462c118edcb84b9c2fca442cb6a85e58" kind="function"><name>id</name></member>
+    <member refid="classrosbridge__client_1_1__Goal_1a70ba894b0982d8bf9c67710d9da70d58" kind="function"><name>message</name></member>
+    <member refid="classrosbridge__client_1_1__Goal_1ad710d6d2c6d7d3e2ec60f430e15b9e37" kind="function"><name>is_finished</name></member>
+    <member refid="classrosbridge__client_1_1__Goal_1ac7ca4094b89938c25be35811082b7475" kind="function"><name>result_received</name></member>
+    <member refid="classrosbridge__client_1_1__Goal_1ae3d71a24dee5fb59d52afa53e6fc31d5" kind="function"><name>feedback_received</name></member>
+  </compound>
+  <compound refid="classrosbridge__client_1_1__Publisher" kind="class"><name>rosbridge_client::_Publisher</name>
+    <member refid="classrosbridge__client_1_1__Publisher_1a4546a3cb3dc11fb11b206664ed2f7727" kind="variable"><name>_advertise_id</name></member>
+    <member refid="classrosbridge__client_1_1__Publisher_1ae763168cddfae302fdf13ae0f8432de6" kind="variable"><name>_rosbridge</name></member>
+    <member refid="classrosbridge__client_1_1__Publisher_1a928221829b6a88fe7516a229161c15d6" kind="variable"><name>_topic_name</name></member>
+    <member refid="classrosbridge__client_1_1__Publisher_1a0fa029e553eaf954bcf6adf1e29235f6" kind="variable"><name>_usage</name></member>
+    <member refid="classrosbridge__client_1_1__Publisher_1aa73fbe39915557c7c500db88e9e43bb6" kind="function"><name>__init__</name></member>
+    <member refid="classrosbridge__client_1_1__Publisher_1a919603327c26d6ca9778e2dc7ddbeefc" kind="function"><name>usage</name></member>
+    <member refid="classrosbridge__client_1_1__Publisher_1a9ef7e0c6684d373433d6ec77cd4a0ea5" kind="function"><name>usage</name></member>
+    <member refid="classrosbridge__client_1_1__Publisher_1ab0700e489fe42d4c7585fcb7f077946b" kind="function"><name>publish</name></member>
+    <member refid="classrosbridge__client_1_1__Publisher_1adc817bc6d8ceec2c45f33fb91cea9156" kind="function"><name>unregister</name></member>
+  </compound>
+  <compound refid="classrosbridge__client_1_1__Service" kind="class"><name>rosbridge_client::_Service</name>
+    <member refid="classrosbridge__client_1_1__Service_1a74cd10b86d6a9396e86d8e380f241148" kind="variable"><name>_rosbridge</name></member>
+    <member refid="classrosbridge__client_1_1__Service_1a4725af62b96e71fd6685650f66dd6958" kind="variable"><name>_service_name</name></member>
+    <member refid="classrosbridge__client_1_1__Service_1a65e0f7e2da15ae3e116fac89b2fa6712" kind="variable"><name>_service_type</name></member>
+    <member refid="classrosbridge__client_1_1__Service_1a55d6c8132adfb0d9ebf18e4b45d6c5e1" kind="function"><name>__init__</name></member>
+    <member refid="classrosbridge__client_1_1__Service_1a60d88b1c0d9e5def5e7802928453b451" kind="function"><name>request</name></member>
+  </compound>
+  <compound refid="classrosbridge__client_1_1__Subscriber" kind="class"><name>rosbridge_client::_Subscriber</name>
+    <member refid="classrosbridge__client_1_1__Subscriber_1a6e33ba05393e9b5e85a81885db41ae16" kind="variable"><name>_rosbridge</name></member>
+    <member refid="classrosbridge__client_1_1__Subscriber_1a503a8ed99729f922695dd3bee9b35db6" kind="variable"><name>_topic_name</name></member>
+    <member refid="classrosbridge__client_1_1__Subscriber_1a6663857e21ffbf0f4c23371f541aa26e" kind="variable"><name>_cb</name></member>
+    <member refid="classrosbridge__client_1_1__Subscriber_1ab7f1f516b3180b06e0f610f3874549c1" kind="function"><name>__init__</name></member>
+    <member refid="classrosbridge__client_1_1__Subscriber_1a072cb9bcfa1a8db1f721d669206dac8c" kind="function"><name>topic_name</name></member>
+    <member refid="classrosbridge__client_1_1__Subscriber_1a69094f92927d9978e1ece3ac3f277a26" kind="function"><name>unregister</name></member>
+  </compound>
+  <compound refid="classkoko__interface_1_1KokoControlMode" kind="class"><name>koko_interface::KokoControlMode</name>
+    <member refid="classkoko__interface_1_1KokoControlMode_1aeff4940fbe001dcbea496f46036be537" kind="variable"><name>CONTROL_OFF</name></member>
+    <member refid="classkoko__interface_1_1KokoControlMode_1a48aeed29a1cf89133e8234db6686a97f" kind="variable"><name>JOINT_POSITIONS</name></member>
+    <member refid="classkoko__interface_1_1KokoControlMode_1a50012db284322542e2bbfb25026909d7" kind="variable"><name>CARTESIAN_POSE</name></member>
+  </compound>
+  <compound refid="classkoko__interface_1_1KokoInterface" kind="class"><name>koko_interface::KokoInterface</name>
+    <member refid="classkoko__interface_1_1KokoInterface_1a0b7bf1153951af6574cacd8ee94fed60" kind="variable"><name>_RBC</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1a655f11a806e2c7e00579d2cab9db10e4" kind="variable"><name>_WORLD_FRAME</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1ae119c9cf1ad28ce63f446573f9f593c8" kind="variable"><name>_END_EFFECTOR_FRAME</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1a1e7e51ef1bef9b4e8457578b78c62346" kind="variable"><name>_joint_names</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1ab183e2d71c057c16ee9a17f63037296e" kind="variable"><name>_tf_service_client</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1ab013b9d5be5f9db788aa8e3001593d74" kind="variable"><name>_tf_subscriber</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1a28d2873e3b1fcdc4f606a07cbf81d210" kind="variable"><name>joint_positions</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1a30ad900674c0c86e1591b319cec4a6c0" kind="variable"><name>cartesian_pose</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1a574b916f7eef570c7a02df84bd1c7b19" kind="variable"><name>control_mode</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1a188c53b5a1fa6d13f4056320017c9d29" kind="variable"><name>index</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1aaf543c0820da6c38ee61d423d995da0b" kind="function"><name>__init__</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1a8001867f243714800f78a34b54d44421" kind="function"><name>set_joint_positions</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1a11cf37925d4d98477a95734704e1c958" kind="function"><name>set_cartesian_pose</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1aef18bb753953d1d47a1225fe19bf5ef1" kind="function"><name>get_joint_positions</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1a27bbfb3dbb835d72674ecfaec6b26c03" kind="function"><name>set_control_mode</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1ab15cbe6d263b88ccfd667f16b43bef83" kind="function"><name>get_control_mode</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1a40c964067ec3fc4390852e0fcac212ee" kind="function"><name>_joint_positions_callback</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1a7995d92b12f7de9e28d9dad331b24c56" kind="function"><name>_process_tfs</name></member>
+    <member refid="classkoko__interface_1_1KokoInterface_1a7242e997f59f03587c4189ae520117fd" kind="function"><name>_call_tf_service</name></member>
+  </compound>
+  <compound refid="classrosbridge__client_1_1ROSBridgeClient" kind="class"><name>rosbridge_client::ROSBridgeClient</name>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1a0cee4b49f835bbe9710a9bfd1daf59bb" kind="variable"><name>_connected</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1ae3b41a371d887a2e32e4e9917f286257" kind="variable"><name>_id_counter</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1ab2e175f81ef018536328c3a0ba91a858" kind="variable"><name>_publishers</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1a0f21fa1d7091416e7380880a42d5f298" kind="variable"><name>_subscribers</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1aae9b9dbf97b1c890e87ecc141cb68913" kind="variable"><name>_services</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1a6c456f26c6be461d2a585495f519db88" kind="variable"><name>_action_clients</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1a4d4bd7f7420e54f5f1018f21ca165f8f" kind="function"><name>__init__</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1ae38cc794f42ac51f8be3989ac4fda18b" kind="function"><name>id_counter</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1abfde5092083f35ca46d2d355a4d0addf" kind="function"><name>publisher</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1aba3a71ffaa43a3be49e569bfd7132765" kind="function"><name>unregister_publisher</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1a5848414ef65379d8f8fdd79d59daf788" kind="function"><name>subscriber</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1a934bed55ffd2cb06157cec98ed7d2efb" kind="function"><name>unsubscribe</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1acd8c490a49fd9cd64468dfac2b9580a5" kind="function"><name>service</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1ab4ebda6ee5ec77c64160110bb7155928" kind="function"><name>register_service_callback</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1ac1df1881e665ae4078ce957fdf32160b" kind="function"><name>action_client</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1adbc3a76d30b6b1ad90721dce99da7253" kind="function"><name>unregister_action_client</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1a2f9d6ba51cef6f6569ed7178ddbd6a7e" kind="function"><name>opened</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1ae7563ccdf301dac0e121c67ac7b5bb29" kind="function"><name>closed</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1a08b399d6d5818adac190fa13f1de362e" kind="function"><name>received_message</name></member>
+    <member refid="classrosbridge__client_1_1ROSBridgeClient_1ac913d8903d90cd20c6ecdbee1e05edfb" kind="function"><name>unhandled_error</name></member>
+  </compound>
+  <compound refid="classtf__client_1_1TFClient" kind="class"><name>tf_client::TFClient</name>
+    <member refid="classtf__client_1_1TFClient_1a5428e6d8f93c2193a22b0b04c27d873d" kind="variable"><name>RBC</name></member>
+    <member refid="classtf__client_1_1TFClient_1a42d041cb8036ed3145c92e22d14b4921" kind="variable"><name>tf_service_client</name></member>
+    <member refid="classtf__client_1_1TFClient_1a4a31830c14e2c650db9280547cf42ee5" kind="variable"><name>_tf_subscriber</name></member>
+    <member refid="classtf__client_1_1TFClient_1a8edc8e47d671ce0b123b4c6789679394" kind="function"><name>__init__</name></member>
+    <member refid="classtf__client_1_1TFClient_1adae0b76f2fcf0dc4a20beacd1f730af8" kind="function"><name>updateGoal</name></member>
+    <member refid="classtf__client_1_1TFClient_1aae9c6ce7334fd4c3be7692657a48ca6e" kind="function"><name>updateGoal_callback</name></member>
+    <member refid="classtf__client_1_1TFClient_1ae4c93dbacad72dbb84ed8139442e6864" kind="function"><name>process_tf_callback</name></member>
+  </compound>
+  <compound refid="namespacekoko__interface" kind="namespace"><name>koko_interface</name>
+  </compound>
+  <compound refid="namespacerecord__example" kind="namespace"><name>record_example</name>
+    <member refid="record__example_8py_1a54df18b0f94e02ff5829c4407bc2b3e6" kind="variable"><name>koko</name></member>
+    <member refid="record__example_8py_1a293b6019cee01adb2dccb05413704900" kind="variable"><name>recorded_positions</name></member>
+    <member refid="record__example_8py_1aefda1061b2ad2ef18acf564c70b1bd8e" kind="variable"><name>error</name></member>
+    <member refid="record__example_8py_1a1c60fbee2f886b8124b9f3ccbbdb80ee" kind="variable"><name>curr_pos</name></member>
+  </compound>
+  <compound refid="namespacerosbridge__client" kind="namespace"><name>rosbridge_client</name>
+  </compound>
+  <compound refid="namespaceset__cartesian__pose__example" kind="namespace"><name>set_cartesian_pose_example</name>
+    <member refid="set__cartesian__pose__example_8py_1ab573754bd8b84ac72d36b5ec30772044" kind="variable"><name>koko</name></member>
+  </compound>
+  <compound refid="namespacetf__client" kind="namespace"><name>tf_client</name>
+  </compound>
+  <compound refid="koko__interface_8py" kind="file"><name>koko_interface.py</name>
+  </compound>
+  <compound refid="record__example_8py" kind="file"><name>record_example.py</name>
+  </compound>
+  <compound refid="rosbridge__client_8py" kind="file"><name>rosbridge_client.py</name>
+  </compound>
+  <compound refid="set__cartesian__pose__example_8py" kind="file"><name>set_cartesian_pose_example.py</name>
+  </compound>
+  <compound refid="tf__client_8py" kind="file"><name>tf_client.py</name>
+  </compound>
+</doxygenindex>
