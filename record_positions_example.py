@@ -3,7 +3,10 @@ from koko_interface import KokoInterface, KokoControlMode
 import numpy as np
 import time
 
-# records and plays back a trajectory comprised of 4 joint positions
+"""A Hello World for using KokoInterface for joint positions control.
+
+Records four sets of joint positions by manually moving the arm to each position and pressing enter. Plays back a trajectory comprised of the four sets of joint positions on an infinite loop.
+"""
 
 koko = KokoInterface("hekate.cs.berkeley.edu")
 koko.set_control_mode(KokoControlMode.CONTROL_OFF)
@@ -11,7 +14,7 @@ recorded_positions = []
 error = 0.5
 
 for _ in range(4):
-    input("Press enter to continue...")
+    input("Press enter to record current joint positions.")
     recorded_positions = np.append(recorded_positions, koko.get_joint_positions())
 
 input("Press enter to start trajectory.")

@@ -7,8 +7,15 @@ from enum import Enum
 import numpy as np
 
 class KokoInterface:
+    """An Python interface for controling a Koko robot through ROSBridge."""
 
     def __init__(self, ip, port=9090):
+        """IConstructer for KokoInterface.
+
+        Args:
+            ip (str): The Koko IP address. Defaults to 9090.
+            port (int, optional): The Websocket port number for rosbridge.
+        """
         self._RBC = ROSBridgeClient(ip, port)
 
         # ROS Topic Names
@@ -18,8 +25,8 @@ class KokoInterface:
         _ROS_TF_TOPIC = "/tf"
 
         # Frame names
-        self._WORLD_FRAME = "world"
-        self._END_EFFECTOR_FRAME = "foo"
+        self._WORLD_FRAME = "base_link"
+        self._END_EFFECTOR_FRAME = "forearm_link"
 
         self.joint_positions = None
         self.cartesian_pose = None
@@ -27,23 +34,22 @@ class KokoInterface:
         self._joint_names = ["base_roll_joint", "shoulder_lift_joint", "shoulder_roll_joint", "elbow_lift_joint", "elbow_roll_joint", "wrist_lift_joint", "wrist_roll_joint"]
 
         # Create Subscribers, Publishers, and Service Clients
-        # self._joint_state_subscriber = self._RBC.subscriber(_ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_positions_callback)
-        # self._joint_positions_publisher = self._RBC.publisher(_ROS_JOINT_POSITIONS_TOPIC, "std_msgs/Float64MultiArray")
+        self._joint_state_subscriber = self._RBC.subscriber(_ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_positions_callback)
+        self._joint_positions_publisher = self._RBC.publisher(_ROS_JOINT_POSITIONS_TOPIC, "std_msgs/Float64MultiArray")
         self._tf_service_client = self._RBC.service("/republish_tfs", "tf2_web_republisher/RepublishTFs")
-        # self._cartesian_pose_publisher = self._RBC.publisher(_ROS_CARTESIAN_POSE_TOPIC, "geometry_msgs/PoseStamped")
-        # self._switch_controller_service_client = self._RBC.service("controller_manager/switch_controller", "controller_manager_msgs/SwitchController")
+        self._cartesian_pose_publisher = self._RBC.publisher(_ROS_CARTESIAN_POSE_TOPIC, "geometry_msgs/PoseStamped")
+        self._switch_controller_service_client = self._RBC.service("controller_manager/switch_controller", "controller_manager_msgs/SwitchController")
 
-        # while self.joint_positions == None:
-        #     time.sleep(0.1)
-
-        time.sleep(1)
         self._call_tf_service()
 
-    def set_joint_positions(self, joint_positions):
-        """
-        Moves arm to specified positions in joint space.
+        while ((self.cartesian_pose == None) or (self.joint_positions == None)):
+            time.sleep(0.1)
 
-        @param joint_positions: a numpy array  of 7 joint angles, in radians, ordered from proximal to distal
+    def set_joint_positions(self, joint_positions):
+        """Move arm to specified position in joint space.
+
+        Args:
+            joint_positions: A numpy array of 7 joint angles, in radians, ordered from proximal to distal.
         """
         if self.control_mode == KokoControlMode.JOINT_POSITIONS:
             joint_positions_msg = {
@@ -56,10 +62,10 @@ class KokoInterface:
             warnings.warn("KokoControlMode is not JOINT_POSITIONS.")
 
     def set_cartesian_pose(self, target_pose):
-        """
-        Moves end effector to specified pose in Cartesian space.
+        """Move end effector to specified pose in Cartesian space.
 
-        @param target_pose: {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]} where position and orientation are defined in the world frame
+        Args:
+            target_pose: Pose in the form {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]} defined with respect to the world frame.
         """
         if self.control_mode == KokoControlMode.CARTESIAN_POSE:
             position = target_pose["position"]
@@ -93,14 +99,16 @@ class KokoInterface:
 
     def set_control_mode(self, mode):
         # TODO add torque control mode
-        """
-        Allows user to switch between available control modes.
+        """Switch between available control modes.
 
-        @param mode: a KokoControlMode member -- CONTROL_OFF, JOINT_POSITIONS, or CARTESIAN_POSE
-        @return: a boolean that indicates success in setting the control mode
+        Args:
+            mode: A KokoControlMode member indicating the desired control mode.
+
+        Returns:
+            bool: True if successful in setting the control mode. False otherwise.
         """
         if mode == self.control_mode:
-            return
+            return True
 
         if self.control_mode == KokoControlMode.CONTROL_OFF:
             if mode == KokoControlMode.JOINT_POSITIONS:
@@ -160,22 +168,27 @@ class KokoInterface:
         return mode == self.control_mode
 
     def get_joint_positions(self):
-        """
-        Returns the current position of the arm in joint space.
+        """Get the current joint positions of the arm.
 
-        @return: a list of 7 angles, in radians, ordered from proximal to distal
+        Returns:
+            A list of 7 angles, in radians, ordered from proximal to distal.
         """
         return self.joint_positions
 
     def get_cartesian_pose(self):
-        """
-        Returns the current cartesian pose of the end effector with respect to the world frame.
+        """Get the current cartesian pose of the end effector with respect to the world frame.
 
-        @return: {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]}
+        Returns:
+             Pose in the form {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]} defined with repect to the world frame.
         """
         return self.cartesian_pose
 
     def get_control_mode(self):
+        """Get the current control mode of the arm.
+
+        Returns:
+            A KokoControlMode object.
+        """
         return self.control_mode
 
     def _joint_positions_callback(self, message):
@@ -198,8 +211,8 @@ class KokoInterface:
         goal_msg = {
             "source_frames": [self._END_EFFECTOR_FRAME],
             "target_frame": self._WORLD_FRAME,
-            "angular_thres": 1,
-            "trans_thres": 1,
+            "angular_thres": 0,
+            "trans_thres": 0,
             "rate": 2,
             "timeout": {"secs": 2.0, "nsecs": 0.0}
         }
@@ -212,6 +225,13 @@ class KokoInterface:
 
 class KokoControlMode(Enum):
     # TODO add torque control mode
+    """An Enum class for constants that specify control mode.
+
+    Attributes:
+        CONTROL_OFF: Koko is in gravity componesation mode and can be manually manipulated.
+        JOINT_POSITIONS: Koko can be controlled by sending joint position targets.
+        CARTESIAN_POSE: Koko can be controlled by sending cartesian pose targets. 
+    """
     CONTROL_OFF = 0
     JOINT_POSITIONS = 1
     CARTESIAN_POSE = 2
