@@ -1,7 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$classrosbridge__client_1_1__ActionClient.html" title="rosbridge_client._Action\lClient" alt="" coords="123,5,285,47"/>
-<area shape="rect" id="node3" href="$classrosbridge__client_1_1__Goal.html" title="rosbridge_client._Goal" alt="" coords="129,71,279,98"/>
-<area shape="rect" id="node4" href="$classrosbridge__client_1_1__Publisher.html" title="rosbridge_client._Publisher" alt="" coords="115,122,293,149"/>
-<area shape="rect" id="node5" href="$classrosbridge__client_1_1__Service.html" title="rosbridge_client._Service" alt="" coords="120,173,288,199"/>
-<area shape="rect" id="node6" href="$classrosbridge__client_1_1__Subscriber.html" title="rosbridge_client._Subscriber" alt="" coords="111,223,297,250"/>
-</map>
