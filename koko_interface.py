@@ -30,11 +30,18 @@ class KokoInterface:
 
         self.joint_positions = None
         self.cartesian_pose = None
+        self.joint_torques = None
+        self.joint_velocities = None
         self.control_mode = KokoControlMode.JOINT_POSITIONS # controller started in launch file
         self._joint_names = ["base_roll_joint", "shoulder_lift_joint", "shoulder_roll_joint", "elbow_lift_joint", "elbow_roll_joint", "wrist_lift_joint", "wrist_roll_joint"]
+        self._controller_lookup = {KokoControlMode.CONTROL_OFF: [],
+                                KokoControlMode.JOINT_POSITIONS: ["/koko_controllers/joint_positions_controller"],
+                                KokoControlMode.CARTESIAN_POSE: ["/koko_controllers/cartesian_pose_controller"],
+                                KokoControlMode.TORQUE: ["/koko_controllers/torque_controller"],
+                                KokoControlMode.VELOCITY: ["koko_controllers/velocity_controller"]}
 
         # Create Subscribers, Publishers, and Service Clients
-        self._joint_state_subscriber = self._RBC.subscriber(_ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_positions_callback)
+        self._joint_state_subscriber = self._RBC.subscriber(_ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_state_callback)
         self._joint_positions_publisher = self._RBC.publisher(_ROS_JOINT_POSITIONS_TOPIC, "std_msgs/Float64MultiArray")
         self._tf_service_client = self._RBC.service("/republish_tfs", "tf2_web_republisher/RepublishTFs")
         self._cartesian_pose_publisher = self._RBC.publisher(_ROS_CARTESIAN_POSE_TOPIC, "geometry_msgs/PoseStamped")
@@ -42,7 +49,7 @@ class KokoInterface:
 
         self._call_tf_service()
 
-        while ((self.cartesian_pose == None) or (self.joint_positions == None)):
+        while self.cartesian_pose == None or self.joint_positions == None or self.joint_torques == None or self.joint_velocities == None:
             time.sleep(0.1)
 
     def set_joint_positions(self, joint_positions):
@@ -98,7 +105,6 @@ class KokoInterface:
             warnings.warn("KokoControlMode is not CARTESIAN_POSE.")
 
     def set_control_mode(self, mode):
-        # TODO add torque control mode
         """Switch between available control modes.
 
         Args:
@@ -109,58 +115,18 @@ class KokoInterface:
         """
         if mode == self.control_mode:
             return True
-
-        if self.control_mode == KokoControlMode.CONTROL_OFF:
-            if mode == KokoControlMode.JOINT_POSITIONS:
-                request_msg = {
-                    "start_controllers": ["koko_controllers/joint_position_controller"],
-                    "stop_controllers": [],
-                    "strictness": 2 # Strict
-                }
-
-            elif mode == KokoControlMode.CARTESIAN_POSE:
-                request_msg = {
-                    "start_controllers": ["koko_controllers/cartesian_pose_controller"],
-                    "stop_controllers": [],
-                    "strictness": 2 # Strict
-                }
-
-        elif self.control_mode == KokoControlMode.JOINT_POSITIONS:
-            if mode == KokoControlMode.CONTROL_OFF:
-                request_msg = {
-                    "start_controllers": [],
-                    "stop_controllers": ["koko_controllers/joint_position_controller"],
-                    "strictness": 2 # Strict
-                }
-
-            elif mode == KokoControlMode.CARTESIAN_POSE:
-                request_msg = {
-                    "start_controllers": ["koko_controllers/cartesian_pose_controller"],
-                    "stop_controllers": ["koko_controllers/joint_position_controller"],
-                    "strictness": 2 # Strict
-                }
-
-        elif self.control_mode == KokoControlMode.CARTESIAN_POSE:
-            if mode == KokoControlMode.CONTROL_OFF:
-                request_msg = {
-                    "start_controllers": [],
-                    "stop_controllers": ["koko_controllers/cartesian_pose_controller"],
-                    "strictness": 2 # Strict
-                }
-
-            if mode == KokoControlMode.JOINT_POSITIONS:
-                request_msg = {
-                    "start_controllers": ["koko_controllers/joint_position_controller"],
-                    "stop_controllers": ["koko_controllers/cartesian_pose_controller"],
-                    "strictness": 2 # Strict
-                }
+        request_msg = {
+            "start_controllers": self._controller_lookup[mode],
+            "stop_controllers": self._controller_lookup[self.control_mode],
+            "strictness": 2 #strict
+        }
 
         s = threading.Semaphore(0)
 
         def switch_controller_callback(success, values):
             if success:
                 self.control_mode = mode
-                s.release()
+            s.release()
 
         self._switch_controller_service_client.request(request_msg, switch_controller_callback)
         s.acquire()
@@ -168,12 +134,12 @@ class KokoInterface:
         return mode == self.control_mode
 
     def get_joint_positions(self):
-        """Get the current joint positions of the arm.
+        """Get the current joint positions.
 
         Returns:
             A list of 7 angles, in radians, ordered from proximal to distal.
         """
-        return self.joint_positions
+        return np.array(self.joint_positions)
 
     def get_cartesian_pose(self):
         """Get the current cartesian pose of the end effector with respect to the world frame.
@@ -183,6 +149,22 @@ class KokoInterface:
         """
         return self.cartesian_pose
 
+    def get_joint_torques(self):
+        """Get the current joint torques.
+
+        Returns:
+            A numpy array of 7 joint torques, in Nm, ordered from proximal to distal.
+        """
+        return np.array(self.joint_torques)
+
+    def get_joint_velocities(self):
+        """Get the current joint velocities.
+
+        Returns:
+            A numpy array of 7 joint velocities, in m/s, ordered from proximal to distal.
+        """
+        return np.array(self.joint_velocities)
+
     def get_control_mode(self):
         """Get the current control mode of the arm.
 
@@ -191,12 +173,37 @@ class KokoInterface:
         """
         return self.control_mode
 
+    def _joint_state_callback(self, message):
+        self._joint_positions_callback(self, message)
+        self._joint_torques_callback(self, message)
+        self._joint_velocities_callback(self, message)
+
     def _joint_positions_callback(self, message):
         joint_positions_temp = []
         for name in self._joint_names:
+            if name not in message.keys():
+                break
             self.index = message["name"].index(name)
             joint_positions_temp.append(message["position"][self.index])
         self.joint_positions = joint_positions_temp
+
+    def _joint_torques_callback(self, message):
+        joint_torques_temp = []
+        for name in self._joint_names:
+            if name not in message.keys():
+                break
+            self.index = message["name"].index(name)
+            joint_torques_temp.append(message["effort"][self.index])
+        self.joint_torques = joint_torques_temp
+
+    def _joint_velocities_callback(self, message):
+        joint_velocities_temp = []
+        for name in self._joint_names:
+            if name not in message.keys():
+                break
+            self.index = message["name"].index(name)
+            joint_velocities_temp.append(message["velocity"][self.index])
+        self.joint_velocities = joint_velocities_temp
 
     def _process_tfs(self, message):
         pose = message["transforms"][0]["transform"]
@@ -235,3 +242,5 @@ class KokoControlMode(Enum):
     CONTROL_OFF = 0
     JOINT_POSITIONS = 1
     CARTESIAN_POSE = 2
+    TORQUE = 3
+    VELOCITY = 4
