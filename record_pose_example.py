@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from koko_interface import KokoInterface, KokoControlMode
+from koko_interface import KokoInterface
 import numpy as np
 import time
 
@@ -9,7 +9,7 @@ Records four cartesian poses by manually moving the arm to each pose and pressin
 """
 
 koko = KokoInterface("hekate.cs.berkeley.edu")
-koko.set_control_mode(KokoControlMode.CONTROL_OFF)
+koko.disable_control()
 recorded_poses = []
 pos_error = 0.05
 orient_error = 0.5
@@ -19,7 +19,6 @@ for _ in range(4):
     recorded_poses = np.append(recorded_poses, koko.get_cartesian_pose())
 
 input("Press enter to start the trajectory!")
-koko.set_control_mode(KokoControlMode.CARTESIAN_POSE)
 
 while True:
     for des_pose in recorded_poses:
