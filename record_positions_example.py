@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from koko_interface import KokoInterface, KokoControlMode
+from koko_interface import KokoInterface
 import numpy as np
 import time
 
@@ -9,7 +9,7 @@ Records four sets of joint positions by manually moving the arm to each position
 """
 
 koko = KokoInterface("hekate.cs.berkeley.edu")
-koko.set_control_mode(KokoControlMode.CONTROL_OFF)
+koko.disable_control()
 recorded_positions = []
 error = 0.5
 
@@ -18,7 +18,6 @@ for _ in range(4):
     recorded_positions = np.append(recorded_positions, koko.get_joint_positions())
 
 input("Press enter to start trajectory.")
-koko.set_control_mode(KokoControlMode.JOINT_POSITIONS)
 
 while True:
     for des_pos in recorded_positions:
