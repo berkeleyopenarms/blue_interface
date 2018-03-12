@@ -1,5 +1,9 @@
+# Message types
+
 joint states: Float64MultiArray type
 Float64MultiArray.data = [float64, ..., float64]
+
+# To do list
 
 set end effector position using PoseStamped
 in relation to base frame
