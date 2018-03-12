@@ -30,22 +30,19 @@ class KokoInterface:
         self._WORLD_FRAME = "base_link"
         self._END_EFFECTOR_FRAME = "forearm_link"
 
-        # TODO: since we have getters for many of these variables,
-        #       we can probably make them private
-        self.joint_positions = None
-        self.cartesian_pose = None
-        self.joint_torques = None
-        self.joint_velocities = None
+        self._joint_positions = None
+        self._cartesian_pose = None
+        self._joint_torques = None
+        self._joint_velocities = None
 
-        # TODO: does the user need to access the control mode? this can probably be private
-        self.control_mode = KokoControlMode.OFF
+        self._control_mode = _KokoControlMode.OFF
 
         self._joint_names = ["base_roll_joint", "shoulder_lift_joint", "shoulder_roll_joint", "elbow_lift_joint", "elbow_roll_joint", "wrist_lift_joint", "wrist_roll_joint"]
-        self._controller_lookup = { KokoControlMode.OFF: [],
-                                    KokoControlMode.POSITION: ["/koko_controllers/position_controller"],
-                                    KokoControlMode.POSE: ["/koko_controllers/cartesian_pose_controller"],
-                                    KokoControlMode.TORQUE: ["/koko_controllers/torque_controller"],
-                                    KokoControlMode.VELOCITY: ["koko_controllers/velocity_controller"] }
+        self._controller_lookup = { _KokoControlMode.OFF: [],
+                                    _KokoControlMode.POSITION: ["/koko_controllers/position_controller"],
+                                    _KokoControlMode.POSE: ["/koko_controllers/cartesian_pose_controller"],
+                                    _KokoControlMode.TORQUE: ["/koko_controllers/torque_controller"],
+                                    _KokoControlMode.VELOCITY: ["koko_controllers/velocity_controller"] }
 
         # Create Subscribers, Publishers, and Service Clients
         self._joint_state_subscriber = self._RBC.subscriber(_ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_state_callback)
@@ -59,7 +56,7 @@ class KokoInterface:
         self._call_tf_service()
 
         # TODO: consider using condition variable instead of busy-waiting
-        while self.cartesian_pose == None or self.joint_positions == None or self.joint_torques == None or self.joint_velocities == None:
+        while self._cartesian_pose == None or self._joint_positions == None or self._joint_torques == None or self._joint_velocities == None:
             time.sleep(0.1)
 
     def set_joint_positions(self, joint_positions):
@@ -69,15 +66,15 @@ class KokoInterface:
             joint_positions: A numpy array of 7 joint angles, in radians, ordered from proximal to distal.
         """
 
-        # TODO: maybe move this if statement into _set_control_mode
-        if self.control_mode != KokoControlMode.POSITION:
-            self._set_control_mode(KokoControlMode.POSITION)
+        self._set_control_mode(_KokoControlMode.POSITION)
 
         # TODO: check validity of commands
         # assert type(joint_positions) == np.ndarray
-        # assert joint_positions.shape == (self.joint_positions,)
+        # assert joint_positions.shape == (self._joint_positions,)
         # etc
         # same for other commands
+        assert type(joint_positions) == np.ndarray
+        assert joint_positions.shape == self._joint_positions.shape
 
         joint_positions_msg = {
             "layout" : {},
@@ -92,12 +89,14 @@ class KokoInterface:
         Args:
             joint_torques: A numpy array of 7 joint torques, in Nm, ordered from proximal to distal.
         """
-        if self.control_mode != KokoControlMode.TORQUE:
-            self._set_control_mode(KokoControlMode.TORQUE)
+        self._set_control_mode(_KokoControlMode.TORQUE)
+
+        assert type(joint_torques) == np.ndarray
+        assert joint_torques.shape == self._joint_torques.shape
 
         joint_torques_msg = {
             "layout" : {},
-            "data": joint_torques
+            "data": list(joint_torques)
         }
 
         self._joint_torque_publisher.publish(joint_torques_msg)
@@ -108,12 +107,14 @@ class KokoInterface:
         Args:
             joint_velocities: A numpy array of 7 joint velocities, in m/s, ordered from proximal to distal.
         """
-        if self.control_mode != KokoControlMode.VELOCITY:
-            self._set_control_mode(KokoControlMode.VELOCITY)
+        self._set_control_mode(_KokoControlMode.VELOCITY)
+
+        assert type(joint_velocities) == np.ndarray
+        assert joint_velocities.shape == self._joint_velocities.shape
 
         joint_velocities_msg = {
             "layout" : {},
-            "data": joint_velocities
+            "data": list(joint_velocities)
         }
 
         self._joint_velocity_publisher.publish(joint_velocities_msg)
@@ -124,35 +125,36 @@ class KokoInterface:
         Args:
             target_pose: Pose in the form {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]} defined with respect to the world frame.
         """
-        if self.control_mode == KokoControlMode.POSE:
-            position = target_pose["position"]
-            orientation = target_pose["orientation"]
-            position_msg = {
-                "x": position[0],
-                "y": position[1],
-                "z": position[2]
-            }
+        self._set_control_mode(_KokoControlMode.POSE)
 
-            orientation_msg = {
-                "x": orientation[0],
-                "y": orientation[1],
-                "z": orientation[2],
-                "w": orientation[3]
-            }
+        assert type(target_pose) == dict
 
-            pose_msg = {
-                "position": position_msg,
-                "orientation": orientation_msg
-            }
+        position = target_pose["position"]
+        orientation = target_pose["orientation"]
+        position_msg = {
+            "x": position[0],
+            "y": position[1],
+            "z": position[2]
+        }
 
-            cartesian_pose_msg = {
-                "header": {},
-                "pose": pose_msg
-            }
+        orientation_msg = {
+            "x": orientation[0],
+            "y": orientation[1],
+            "z": orientation[2],
+            "w": orientation[3]
+        }
 
-            self._cartesian_pose_publisher.publish(cartesian_pose_msg)
-        else:
-            warnings.warn("KokoControlMode is not POSE.")
+        pose_msg = {
+            "position": position_msg,
+            "orientation": orientation_msg
+        }
+
+        cartesian_pose_msg = {
+            "header": {},
+            "pose": pose_msg
+        }
+
+        self._cartesian_pose_publisher.publish(cartesian_pose_msg)
 
     def get_joint_positions(self):
         """Get the current joint positions.
@@ -160,7 +162,7 @@ class KokoInterface:
         Returns:
             A list of 7 angles, in radians, ordered from proximal to distal.
         """
-        return np.array(self.joint_positions)
+        return self._joint_positions
 
     def get_cartesian_pose(self):
         """Get the current cartesian pose of the end effector with respect to the world frame.
@@ -168,7 +170,7 @@ class KokoInterface:
         Returns:
              Pose in the form {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]} defined with repect to the world frame.
         """
-        return self.cartesian_pose
+        return self._cartesian_pose
 
     def get_joint_torques(self):
         """Get the current joint torques.
@@ -176,7 +178,7 @@ class KokoInterface:
         Returns:
             A numpy array of 7 joint torques, in Nm, ordered from proximal to distal.
         """
-        return np.array(self.joint_torques)
+        return self._joint_torques
 
     def get_joint_velocities(self):
         """Get the current joint velocities.
@@ -184,11 +186,11 @@ class KokoInterface:
         Returns:
             A numpy array of 7 joint velocities, in m/s, ordered from proximal to distal.
         """
-        return np.array(self.joint_velocities)
+        return self._joint_velocities
 
     def disable_control(self):
         """Set control mode to gravity compensation only."""
-        self._set_control_mode(KokoControlMode.OFF)
+        self._set_control_mode(_KokoControlMode.OFF)
 
     def _joint_state_callback(self, message):
         joint_positions_temp = []
@@ -201,9 +203,9 @@ class KokoInterface:
             joint_positions_temp.append(message["position"][self.index])
             joint_torques_temp.append(message["effort"][self.index])
             joint_velocities_temp.append(message["velocity"][self.index])
-        self.joint_positions = joint_positions_temp
-        self.joint_torques = joint_torques_temp
-        self.joint_velocities = joint_velocities_temp
+        self._joint_positions = np.array(joint_positions_temp)
+        self._joint_torques = np.array(joint_torques_temp)
+        self._joint_velocities = np.array(joint_velocities_temp)
 
     def _process_tfs(self, message):
         pose = message["transforms"][0]["transform"]
@@ -212,7 +214,7 @@ class KokoInterface:
         cartesian_pose_temp = {}
         cartesian_pose_temp["position"] = np.array([trans["x"], trans["y"], trans["z"]])
         cartesian_pose_temp["orientation"] = np.array([rot["x"], rot["y"], rot["z"], rot["w"]])
-        self.cartesian_pose = cartesian_pose_temp
+        self._cartesian_pose = cartesian_pose_temp
 
     def _call_tf_service(self):
         goal_msg = {
@@ -231,11 +233,11 @@ class KokoInterface:
         self._tf_service_client.request(goal_msg, _tf_service_callback)
 
     def _set_control_mode(self, mode):
-        if mode == self.control_mode:
+        if mode == self._control_mode:
             return True
         request_msg = {
             "start_controllers": self._controller_lookup[mode],
-            "stop_controllers": self._controller_lookup[self.control_mode],
+            "stop_controllers": self._controller_lookup[self._control_mode],
             "strictness": 2 #strict
         }
 
@@ -243,17 +245,16 @@ class KokoInterface:
 
         def switch_controller_callback(success, values):
             if success:
-                self.control_mode = mode
+                self._control_mode = mode
             s.release()
 
         self._switch_controller_service_client.request(request_msg, switch_controller_callback)
         s.acquire()
 
-        return mode == self.control_mode
+        return mode == self._control_mode
 
 
-# TODO: this can be abstracted away from the user; make it private
-class KokoControlMode(Enum):
+class _KokoControlMode(Enum):
     """An Enum class for constants that specify control mode.
 
     Attributes:
