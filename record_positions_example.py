@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
+
+# A basic example of using KokoInterface for joint positions control.
+# It allows a user to record four sets of joint positions by manually moving the arm to each
+# position and pressing enter. It then plays back a trajectory comprised of the four sets of
+# joint positions in an infinite loop.
+
 from koko_interface import KokoInterface
 import numpy as np
-import time
-
-"""A Hello World for using KokoInterface for joint positions control.
-
-Records four sets of joint positions by manually moving the arm to each position and pressing enter. Plays back a trajectory comprised of the four sets of joint positions on an infinite loop.
-"""
 
 koko = KokoInterface("hekate.cs.berkeley.edu")
 koko.disable_control()
@@ -20,8 +20,8 @@ for _ in range(4):
 input("Press enter to start trajectory.")
 
 while True:
-    for des_pos in recorded_positions:
-        curr_pos = koko.get_joint_positions()
-        while (np.linalg.norm(des_pos - curr_pos) > error):
-            koko.set_joint_positions(des_pos)
-            curr_pos = koko.get_joint_positions()
+    for desired_position in recorded_positions:
+        current_position = koko.get_joint_positions()
+        while np.linalg.norm(desired_position - current_position) > error:
+            koko.set_joint_positions(desired_position)
+            current_position = koko.get_joint_positions()

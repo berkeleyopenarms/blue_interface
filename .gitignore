@@ -1,2 +1,4 @@
-.swp
-.pyc
+*.swp
+*.pyc
+__pycache__
+docs/build
