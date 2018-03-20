@@ -55,9 +55,9 @@ class KokoInterface:
 
         self._call_tf_service()
 
-        # TODO: consider using condition variable instead of busy-waiting
-        while self._cartesian_pose == None or self._joint_positions == None or self._joint_torques == None or self._joint_velocities == None:
-            time.sleep(0.1)
+        cv = threading.Condition()
+        cv.acquire()
+        cv.wait_for(lambda: not (self._cartesian_pose == None or self._joint_positions == None or self._joint_torques == None or self._joint_velocities == None))
 
     def set_joint_positions(self, joint_positions):
         """Move arm to specified position in joint space.
@@ -68,13 +68,8 @@ class KokoInterface:
 
         self._set_control_mode(_KokoControlMode.POSITION)
 
-        # TODO: check validity of commands
-        # assert type(joint_positions) == np.ndarray
-        # assert joint_positions.shape == (self._joint_positions,)
-        # etc
-        # same for other commands
-        assert type(joint_positions) == np.ndarray
-        assert joint_positions.shape == self._joint_positions.shape
+        assert type(joint_positions) == np.ndarray, "joint_positions should be a numpy array"
+        assert joint_positions.shape == self._joint_positions.shape, "joint_positions should be of length 7"
 
         joint_positions_msg = {
             "layout" : {},
@@ -91,8 +86,8 @@ class KokoInterface:
         """
         self._set_control_mode(_KokoControlMode.TORQUE)
 
-        assert type(joint_torques) == np.ndarray
-        assert joint_torques.shape == self._joint_torques.shape
+        assert type(joint_torques) == np.ndarray, "joint_torques should be a numpy array"
+        assert joint_torques.shape == self._joint_torques.shape, "joint_torques should be of length 7"
 
         joint_torques_msg = {
             "layout" : {},
@@ -109,8 +104,8 @@ class KokoInterface:
         """
         self._set_control_mode(_KokoControlMode.VELOCITY)
 
-        assert type(joint_velocities) == np.ndarray
-        assert joint_velocities.shape == self._joint_velocities.shape
+        assert type(joint_velocities) == np.ndarray, "joint_velocities should be a numpy array"
+        assert joint_velocities.shape == self._joint_velocities.shape, "joint_velocities should be of length 7"
 
         joint_velocities_msg = {
             "layout" : {},
@@ -127,7 +122,11 @@ class KokoInterface:
         """
         self._set_control_mode(_KokoControlMode.POSE)
 
-        assert type(target_pose) == dict
+        assert type(target_pose) == dict, "target_pose should be a python dictionary"
+        assert type(target_pose["position"]) = np.ndarray, "position should be a numpy array"
+        assert type(target_pose["orientation"]) = np.ndarray, "orientation should be a numpy array"
+        assert target_pose["position"].shape = self._cartesian_pose["position"].shape, "position array should be of length 3"
+        assert target_pose["orientation"].shape = self._cartesian_pose["orientation"].shape, "orientation array should be of length 4"
 
         position = target_pose["position"]
         orientation = target_pose["orientation"]
