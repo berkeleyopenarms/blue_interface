@@ -17,13 +17,12 @@ class KokoInterface:
             port (int, optional): The Websocket port number for rosbridge.
         """
         self._RBC = ROSBridgeClient(ip, port)
-
         # ROS Topic Names
-        _ROS_POSITION_TOPIC = "/koko_controllers/position_controller/command"
+        _ROS_POSITION_TOPIC = "/koko_controllers/joint_position_controller/command"
         _ROS_TORQUE_TOPIC = "/koko_controllers/torque_controller/command"
-        _ROS_VELOCITY_TOPIC = "/koko_controllers/velocity_controller/command"
         _ROS_JOINT_STATE_TOPIC = "/joint_states"
         _ROS_POSE_TOPIC = "/koko_controllers/cartesian_pose_controller/command"
+        _ROS_GRIPPER_TOPIC = "/koko_controllers/gripper_controller/gripper_cmd"
         _ROS_TF_TOPIC = "/tf"
 
         # Frame names
@@ -33,31 +32,41 @@ class KokoInterface:
         self._joint_positions = None
         self._cartesian_pose = None
         self._joint_torques = None
-        self._joint_velocities = None
+        self._gripper_goal_id = None
 
         self._control_mode = _KokoControlMode.OFF
 
         self._joint_names = ["base_roll_joint", "shoulder_lift_joint", "shoulder_roll_joint", "elbow_lift_joint", "elbow_roll_joint", "wrist_lift_joint", "wrist_roll_joint"]
         self._controller_lookup = { _KokoControlMode.OFF: [],
-                                    _KokoControlMode.POSITION: ["/koko_controllers/position_controller"],
-                                    _KokoControlMode.POSE: ["/koko_controllers/cartesian_pose_controller"],
-                                    _KokoControlMode.TORQUE: ["/koko_controllers/torque_controller"],
-                                    _KokoControlMode.VELOCITY: ["koko_controllers/velocity_controller"] }
+                                    _KokoControlMode.POSITION: ["koko_controllers/joint_position_controller"],
+                                    _KokoControlMode.POSE: ["koko_controllers/cartesian_pose_controller"],
+                                    _KokoControlMode.TORQUE: ["koko_controllers/torque_controller"]}
 
-        # Create Subscribers, Publishers, and Service Clients
+        # Create Subscribers, Publishers, and Service/Action Clients
         self._joint_state_subscriber = self._RBC.subscriber(_ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_state_callback)
         self._joint_position_publisher = self._RBC.publisher(_ROS_POSITION_TOPIC, "std_msgs/Float64MultiArray")
         self._joint_torque_publisher = self._RBC.publisher(_ROS_TORQUE_TOPIC, "std_msgs/Float64MultiArray")
-        self._joint_velocity_publisher = self._RBC.publisher(_ROS_VELOCITY_TOPIC, "std_msgs/Float64MultiArray")
         self._tf_service_client = self._RBC.service("/republish_tfs", "tf2_web_republisher/RepublishTFs")
         self._cartesian_pose_publisher = self._RBC.publisher(_ROS_POSE_TOPIC, "geometry_msgs/PoseStamped")
         self._switch_controller_service_client = self._RBC.service("controller_manager/switch_controller", "controller_manager_msgs/SwitchController")
+        self._gripper_action_client = self._RBC.action_client(_ROS_GRIPPER_TOPIC, "control_msgs/GripperCommandAction")
 
         self._call_tf_service()
 
-        cv = threading.Condition()
-        cv.acquire()
-        cv.wait_for(lambda: not (self._cartesian_pose == None or self._joint_positions == None or self._joint_torques == None or self._joint_velocities == None))
+        while self._cartesian_pose is None or self._joint_positions is None or self._joint_torques is None:
+            time.sleep(.01)
+
+
+    def command_gripper(self, position, effort):
+        goal_msg = {"command": {
+            "position": position,
+            "max_effort": effort
+        }
+
+        self._gripper_goal_id = self._gripper_action_client.send_goal(goal_msg, None, None) #None should be fine let's see what's up
+
+    def cancel_gripper_command(self):
+        self._gripper_action_client.cancel_goal(self._gripper_goal_id)
 
     def set_joint_positions(self, joint_positions):
         """Move arm to specified position in joint space.
@@ -67,15 +76,12 @@ class KokoInterface:
         """
 
         self._set_control_mode(_KokoControlMode.POSITION)
-
         assert type(joint_positions) == np.ndarray, "joint_positions should be a numpy array"
-        assert joint_positions.shape == self._joint_positions.shape, "joint_positions should be of length 7"
 
         joint_positions_msg = {
             "layout" : {},
             "data": list(joint_positions)
         }
-
         self._joint_position_publisher.publish(joint_positions_msg)
 
     def set_joint_torques(self, joint_torques):
@@ -87,7 +93,6 @@ class KokoInterface:
         self._set_control_mode(_KokoControlMode.TORQUE)
 
         assert type(joint_torques) == np.ndarray, "joint_torques should be a numpy array"
-        assert joint_torques.shape == self._joint_torques.shape, "joint_torques should be of length 7"
 
         joint_torques_msg = {
             "layout" : {},
@@ -95,24 +100,6 @@ class KokoInterface:
         }
 
         self._joint_torque_publisher.publish(joint_torques_msg)
-
-    def set_joint_velocities(self, joint_velocities):
-        """Set velocities of joints.
-
-        Args:
-            joint_velocities: A numpy array of 7 joint velocities, in m/s, ordered from proximal to distal.
-        """
-        self._set_control_mode(_KokoControlMode.VELOCITY)
-
-        assert type(joint_velocities) == np.ndarray, "joint_velocities should be a numpy array"
-        assert joint_velocities.shape == self._joint_velocities.shape, "joint_velocities should be of length 7"
-
-        joint_velocities_msg = {
-            "layout" : {},
-            "data": list(joint_velocities)
-        }
-
-        self._joint_velocity_publisher.publish(joint_velocities_msg)
 
     def set_cartesian_pose(self, target_pose):
         """Move end effector to specified pose in Cartesian space.
@@ -123,10 +110,8 @@ class KokoInterface:
         self._set_control_mode(_KokoControlMode.POSE)
 
         assert type(target_pose) == dict, "target_pose should be a python dictionary"
-        assert type(target_pose["position"]) = np.ndarray, "position should be a numpy array"
-        assert type(target_pose["orientation"]) = np.ndarray, "orientation should be a numpy array"
-        assert target_pose["position"].shape = self._cartesian_pose["position"].shape, "position array should be of length 3"
-        assert target_pose["orientation"].shape = self._cartesian_pose["orientation"].shape, "orientation array should be of length 4"
+        assert type(target_pose["position"]) == np.ndarray, "position should be a numpy array"
+        assert type(target_pose["orientation"]) == np.ndarray, "orientation should be a numpy array"
 
         position = target_pose["position"]
         orientation = target_pose["orientation"]
@@ -179,14 +164,6 @@ class KokoInterface:
         """
         return self._joint_torques
 
-    def get_joint_velocities(self):
-        """Get the current joint velocities.
-
-        Returns:
-            A numpy array of 7 joint velocities, in m/s, ordered from proximal to distal.
-        """
-        return self._joint_velocities
-
     def disable_control(self):
         """Set control mode to gravity compensation only."""
         self._set_control_mode(_KokoControlMode.OFF)
@@ -194,17 +171,14 @@ class KokoInterface:
     def _joint_state_callback(self, message):
         joint_positions_temp = []
         joint_torques_temp = []
-        joint_velocities_temp = []
         for name in self._joint_names:
-            if name not in message.keys():
+            if name not in message["name"]:
                 break
             self.index = message["name"].index(name)
             joint_positions_temp.append(message["position"][self.index])
             joint_torques_temp.append(message["effort"][self.index])
-            joint_velocities_temp.append(message["velocity"][self.index])
         self._joint_positions = np.array(joint_positions_temp)
         self._joint_torques = np.array(joint_torques_temp)
-        self._joint_velocities = np.array(joint_velocities_temp)
 
     def _process_tfs(self, message):
         pose = message["transforms"][0]["transform"]
@@ -261,10 +235,8 @@ class _KokoControlMode(Enum):
         POSITION: Koko can be controlled by sending joint position targets.
         POSE: Koko can be controlled by sending cartesian pose targets.
         TORQUE: Koko can be controlled by setting joint torque targets.
-        VELOCITY: Koko can be controlled by setting joint velocity targets.
     """
     OFF = 0
     POSITION = 1
     POSE = 2
     TORQUE = 3
-    VELOCITY = 4
