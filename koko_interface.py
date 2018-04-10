@@ -33,8 +33,10 @@ class KokoInterface:
         self._cartesian_pose = None
         self._joint_torques = None
         self._gripper_goal_id = None
+        self._gripper_position = None
+        self._gripper_effort = None
 
-        self._control_mode = _KokoControlMode.OFF
+        sell._control_mode = _KokoControlMode.OFF
 
         self._joint_names = ["base_roll_joint", "shoulder_lift_joint", "shoulder_roll_joint", "elbow_lift_joint", "elbow_roll_joint", "wrist_lift_joint", "wrist_roll_joint"]
         self._controller_lookup = { _KokoControlMode.OFF: [],
@@ -53,26 +55,56 @@ class KokoInterface:
 
         self._call_tf_service()
 
-        while self._cartesian_pose is None or self._joint_positions is None or self._joint_torques is None:
+        while None in [self._cartesian_pose, self._joint_positions, self._joint_torques, self._gripper_position, self._gripper_effort]:
             time.sleep(.01)
 
 
     def command_gripper(self, position, effort):
+        """Send a goal to gripper.
+
+        Args:
+            position (float64): gap size between gripper fingers in cm.
+            effort (float64): maximum effort the gripper with exert before stalling in N.
+        """
+
         goal_msg = {"command": {
             "position": position,
             "max_effort": effort
-        }
+        }}
 
         self._gripper_goal_id = self._gripper_action_client.send_goal(goal_msg, None, None) #None should be fine let's see what's up
 
     def cancel_gripper_command(self):
+        #TODO: test this!
+        """Cancel current gripper command, halting gripper in current position."""
+
         self._gripper_action_client.cancel_goal(self._gripper_goal_id)
+
+    def get_gripper_position(self):
+        #TODO: test this
+        """ Get the current gap between gripper fingers.
+
+        Returns:
+            float64: the gripper gap in cm.
+
+        """
+        return self._gripper_position
+
+    def get_gripper_effort(self):
+        #TODO: test this
+        """Get the current effort exerted by the gripper.
+
+        Returns:
+            float64: the gripper effort in N
+        """
+
+        return self._gripper_effort
 
     def set_joint_positions(self, joint_positions):
         """Move arm to specified position in joint space.
 
         Args:
-            joint_positions: A numpy array of 7 joint angles, in radians, ordered from proximal to distal.
+            joint_positions (numpy.ndarray): An array of 7 joint angles, in radians, ordered from proximal to distal.
         """
 
         self._set_control_mode(_KokoControlMode.POSITION)
@@ -88,7 +120,7 @@ class KokoInterface:
         """Set torques applied at joints.
 
         Args:
-            joint_torques: A numpy array of 7 joint torques, in Nm, ordered from proximal to distal.
+            joint_torques (numpy.ndarray): An array of 7 joint torques, in Nm, ordered from proximal to distal.
         """
         self._set_control_mode(_KokoControlMode.TORQUE)
 
@@ -105,7 +137,7 @@ class KokoInterface:
         """Move end effector to specified pose in Cartesian space.
 
         Args:
-            target_pose: Pose in the form {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]} defined with respect to the world frame.
+            target_pose (dict): Pose in the form {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]} defined with respect to the world frame.
         """
         self._set_control_mode(_KokoControlMode.POSE)
 
@@ -144,7 +176,7 @@ class KokoInterface:
         """Get the current joint positions.
 
         Returns:
-            A list of 7 angles, in radians, ordered from proximal to distal.
+            numpy.ndarray: An array of 7 angles, in radians, ordered from proximal to distal.
         """
         return self._joint_positions
 
@@ -152,7 +184,7 @@ class KokoInterface:
         """Get the current cartesian pose of the end effector with respect to the world frame.
 
         Returns:
-             Pose in the form {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]} defined with repect to the world frame.
+            dict: Pose in the form {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]} defined with repect to the world frame.
         """
         return self._cartesian_pose
 
@@ -160,13 +192,19 @@ class KokoInterface:
         """Get the current joint torques.
 
         Returns:
-            A numpy array of 7 joint torques, in Nm, ordered from proximal to distal.
+            numpy.ndarray: An array of 7 joint torques, in Nm, ordered from proximal to distal.
         """
         return self._joint_torques
 
     def disable_control(self):
         """Set control mode to gravity compensation only."""
+
         self._set_control_mode(_KokoControlMode.OFF)
+
+    def _gripper_feedback_callback(self, message):
+        #TODO: test this
+        self._gripper_position = message["position"]
+        self._gripper_effort = message["effort"]
 
     def _joint_state_callback(self, message):
         joint_positions_temp = []

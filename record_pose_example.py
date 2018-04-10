@@ -31,7 +31,7 @@ while True:
         des_orientation = des_pose["orientation"]
 
         position_error = np.linalg.norm(des_position - curr_position)
-        orientation_erroir = np.linalg.norm(des_orientation - curr_orientation)
+        orientation_error = np.linalg.norm(des_orientation - curr_orientation)
 
         while position_error > position_error_threshold or orientation_error > orientation_error_threshold:
             koko.set_cartesian_pose(des_pose)
