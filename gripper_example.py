@@ -6,11 +6,8 @@
 from koko_interface import KokoInterface
 import numpy as np
 
-#TODO: test it!
 koko = KokoInterface("hekate.cs.berkeley.edu")
-print("made a Koko object")
-
-koko.command_gripper(0.0,2.0)
-if koko.get_gripper_position() == 0.0:
-    koko.command_gripper(-1.3,2.0)
+while True:
+    koko.command_gripper(0.0,2.0,True)
+    koko.command_gripper(-1.3,2.0,True)
 

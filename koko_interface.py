@@ -36,13 +36,15 @@ class KokoInterface:
         self._gripper_position = None
         self._gripper_effort = None
 
-        sell._control_mode = _KokoControlMode.OFF
+        self._control_mode = _KokoControlMode.POSITION
+        self._gripper_enabled = True
 
         self._joint_names = ["base_roll_joint", "shoulder_lift_joint", "shoulder_roll_joint", "elbow_lift_joint", "elbow_roll_joint", "wrist_lift_joint", "wrist_roll_joint"]
         self._controller_lookup = { _KokoControlMode.OFF: [],
                                     _KokoControlMode.POSITION: ["koko_controllers/joint_position_controller"],
                                     _KokoControlMode.POSE: ["koko_controllers/cartesian_pose_controller"],
-                                    _KokoControlMode.TORQUE: ["koko_controllers/torque_controller"]}
+                                    _KokoControlMode.TORQUE: ["koko_controllers/torque_controller"],
+                                    _KokoControlMode.GRIPPER: ["koko_controllers/gripper_controller"]}
 
         # Create Subscribers, Publishers, and Service/Action Clients
         self._joint_state_subscriber = self._RBC.subscriber(_ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_state_callback)
@@ -55,11 +57,11 @@ class KokoInterface:
 
         self._call_tf_service()
 
-        while None in [self._cartesian_pose, self._joint_positions, self._joint_torques, self._gripper_position, self._gripper_effort]:
-            time.sleep(.01)
+        while self._cartesian_pose is None or self._joint_positions is None:
+            time.sleep(.1)
 
-
-    def command_gripper(self, position, effort):
+    def command_gripper(self, position, effort, wait=False):
+        #TODO: change robot side so position and effort in correct units
         """Send a goal to gripper.
 
         Args:
@@ -67,12 +69,22 @@ class KokoInterface:
             effort (float64): maximum effort the gripper with exert before stalling in N.
         """
 
+        if not self._gripper_enabled:
+            self._switch_controller_helper(self._controller_lookup[_KokoControlMode.GRIPPER], [])
+
         goal_msg = {"command": {
             "position": position,
             "max_effort": effort
         }}
 
-        self._gripper_goal_id = self._gripper_action_client.send_goal(goal_msg, None, None) #None should be fine let's see what's up
+        def on_result(result, status):
+            if result["stalled"] or result["reached_goal"]:
+                s.release()
+
+        s = threading.Semaphore(0)
+        self._gripper_goal_id = self._gripper_action_client.send_goal(goal_msg, on_result, on_result)
+        if wait:
+            s.acquire()
 
     def cancel_gripper_command(self):
         #TODO: test this!
@@ -201,20 +213,33 @@ class KokoInterface:
 
         self._set_control_mode(_KokoControlMode.OFF)
 
-    def _gripper_feedback_callback(self, message):
-        #TODO: test this
-        self._gripper_position = message["position"]
-        self._gripper_effort = message["effort"]
+    def disable_gripper(self):
+        """Make gripper compliant."""
+        self._switch_controller_helper([], self._controller_lookup[_KokoControlMode.GRIPPER])
+        self._gripper_enabled = False
+
+    def gripper_enabled(self):
+        """Check if gripper is enabled to take commands.
+
+        Returns:
+            bool: True if enabled, False otherwise.
+        """
+
+        return self._gripper_enabled
 
     def _joint_state_callback(self, message):
         joint_positions_temp = []
         joint_torques_temp = []
         for name in self._joint_names:
             if name not in message["name"]:
-                break
-            self.index = message["name"].index(name)
-            joint_positions_temp.append(message["position"][self.index])
-            joint_torques_temp.append(message["effort"][self.index])
+                continue
+            else:
+                self.index = message["name"].index(name)
+                joint_positions_temp.append(message["position"][self.index])
+                joint_torques_temp.append(message["effort"][self.index])
+        if "gripper_joint" in message["name"]:
+            self._gripper_position = message["position"][message["name"].index("gripper_joint")]
+            self._gripper_effort = message["effort"][message["name"].index("gripper_joint")]
         self._joint_positions = np.array(joint_positions_temp)
         self._joint_torques = np.array(joint_torques_temp)
 
@@ -246,24 +271,25 @@ class KokoInterface:
     def _set_control_mode(self, mode):
         if mode == self._control_mode:
             return True
+        self._switch_controller_helper(self._controller_lookup[mode], self._controller_lookup[self._control_mode], mode)
+        return mode == self._control_mode
+
+    def _switch_controller_helper(self, start, stop, mode=None):
         request_msg = {
-            "start_controllers": self._controller_lookup[mode],
-            "stop_controllers": self._controller_lookup[self._control_mode],
+            "start_controllers": start,
+            "stop_controllers": stop,
             "strictness": 2 #strict
         }
 
         s = threading.Semaphore(0)
 
         def switch_controller_callback(success, values):
-            if success:
+            if success and mode is not None:
                 self._control_mode = mode
             s.release()
 
         self._switch_controller_service_client.request(request_msg, switch_controller_callback)
         s.acquire()
-
-        return mode == self._control_mode
-
 
 class _KokoControlMode(Enum):
     """An Enum class for constants that specify control mode.
@@ -273,8 +299,10 @@ class _KokoControlMode(Enum):
         POSITION: Koko can be controlled by sending joint position targets.
         POSE: Koko can be controlled by sending cartesian pose targets.
         TORQUE: Koko can be controlled by setting joint torque targets.
+        GRIPPER: Koko gripper can be commanded.
     """
     OFF = 0
     POSITION = 1
     POSE = 2
     TORQUE = 3
+    GRIPPER = 4
