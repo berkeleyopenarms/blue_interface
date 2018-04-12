@@ -19,12 +19,8 @@ koko.disable_control()
 koko.disable_gripper()
 
 #TODO: make number of positions a command line arg
-for _ in range(10):
-    input("Press enter to record current joint positions.")
-    recorded_positions.append((koko.get_gripper_position(), koko.get_joint_positions()))
-
-with open('tape_trajectory.pickle', 'wb') as handle:
-    pickle.dump(recorded_positions, handle, protocol=pickle.HIGHEST_PROTOCOL)
+with open('tape_trajectory.pickle', 'rb') as handle:
+    recorded_positions = pickle.load(handle)
 
 input("Press enter to start trajectory.")
 

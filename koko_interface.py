@@ -36,15 +36,7 @@ class KokoInterface:
         self._gripper_position = None
         self._gripper_effort = None
 
-        self._control_mode = _KokoControlMode.POSITION
-        self._gripper_enabled = True
-
         self._joint_names = ["base_roll_joint", "shoulder_lift_joint", "shoulder_roll_joint", "elbow_lift_joint", "elbow_roll_joint", "wrist_lift_joint", "wrist_roll_joint"]
-        self._controller_lookup = { _KokoControlMode.OFF: [],
-                                    _KokoControlMode.POSITION: ["koko_controllers/joint_position_controller"],
-                                    _KokoControlMode.POSE: ["koko_controllers/cartesian_pose_controller"],
-                                    _KokoControlMode.TORQUE: ["koko_controllers/torque_controller"],
-                                    _KokoControlMode.GRIPPER: ["koko_controllers/gripper_controller"]}
 
         # Create Subscribers, Publishers, and Service/Action Clients
         self._joint_state_subscriber = self._RBC.subscriber(_ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_state_callback)
@@ -56,6 +48,16 @@ class KokoInterface:
         self._gripper_action_client = self._RBC.action_client(_ROS_GRIPPER_TOPIC, "control_msgs/GripperCommandAction")
 
         self._call_tf_service()
+
+        self._controller_lookup = { _KokoControlMode.OFF: [],
+                                    _KokoControlMode.POSITION: ["koko_controllers/joint_position_controller"],
+                                    _KokoControlMode.POSE: ["koko_controllers/cartesian_pose_controller"],
+                                    _KokoControlMode.TORQUE: ["koko_controllers/torque_controller"],
+                                    _KokoControlMode.GRIPPER: ["koko_controllers/gripper_controller"]}
+
+        self._switch_controller_helper([], [self._controller_lookup[_KokoControlMode.POSITION], self._controller_lookup[_KokoControlMode.POSE]])
+        self._control_mode = _KokoControlMode.POSITION
+        self._gripper_enabled = False
 
         while self._cartesian_pose is None or self._joint_positions is None:
             time.sleep(.1)
