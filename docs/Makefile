@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = KokoInterface
+SPHINXPROJ    = BlueInterface
 SOURCEDIR     = source
 BUILDDIR      = build
 

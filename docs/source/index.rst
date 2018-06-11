@@ -1,12 +1,12 @@
-.. Koko Interface documentation master file, created by
+.. Blue Interface documentation master file, created by
    sphinx-quickstart on Thu Mar  8 00:09:36 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to the Koko Interface
+Welcome to the Blue Interface
 ==========================================
 
-The Koko interface is a platform-agnostic Python API for communicating with the Koko robotic arm over a network connection.
+The Blue interface is a platform-agnostic Python API for communicating with the Koko robotic arm over a network connection.
 
 .. .. toctree::
 ..    :maxdepth: 2
@@ -14,11 +14,11 @@ The Koko interface is a platform-agnostic Python API for communicating with the 
 
 ----
 
-.. automodule:: koko_interface
+.. automodule:: blue_interface
    :members:
    :undoc-members:
 
-.. class:: KokoInterface
+.. class:: BlueInterface
 
 
 .. Indices and tables

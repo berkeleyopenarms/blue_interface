@@ -2,6 +2,9 @@
 call services and use action client.
 """
 
+# source: http://codegists.com/snippet/python/rosbridge_clientpy_le-kang_python
+# TODO: look into replacing this with something like https://github.com/gramaziokohler/roslibpy
+
 import threading
 import time
 import json

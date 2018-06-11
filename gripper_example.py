@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-# A basic example of using KokoInterface for gripper control.
+# A basic example of using BlueInterface for gripper control.
 # It allows a user to open and close the gripper.
 
-from koko_interface import KokoInterface
+from blue_interface import BlueInterface
 import numpy as np
 
-koko = KokoInterface("hekate.cs.berkeley.edu")
+blue = BlueInterface("right", "hekate.cs.berkeley.edu")
 while True:
-    koko.command_gripper(0.0,2.0,True)
-    koko.command_gripper(-1.3,2.0,True)
+    blue.command_gripper(0.0,2.0,True)
+    blue.command_gripper(-1.3,2.0,True)
 

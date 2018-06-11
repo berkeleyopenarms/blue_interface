@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Koko Interface'
+project = 'Blue Interface'
 copyright = '2018, Rachel Thomasson, Brent Yi'
 author = 'Rachel Thomasson, Brent Yi'
 
@@ -106,7 +106,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'KokoInterfacedoc'
+htmlhelp_basename = 'BlueInterfacedoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -133,7 +133,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'KokoInterface.tex', 'Koko Interface Documentation',
+    (master_doc, 'BlueInterface.tex', 'Blue Interface Documentation',
      'Rachel Thomasson, Brent Yi', 'manual'),
 ]
 
@@ -143,7 +143,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'kokointerface', 'Koko Interface Documentation',
+    (master_doc, 'blueinterface', 'Blue Interface Documentation',
      [author], 1)
 ]
 
@@ -154,8 +154,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'KokoInterface', 'Koko Interface Documentation',
-     author, 'KokoInterface', 'One line description of project.',
+    (master_doc, 'BlueInterface', 'Blue Interface Documentation',
+     author, 'BlueInterface', 'One line description of project.',
      'Miscellaneous'),
 ]
 
