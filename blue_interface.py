@@ -99,6 +99,9 @@ class BlueInterface:
             self._unload_controller(self._controller_lookup[_BlueControlMode.GRIPPER])
             self.cleaned = True
 
+    def shutdown(self):
+        self._RBC.close()
+
     def command_gripper(self, position, effort, wait=False):
         #TODO: change robot side so position and effort in correct units
         """Send a goal to gripper.
