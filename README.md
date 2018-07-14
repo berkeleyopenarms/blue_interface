@@ -7,3 +7,8 @@ blue_interface is a Python API that allows users to control a Blue robotic arm w
   - gripper_example.py: A Hello World for commanding a Blue arm's gripper
 # Documentation
 [fill in link to generated documentation]
+
+# Required Python Packages
+  - ws4py (`pip install ws4py`)
+  - PyDispatcher (`pip install PyDispatcher`)
+  
