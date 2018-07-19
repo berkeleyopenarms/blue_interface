@@ -15,13 +15,14 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
+#sys.path.insert(os.path.abspath('~/sphinx-extensions'))
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'Blue Interface'
-copyright = '2018, Rachel Thomasson, Brent Yi'
-author = 'Rachel Thomasson, Brent Yi'
+copyright = '2018, Greg Balke, Rachel Thomasson, Brent Yi'
+author = 'Greg Balke, Rachel Thomasson, Brent Yi'
 
 # The short X.Y version
 version = ''
@@ -43,6 +44,7 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
+    'sphinx.ext.githubpages',
     # 'sphinx.ext.viewcode',
 ]
 
@@ -79,7 +81,7 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'classic'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -107,6 +109,13 @@ html_static_path = ['_static']
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'BlueInterfacedoc'
+
+
+# -- Options for Github output ------------------------------------------------
+
+sphinx_to_github = True
+sphinx_to_github_verbose = True
+sphinx_to_github_encoding = "utf-8"
 
 
 # -- Options for LaTeX output ------------------------------------------------
