@@ -6,7 +6,7 @@ blue_interface is a Python API that allows users to control a Blue robotic arm w
   - record_pose_example.py: A Hello World for controlling a Blue arm with carteisian pose control
   - gripper_example.py: A Hello World for commanding a Blue arm's gripper
 # Documentation
-[fill in link to generated documentation]
+https://berkeley-open-robotics.github.io/blue_interface/
 
 # Required Python Packages
   - ws4py (`pip install ws4py`)
