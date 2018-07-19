@@ -6,7 +6,7 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = BlueInterface
 SOURCEDIR     = source
-BUILDDIR      = build 
+BUILDDIR      = build
 PDFBUILDDIR   = /tmp
 PDF 		  = manual.pdf
 
