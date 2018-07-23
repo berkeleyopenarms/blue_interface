@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 # -- Project information -----------------------------------------------------
 
 project = 'Blue Interface'
-copyright = '2018, Greg Balke, Rachel Thomasson, Brent Yi'
+copyright = '2018, Berkeley Open Robotics'
 author = 'Greg Balke, Rachel Thomasson, Brent Yi'
 
 # The short X.Y version
