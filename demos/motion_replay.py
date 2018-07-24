@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import time
 import argparse
-sys.path.append('blue_interface')
+sys.path.append('../')
 from blue_interface import BlueInterface  # this is the API for the robot
 
 import consts
@@ -24,25 +24,29 @@ if __name__ == '__main__':
     blue.disable_control() 
     
     data = pickle.load( open(filename, "rb")) #uses the pickle function to read the binary file created in record_poses.py
-    joint_angle_list, _, gripper_list = data
-    frequency = consts.default_frequency # In Hertz
+    joint_angle_list, _, gripper_list, record_frequency = data
+    frequency = record_frequency # In Hertz
     
     input("Press enter to start replay. To exit, press <ctrl+c>.")
     
     try:
         last_time = 0.0
         for i in range (len(joint_angle_list)):
+            #if len(joint_angle_list[i]) == 7:
             blue.set_joint_positions(np.array(joint_angle_list[i])) # tell the robot to go to a set of joint angles
             #blue.command_gripper(gripper_list[i], 30.0)
             if gripper_list[i] < -0.2:
                 blue.command_gripper(-1.3, 15.0)
             else:
                 blue.command_gripper(0, 2.0)
-            while time.time() - last_time < 1.0/frequency:
-                pass    
+            sleep_time = 1.0/frequency - (time.time() - last_time)
+            if sleep_time > 0:
+                time.sleep(sleep_time)
             last_time = time.time()
 
     except:
+        print (sys.exc_info()[0])
+        print ("Something went wrong... exiting")
         pass
     
     blue.cleanup()

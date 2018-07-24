@@ -7,7 +7,7 @@ import sys
 import argparse
 import consts
 
-sys.path.append('blue_interface')
+sys.path.append('../')
 from blue_interface import BlueInterface  # this is the API for the robot
 
 if __name__ == '__main__':
@@ -31,7 +31,6 @@ if __name__ == '__main__':
     try: 
         last_time = 0.0
         while True:
-            last_time = time.time()
             position = blue.get_joint_positions() #record the pose, this function returns a dictionary object
             joint_angle_list.append(position)
             pose = blue.get_cartesian_pose()
@@ -39,8 +38,11 @@ if __name__ == '__main__':
             gripper_pos = blue.get_gripper_position()
             gripper_list.append(gripper_pos)
             print("Position recorded!")
-            while time.time() - last_time < 1.0/frequency:
-                pass
+            #while time.time() - last_time < 1.0/frequency:
+            #    pass
+            sleep_time = 1.0/frequency - (time.time() - last_time)
+            if sleep_time > 0:
+                time.sleep(sleep_time)
             last_time = time.time()
     except:
         print(joint_angle_list)
@@ -48,7 +50,7 @@ if __name__ == '__main__':
     if len(joint_angle_list)==0:
         print('You did not save any positions')
     else:
-        pickle.dump((joint_angle_list, pose_list, gripper_list), open(filename, "wb")) #uses the pickle function to write a binary file
+        pickle.dump((joint_angle_list, pose_list, gripper_list, frequency), open(filename, "wb")) #uses the pickle function to write a binary file
         print('Your position list has been saved in the directory')
     
     blue.cleanup()
