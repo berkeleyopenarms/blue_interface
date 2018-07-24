@@ -6,7 +6,7 @@
 Welcome to the Blue Interface
 ==========================================
 
-The Blue interface is a platform-agnostic Python API for communicating with the Koko robotic arm over a network connection.
+The Blue interface is a platform-agnostic Python API for communicating with the Blue robotic arm over a network connection.
 
 .. .. toctree::
 ..    :maxdepth: 2
