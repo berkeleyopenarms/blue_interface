@@ -15,7 +15,8 @@ To record a motion, execute `python3 motion_record.py <file_name.pickle>`. To re
 # Documentation
 https://berkeley-open-robotics.github.io/blue_interface/
 
-# Required Python Packages
+# Required Python3 Packages
   - ws4py (`pip install ws4py`)
   - PyDispatcher (`pip install PyDispatcher`)
+  - numpy (`pip install numpy`)
   
