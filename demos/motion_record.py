@@ -13,18 +13,25 @@ from blue_interface import BlueInterface  # this is the API for the robot
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Record motion of a blue arm.')
     parser.add_argument('record_file', type=str, help='Saves a recorded motion to this file')
+    parser.add_argument('--address', default=consts.default_address, type=str, help='Address of the host computer')
+    parser.add_argument('--port', default=consts.default_port, type=int, help='Port that the ros web host was started on')
+    parser.add_argument('--frequency', default=consts.default_frequency, type=int, help='Record at a custom frequency (Hz)')
     args = parser.parse_args()
 
     filename = args.record_file
 
+    arm = consts.default_arm
+    address = args.address
+    port = args.port
+    frequency = args.frequency # In Hertz
+
     #blue = BlueInterface("left","10.42.0.1")  # creates object of class KokoInterface at the IP in quotes with the name 'blue'
-    blue = BlueInterface(consts.default_arm, consts.default_address) #creates object of class KokoInterface at the IP in quotes with the name 'blue'
+    blue = BlueInterface(arm, address, port) #creates object of class KokoInterface at the IP in quotes with the name 'blue'
     blue.disable_control() #this turns off any other control currently on the robot (leaves it in gravtiy comp mode)
     
     joint_angle_list = [] #Initialize the list to hold our joint positions
     pose_list = []
     gripper_list = []
-    frequency = consts.default_frequency # In Hertz
     
     input("Press enter to start recording. To finish recording press <ctrl+c>.")
 

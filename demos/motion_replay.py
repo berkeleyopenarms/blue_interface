@@ -10,22 +10,31 @@ from blue_interface import BlueInterface  # this is the API for the robot
 import consts
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Replay a motion of a blue arm.')
-    parser.add_argument('port', type=str, help='Port that the ros web host was started on')
+    parser = argparse.ArgumentParser(description='Replay motion on a blue arm.')
     parser.add_argument('record_file', type=str, help='Loads a recorded motion from this file')
+    parser.add_argument('--address', default=consts.default_address, type=str, help='Address of the host computer')
+    parser.add_argument('--port', default=consts.default_port, type=int, help='Port that the ros web host was started on')
+    parser.add_argument('--frequency', default=0, type=int, help='Replay the recording at a custom frequency (Hz)')
     args = parser.parse_args()
     
     filename = args.record_file
+
+    arm = consts.default_arm
+    address = args.address
+    port = args.port
     
     #blue = BlueInterface("left","10.42.0.1")  # creates object of class KokoInterface at the IP in quotes with the name 'blue'
-    blue = BlueInterface(consts.default_arm, consts.default_address) #creates object of class KokoInterface at the IP in quotes with the name 'blue'
+    blue = BlueInterface(arm, address, port) #creates object of class KokoInterface at the IP in quotes with the name 'blue'
     
     # This turns off any other control currently on the robot (leaves it in gravtiy comp mode)
     blue.disable_control() 
     
     data = pickle.load( open(filename, "rb")) #uses the pickle function to read the binary file created in record_poses.py
     joint_angle_list, _, gripper_list, record_frequency = data
-    frequency = record_frequency # In Hertz
+
+    # If no argument is passed for replay frequency, play the recording at the rate it was recorded.
+    if args.frequency == 0:
+        frequency = record_frequency # In Hertz
     
     input("Press enter to start replay. To exit, press <ctrl+c>.")
     
