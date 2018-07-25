@@ -5,15 +5,18 @@
 # position and pressing enter. It then plays back a trajectory comprised of the four sets of
 # joint positions in an infinite loop.
 
+import sys
+sys.path.append('../')
 from blue_interface import BlueInterface
 import numpy as np
 import time
 import pickle
+import consts
 
-blue = BlueInterface("right", "localhost")
+blue = BlueInterface(consts.default_arm, consts.default_address)
 print("..")
 recorded_positions = []
-error = 0.1
+error = 0.5
 
 blue.disable_control()
 blue.disable_gripper()
