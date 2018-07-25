@@ -1,5 +1,5 @@
 # blue_interface
-blue_interface is a Python API that allows users to control a Blue robotic arm without directly interfacing with ROS. It uses rosbridge to communicate with the Blue arm's onboard computer. The entire Python API is contained in `blue_interface.py`, and includes methods for controlling a Blue arm in joint position, joint torque, and Cartesian pose control modes.
+blue_interface is a Python API that allows users to control a Blue robotic arm without directly interfacing with ROS. It uses rosbridge to communicate with the Blue arm's onboard robot computer. The entire Python API is contained in `blue_interface.py`, and includes methods for controlling a Blue arm in joint position, joint torque, and Cartesian pose control modes.
 
 # Required Python 3 Packages
   - ws4py (`pip install ws4py`)
