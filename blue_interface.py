@@ -115,7 +115,7 @@ class BlueInterface:
         """
 
         if not self._gripper_enabled:
-            self._switch_controller([self._controller_lookup[_BlueControlMode.GRIPPER]], [])
+            self.enable_gripper()
 
         goal_msg = {"command": {
             "position": position,
@@ -259,6 +259,11 @@ class BlueInterface:
         """Set control mode to gravity compensation only."""
 
         self._set_control_mode(_BlueControlMode.OFF)
+
+    def enable_gripper(self):
+        """Enable gripper."""
+        self._switch_controller([self._controller_lookup[_BlueControlMode.GRIPPER]], [])
+        self._gripper_enabled = True
 
     def disable_gripper(self):
         """Make gripper compliant."""
