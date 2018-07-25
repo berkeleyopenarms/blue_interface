@@ -100,6 +100,9 @@ class BlueInterface:
             self.cleaned = True
 
     def shutdown(self):
+        """Close connection to host computer."""
+        if not self.cleaned:
+            self.cleanup()
         self._RBC.close()
 
     def command_gripper(self, position, effort, wait=False):
