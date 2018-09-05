@@ -1,0 +1,205 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to the Blue Interface &#8212; Blue Interface  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Blue Interface  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-the-blue-interface">
+<h1>Welcome to the Blue Interface<a class="headerlink" href="#welcome-to-the-blue-interface" title="Permalink to this headline">¶</a></h1>
+<p>The Blue interface is a platform-agnostic Python API for communicating with the Koko robotic arm over a network connection.</p>
+<hr class="docutils" />
+<span class="target" id="module-blue_interface"></span><dl class="class">
+<dt id="blue_interface.BlueInterface">
+<em class="property">class </em><code class="descclassname">blue_interface.</code><code class="descname">BlueInterface</code><span class="sig-paren">(</span><em>side</em>, <em>ip</em>, <em>port=9090</em><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Python interface for controlling the Blue robot through rosbridge.</p>
+<dl class="method">
+<dt id="blue_interface.BlueInterface.cancel_gripper_command">
+<code class="descname">cancel_gripper_command</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.cancel_gripper_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cancel current gripper command, halting gripper in current position.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="blue_interface.BlueInterface.cleanup">
+<code class="descname">cleanup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.cleanup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="blue_interface.BlueInterface.command_gripper">
+<code class="descname">command_gripper</code><span class="sig-paren">(</span><em>position</em>, <em>effort</em>, <em>wait=False</em><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.command_gripper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a goal to gripper.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>position (float64): gap size between gripper fingers in cm.
+effort (float64): maximum effort the gripper with exert before stalling in N.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="blue_interface.BlueInterface.disable_control">
+<code class="descname">disable_control</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.disable_control" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set control mode to gravity compensation only.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="blue_interface.BlueInterface.disable_gripper">
+<code class="descname">disable_gripper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.disable_gripper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make gripper compliant.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="blue_interface.BlueInterface.get_cartesian_pose">
+<code class="descname">get_cartesian_pose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_cartesian_pose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current cartesian pose of the end effector with respect to the world frame.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>dict: Pose in the form {“position”: numpy.array([x,y,z]), “orientation”: numpy.array([x,y,z,w]} defined with repect to the world frame.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="blue_interface.BlueInterface.get_gripper_effort">
+<code class="descname">get_gripper_effort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_gripper_effort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current effort exerted by the gripper.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>float64: the gripper effort in N</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="blue_interface.BlueInterface.get_gripper_position">
+<code class="descname">get_gripper_position</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_gripper_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current gap between gripper fingers.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>float64: the gripper gap in cm.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="blue_interface.BlueInterface.get_joint_positions">
+<code class="descname">get_joint_positions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_joint_positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current joint positions.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>numpy.ndarray: An array of 7 angles, in radians, ordered from proximal to distal.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="blue_interface.BlueInterface.get_joint_torques">
+<code class="descname">get_joint_torques</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_joint_torques" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current joint torques.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>numpy.ndarray: An array of 7 joint torques, in Nm, ordered from proximal to distal.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="blue_interface.BlueInterface.gripper_enabled">
+<code class="descname">gripper_enabled</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.gripper_enabled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if gripper is enabled to take commands.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>bool: True if enabled, False otherwise.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="blue_interface.BlueInterface.set_joint_positions">
+<code class="descname">set_joint_positions</code><span class="sig-paren">(</span><em>joint_positions</em><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.set_joint_positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move arm to specified position in joint space.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>joint_positions (iterable): An array of 7 joint angles, in radians, ordered from proximal to distal.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">blue_interface.</code><code class="descname">BlueInterface</code></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Blue Interface  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Rachel Thomasson, Brent Yi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+    </div>
+  </body>
+</html>
