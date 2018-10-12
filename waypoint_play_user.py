@@ -58,6 +58,7 @@ with open(filename, 'rb') as handle:
 print(joints[0])
 print(len(joints))
 print(grippers)
+raw_input("Press enter to move to star position.")
 
 start_jp = []
 while (True):
@@ -72,6 +73,8 @@ for j in range(resolution + 1):
     time.sleep(duration * 1.0 / resolution)
 
 grip_mode = grip(blue, grippers[0])
+
+raw_input("Press enter to start trajectory.")
 
 for i in range( len(joints)- 1):
     start_pos = joints[i]
