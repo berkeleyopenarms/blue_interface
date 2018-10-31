@@ -18,5 +18,5 @@ blue_interface is a Python API that allows users to control a Blue robotic arm w
   - consts.py - These values set up default arguments when running demo scripts. Adjust as needed!
 
 # API Documentation
-https://berkeley-open-robotics.github.io/blue_interface/
+https://berkeleyopenrobotics.github.io/blue_interface/
   
