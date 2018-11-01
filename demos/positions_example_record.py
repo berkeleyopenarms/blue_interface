@@ -27,25 +27,25 @@ if __name__ == '__main__':
     port = args.port
     num_positions = args.num_positions
     filename = args.tape_file
- 
+
     blue = BlueInterface(arm, address, port) #creates object of class KokoInterface at the IP in quotes with the name 'blue'
-    
+
     recorded_positions = []
     error = 0.1
-    
+
     blue.disable_control()
     blue.disable_gripper()
-    
+
     #TODO: make number of positions a command line arg
     for i in range(num_positions):
         input("Press enter to record current joint position " + str(i) + ".")
         recorded_positions.append((blue.get_gripper_position(), blue.get_joint_positions()))
-    
+
     with open(filename, 'wb') as handle:
         pickle.dump(recorded_positions, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    
+
     input("Press enter to start trajectory.")
-    
+
     while True:
         for desired_position in recorded_positions:
             current_position = (blue.get_gripper_position(), blue.get_joint_positions())

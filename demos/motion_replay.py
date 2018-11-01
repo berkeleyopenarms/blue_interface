@@ -16,28 +16,28 @@ if __name__ == '__main__':
     parser.add_argument('--port', default=consts.default_port, type=int, help='Port that the ros web host was started on')
     parser.add_argument('--frequency', default=0, type=int, help='Replay the recording at a custom frequency (Hz)')
     args = parser.parse_args()
-    
+
     filename = args.record_file
 
     arm = consts.default_arm
     address = args.address
     port = args.port
-    
+
     #blue = BlueInterface("left","10.42.0.1")  # creates object of class KokoInterface at the IP in quotes with the name 'blue'
     blue = BlueInterface(arm, address, port) #creates object of class KokoInterface at the IP in quotes with the name 'blue'
-    
+
     # This turns off any other control currently on the robot (leaves it in gravtiy comp mode)
-    blue.disable_control() 
-    
+    blue.disable_control()
+
     data = pickle.load( open(filename, "rb")) #uses the pickle function to read the binary file created in record_poses.py
     joint_angle_list, _, gripper_list, record_frequency = data
 
     # If no argument is passed for replay frequency, play the recording at the rate it was recorded.
     if args.frequency == 0:
         frequency = record_frequency # In Hertz
-    
+
     input("Press enter to start replay. To exit, press <ctrl+c>.")
-    
+
     try:
         last_time = 0.0
         for i in range (len(joint_angle_list)):
@@ -57,8 +57,6 @@ if __name__ == '__main__':
         print (sys.exc_info()[0])
         print ("Something went wrong... exiting")
         pass
-    
-    blue.cleanup()
 
     time.sleep(2)
     blue.shutdown()
