@@ -28,14 +28,14 @@ if __name__ == '__main__':
     #blue = BlueInterface("left","10.42.0.1")  # creates object of class KokoInterface at the IP in quotes with the name 'blue'
     blue = BlueInterface(arm, address, port) #creates object of class KokoInterface at the IP in quotes with the name 'blue'
     blue.disable_control() #this turns off any other control currently on the robot (leaves it in gravtiy comp mode)
-    
+
     joint_angle_list = [] #Initialize the list to hold our joint positions
     pose_list = []
     gripper_list = []
-    
+
     input("Press enter to start recording. To finish recording press <ctrl+c>.")
 
-    try: 
+    try:
         last_time = 0.0
         while True:
             position = blue.get_joint_positions() #record the pose, this function returns a dictionary object
@@ -53,14 +53,12 @@ if __name__ == '__main__':
             last_time = time.time()
     except:
         print(joint_angle_list)
-    
+
     if len(joint_angle_list)==0:
         print('You did not save any positions')
     else:
         pickle.dump((joint_angle_list, pose_list, gripper_list, frequency), open(filename, "wb")) #uses the pickle function to write a binary file
         print('Your position list has been saved in the directory')
-    
-    blue.cleanup()
 
     time.sleep(2)
     blue.shutdown()

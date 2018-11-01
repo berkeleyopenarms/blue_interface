@@ -33,7 +33,9 @@ class ROSBridgeClient(WebSocketClient):
         self._services = {}
         self._action_clients = {}
         self.connect()
-        threading.Thread(target=self.run_forever).start()
+        th = threading.Thread(target=self.run_forever)
+        th.daemon = True
+        th.start()
         while not self._connected:
             time.sleep(0.1)
 
