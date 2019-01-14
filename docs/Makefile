@@ -8,7 +8,7 @@ SPHINXPROJ    = BlueInterface
 SOURCEDIR     = source
 BUILDDIR      = ../../blue_interface_docs
 PDFBUILDDIR   = /tmp
-PDF 		  = ../manual.pdf
+PDF           = ../manual.pdf
 
 # Put it first so that "make" without argument is like "make help".
 help:
