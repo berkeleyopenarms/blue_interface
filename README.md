@@ -1,14 +1,14 @@
 # blue_interface
 blue_interface is a Python API that allows users to control a Blue robotic arm without directly interfacing with ROS. It uses rosbridge to communicate with the Blue arm's onboard robot computer.
 
-# Installing with pip
+### Installing with pip
 ```
 git clone https://github.com/berkeleyopenrobotics/blue_interface.git
 cd blue_interface
 pip install -e .
 ```
 
-# Demos (`blue_interface/demos`)
+### Demos (`blue_interface/demos`)
   - motion_record.py and motion_replay.py - A pair of scripts that record the state of the arm and then replay that motion.
     - To record a motion, execute `python3 motion_record.py <file_name.pickle>`.
     - To replay a motion, execute `python3 motion_replay.py <file_name.pickle>`.
@@ -19,6 +19,6 @@ pip install -e .
   - gripper_example.py - A Hello World for commanding a Blue arm's gripper
   - consts.py - These values set up default arguments when running demo scripts. Adjust as needed!
 
-# API Documentation
+### API Documentation
 https://berkeleyopenrobotics.github.io/blue_interface/
   
