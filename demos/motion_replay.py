@@ -1,10 +1,10 @@
 #!/usr/bin/python3
+
 import pickle  # will use to save data between program launches
 import sys
 import numpy as np
 import time
 import argparse
-sys.path.append('../')
 from blue_interface import BlueInterface  # this is the API for the robot
 
 import consts

@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-from rosbridge_client import ROSBridgeClient
+from .rosbridge_client import ROSBridgeClient
 import time
 import warnings
 import threading

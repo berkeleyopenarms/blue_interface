@@ -4,7 +4,6 @@
 # It allows a user to open and close the gripper.
 
 import sys
-sys.path.append('../')
 from blue_interface import BlueInterface
 import numpy as np
 import consts
