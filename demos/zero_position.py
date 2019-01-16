@@ -6,7 +6,6 @@
 # joint positions in an infinite loop.
 
 import sys
-sys.path.append('../')
 from blue_interface import BlueInterface
 import numpy as np
 import time

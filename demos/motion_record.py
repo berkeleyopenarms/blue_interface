@@ -1,4 +1,5 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+
 import numpy as np #will use to create arrays
 import pickle #will use to save data between program launches
 import time
@@ -7,7 +8,6 @@ import sys
 import argparse
 import consts
 
-sys.path.append('../')
 from blue_interface import BlueInterface  # this is the API for the robot
 
 if __name__ == '__main__':
