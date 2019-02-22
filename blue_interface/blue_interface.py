@@ -278,6 +278,10 @@ class BlueInterface:
         self._switch_controller_service_client.request(request_msg, callback)
         s.acquire()
 
+        # Even after the controller is successfully switched, it needs a moment to instantiate
+        # the command topic subscriber, etc
+        time.sleep(0.01)
+
     def _load_controller(self, name):
         request_msg = {
             "name": name
