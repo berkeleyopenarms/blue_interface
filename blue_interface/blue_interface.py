@@ -40,6 +40,7 @@ class BlueInterface:
         self._joint_positions = None
         self._cartesian_pose = None
         self._joint_torques = None
+        self._joint_velocities = None
         self._gripper_goal_id = None
         self._gripper_position = None
         self._gripper_effort = None
@@ -190,6 +191,14 @@ class BlueInterface:
         """
         return self._joint_torques
 
+    def get_joint_velocities(self):
+        """Get the current joint velocities.
+
+        Returns:
+            numpy.ndarray: An array of 7 joint torques, in Nm, ordered from proximal to distal.
+        """
+        return self._joint_velocities
+
     def disable_control(self):
         """Set control mode to gravity compensation only."""
 
@@ -217,6 +226,8 @@ class BlueInterface:
     def _joint_state_callback(self, message):
         joint_positions_temp = []
         joint_torques_temp = []
+        joint_velocities_temp = []
+
         for name in self._joint_names:
             if name not in message["name"]:
                 continue
@@ -224,11 +235,15 @@ class BlueInterface:
                 self.index = message["name"].index(name)
                 joint_positions_temp.append(message["position"][self.index])
                 joint_torques_temp.append(message["effort"][self.index])
+                joint_velocities_temp.append(message["velocity"][self.index])
+
         if self._gripper_joint_name in message["name"]:
             self._gripper_position = message["position"][message["name"].index(self._gripper_joint_name)]
             self._gripper_effort = message["effort"][message["name"].index(self._gripper_joint_name)]
+
         self._joint_positions = np.array(joint_positions_temp)
         self._joint_torques = np.array(joint_torques_temp)
+        self._joint_velocities = np.array(joint_velocities_temp)
 
     def _process_tfs(self, message):
         pose = message["transforms"][0]["transform"]
