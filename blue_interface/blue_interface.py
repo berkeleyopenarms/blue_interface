@@ -25,6 +25,7 @@ class BlueInterface:
         # ROS Topic Names
         topic_prefix = "/" + side + "_arm/"
         ROS_POSITION_TOPIC = topic_prefix + "blue_controllers/joint_position_controller/command"
+        ROS_TORQUE_TOPIC = topic_prefix + "blue_controllers/joint_torque_controller/command"
         ROS_JOINT_STATE_TOPIC = "/joint_states"
         ROS_GRIPPER_TOPIC = topic_prefix + "blue_controllers/gripper_controller/gripper_cmd"
         ROS_TF_TOPIC = "/tf"
@@ -35,7 +36,9 @@ class BlueInterface:
 
         self._controller_lookup = { _BlueControlMode.OFF: "",
                                     _BlueControlMode.POSITION: "blue_controllers/joint_position_controller",
-                                    _BlueControlMode.GRIPPER: "blue_controllers/gripper_controller"}
+                                    _BlueControlMode.GRIPPER: "blue_controllers/gripper_controller",
+                                    _BlueControlMode.TORQUE: "blue_controllers/joint_torque_controller"
+                                  }
 
         self._joint_positions = None
         self._cartesian_pose = None
@@ -59,6 +62,7 @@ class BlueInterface:
         # Joint state pub/sub
         self._joint_state_subscriber = self._RBC.subscriber(ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_state_callback)
         self._joint_position_publisher = self._RBC.publisher(ROS_POSITION_TOPIC, "std_msgs/Float64MultiArray")
+        self._joint_torque_publisher = self._RBC.publisher(ROS_TORQUE_TOPIC, "std_msgs/Float64MultiArray")
 
         # Controller manager services
         self._switch_controller_service_client = self._RBC.service(topic_prefix + "controller_manager/switch_controller", "controller_manager_msgs/SwitchController")
@@ -77,6 +81,7 @@ class BlueInterface:
         # Load controllers
         self._load_controller(self._controller_lookup[_BlueControlMode.POSITION])
         self._load_controller(self._controller_lookup[_BlueControlMode.GRIPPER])
+        self._load_controller(self._controller_lookup[_BlueControlMode.TORQUE])
 
         # Cleaner exiting
         atexit.register(self.shutdown)
@@ -92,9 +97,10 @@ class BlueInterface:
     def shutdown(self, *unused):
         """Clean up and close connection to host computer."""
         print("shutdown")
-        self._switch_controller([], [self._controller_lookup[_BlueControlMode.POSITION], self._controller_lookup[_BlueControlMode.GRIPPER]])
+        self._switch_controller([], [self._controller_lookup[_BlueControlMode.POSITION], self._controller_lookup[_BlueControlMode.GRIPPER], self._controller_lookup[_BlueControlMode.TORQUE]])
         self._unload_controller(self._controller_lookup[_BlueControlMode.POSITION])
         self._unload_controller(self._controller_lookup[_BlueControlMode.GRIPPER])
+        self._unload_controller(self._controller_lookup[_BlueControlMode.TORQUE])
         self._RBC.close()
 
     def command_gripper(self, position, effort, wait=False):
@@ -166,6 +172,24 @@ class BlueInterface:
             "data": list(joint_positions)
         }
         self._joint_position_publisher.publish(joint_positions_msg)
+
+    def set_joint_torques(self, joint_torques):
+        """Command joint torques to the arm.
+
+        Args:
+            joint_torques (iterable): An array of 7 joint torques, in Nm, ordered from proximal to distal.
+        """
+
+        joint_torques = list(joint_torques)
+        assert len(joint_torques) == 7
+
+        self._set_control_mode(_BlueControlMode.TORQUE)
+
+        joint_torques_msg = {
+            "layout" : {},
+            "data": list(joint_torques)
+        }
+        self._joint_torque_publisher.publish(joint_torques_msg)
 
     def get_joint_positions(self):
         """Get the current joint positions.
@@ -336,3 +360,4 @@ class _BlueControlMode(Enum):
     OFF = 0
     POSITION = 1
     GRIPPER = 2
+    TORQUE = 3
