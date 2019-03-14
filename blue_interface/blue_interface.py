@@ -94,9 +94,8 @@ class BlueInterface:
         while self._cartesian_pose is None or self._joint_positions is None:
             time.sleep(.1)
 
-    def shutdown(self, *unused):
+    def shutdown(self):
         """Clean up and close connection to host computer."""
-        print("shutdown")
         self._switch_controller([], [self._controller_lookup[_BlueControlMode.POSITION], self._controller_lookup[_BlueControlMode.GRIPPER], self._controller_lookup[_BlueControlMode.TORQUE]])
         self._unload_controller(self._controller_lookup[_BlueControlMode.POSITION])
         self._unload_controller(self._controller_lookup[_BlueControlMode.GRIPPER])
