@@ -15,10 +15,9 @@ The Blue interface is a platform-agnostic Python API for communicating with the 
 ----
 
 .. automodule:: blue_interface
+.. autoclass:: BlueInterface
    :members:
    :undoc-members:
-
-.. class:: BlueInterface
 
 
 .. Indices and tables

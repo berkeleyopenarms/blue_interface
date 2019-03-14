@@ -14,15 +14,13 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../blue_interface'))
-#sys.path.insert(os.path.abspath('~/sphinx-extensions'))
-
+sys.path.insert(0, os.path.abspath('../'))
 
 # -- Project information -----------------------------------------------------
 
 project = 'Blue Interface'
-copyright = '2018, Berkeley Open Robotics'
-author = 'Greg Balke, Rachel Thomasson, Brent Yi'
+copyright = '2019'
+author = 'Rachel Thomasson, Brent Yi, Greg Balke, Philipp Wu'
 
 # The short X.Y version
 version = ''
