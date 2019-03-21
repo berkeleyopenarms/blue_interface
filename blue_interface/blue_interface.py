@@ -264,9 +264,12 @@ class BlueInterface:
             self._gripper_position = message["position"][message["name"].index(self._gripper_joint_name)]
             self._gripper_effort = message["effort"][message["name"].index(self._gripper_joint_name)]
 
-        self._joint_positions = np.array(joint_positions_temp)
-        self._joint_torques = np.array(joint_torques_temp)
-        self._joint_velocities = np.array(joint_velocities_temp)
+        if len(joint_positions_temp) != 0:
+            self._joint_positions = np.array(joint_positions_temp)
+        if len(joint_torques_temp) != 0:
+            self._joint_torques = np.array(joint_torques_temp)
+        if len(joint_velocities_temp) != 0:
+            self._joint_velocities = np.array(joint_velocities_temp)
 
     def _process_tfs(self, message):
         pose = message["transforms"][0]["transform"]
