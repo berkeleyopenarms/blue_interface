@@ -157,7 +157,7 @@ class BlueInterface:
 
         Args:
             joint_positions (iterable): An array of 7 joint angles, in radians, ordered from proximal to distal.
-            duration (float, optional): Amount of time it takes to reach the target, in seconds.
+            duration (float, optional): Amount of time it takes to reach the target, in seconds. Defaults to 0.
         """
         joint_positions = np.asarray(joint_positions)
         assert len(joint_positions) == 7
