@@ -103,7 +103,7 @@ class BlueInterface:
         self._RBC.close()
 
     def command_gripper(self, position, effort, wait=False):
-        #TODO: change robot side so position and effort in correct units
+        #TODO: change robot-side so position and effort in correct units
         """Send a goal to gripper.
 
         Args:
@@ -131,7 +131,6 @@ class BlueInterface:
     def cancel_gripper_command(self):
         #TODO: test this!
         """Cancel current gripper command, halting gripper in current position."""
-
         self._gripper_action_client.cancel_goal(self._gripper_goal_id)
 
     def get_gripper_position(self):
@@ -151,21 +150,33 @@ class BlueInterface:
         Returns:
             float64: the gripper effort in N
         """
-
         return self._gripper_effort
 
-    def set_joint_positions(self, joint_positions):
+    def set_joint_positions(self, joint_positions, duration=0.0):
         """Move arm to specified position in joint space.
 
         Args:
             joint_positions (iterable): An array of 7 joint angles, in radians, ordered from proximal to distal.
+            duration (float, optional): Amount of time it takes to reach the target, in seconds.
         """
-
-        joint_positions = list(joint_positions)
+        joint_positions = np.asarray(joint_positions)
         assert len(joint_positions) == 7
 
         self._set_control_mode(_BlueControlMode.POSITION)
 
+        start_positions = self.get_joint_positions()
+        start_time = time.time()
+        end_time = start_time + duration
+        while time.time() < end_time:
+            scale = (time.time() - start_time) / duration
+            self._set_joint_positions(
+                start_positions + scale * (joint_positions - start_positions)
+            )
+            time.sleep(1.0 / 60.0)
+
+        self._set_joint_positions(joint_positions)
+
+    def _set_joint_positions(self, joint_positions):
         joint_positions_msg = {
             "layout" : {},
             "data": list(joint_positions)
