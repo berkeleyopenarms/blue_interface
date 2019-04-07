@@ -15,7 +15,7 @@ if __name__ == '__main__':
     address = "127.0.0.1"
 
     blue = BlueInterface(arm, address)
-    blue.set_joint_positions(np.zeros(7))
+    blue.set_joint_positions(np.zeros(7), duration=3.0)
 
     while True:
         pass
