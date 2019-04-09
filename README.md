@@ -3,7 +3,7 @@ blue_interface is a Python API that allows users to control a Blue robotic arm w
 
 ### Installing with pip
 ```
-git clone https://github.com/berkeleyopenrobotics/blue_interface.git
+git clone https://github.com/berkeleyopenarms/blue_interface.git
 cd blue_interface
 pip install -e .
 ```
@@ -20,5 +20,5 @@ pip install -e .
   - consts.py - These values set up default arguments when running demo scripts. Adjust as needed!
 
 ### API Documentation
-https://berkeleyopenrobotics.github.io/blue_interface/
+https://berkeleyopenarms.github.io/blue_interface/
   
