@@ -31,8 +31,8 @@ class BlueInterface:
         ROS_TF_TOPIC = "/tf"
 
         # Frame names
-        self._WORLD_FRAME = side + "_base_link"
-        self._END_EFFECTOR_FRAME = side + "_end_roll_link"
+        self._WORLD_FRAME = "base_link"
+        self._END_EFFECTOR_FRAME = side + "_gripper_finger_link"
 
         self._controller_lookup = { _BlueControlMode.OFF: "",
                                     _BlueControlMode.POSITION: "blue_controllers/joint_position_controller",
