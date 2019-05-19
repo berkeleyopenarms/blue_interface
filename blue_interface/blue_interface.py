@@ -297,7 +297,7 @@ class BlueInterface:
             "target_frame": self._WORLD_FRAME,
             "angular_thres": 0,
             "trans_thres": 0,
-            "rate": 2,
+            "rate": 30,
             "timeout": {"secs": 2.0, "nsecs": 0.0}
         }
 
