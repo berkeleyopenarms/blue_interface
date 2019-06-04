@@ -69,6 +69,9 @@ class BlueInterface:
         self._load_controller_service_client = self._RBC.service(topic_prefix + "controller_manager/load_controller", "controller_manager_msgs/LoadController")
         self._unload_controller_service_client = self._RBC.service(topic_prefix + "controller_manager/unload_controller", "controller_manager_msgs/UnloadController")
 
+        # Gripper calibration service
+        self._calibrate_gripper_client = self._RBC.service(topic_prefix + "calibrate_gripper", "std_srvs/Trigger")
+
         # TF repub service
         self._tf_service_client = self._RBC.service("/republish_tfs", "tf2_web_republisher/RepublishTFs")
 
@@ -101,6 +104,33 @@ class BlueInterface:
         self._unload_controller(self._controller_lookup[_BlueControlMode.GRIPPER])
         self._unload_controller(self._controller_lookup[_BlueControlMode.TORQUE])
         self._RBC.close()
+
+    def calibrate_gripper(self):
+        #TODO: change robot-side so position and effort in correct units
+        """Call the gripper calibration service
+
+        Args:
+            N/A
+        """
+
+        enable_gripper_state = False
+        if self._gripper_enabled:
+            self.disable_gripper()
+            enable_gripper_state = True
+
+        request_msg = {}
+
+        s = threading.Semaphore(0)
+
+        def callback(success, values):
+            s.release()
+
+        self._calibrate_gripper_client.request(request_msg, callback)
+        s.acquire()
+
+        if enable_gripper_state:
+            self.enable_gripper()
+
 
     def command_gripper(self, position, effort, wait=False):
         #TODO: change robot-side so position and effort in correct units
