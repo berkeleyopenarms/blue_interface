@@ -113,24 +113,18 @@ class BlueInterface:
             N/A
         """
 
-        enable_gripper_state = False
-        if self._gripper_enabled:
+        gripper_enabled = self._gripper_enabled
+        if gripper_enabled:
             self.disable_gripper()
-            enable_gripper_state = True
-
-        request_msg = {}
 
         s = threading.Semaphore(0)
-
         def callback(success, values):
             s.release()
-
-        self._calibrate_gripper_client.request(request_msg, callback)
+        self._calibrate_gripper_client.request({}, callback)
         s.acquire()
 
-        if enable_gripper_state:
+        if gripper_enabled:
             self.enable_gripper()
-
 
     def command_gripper(self, position, effort, wait=False):
         #TODO: change robot-side so position and effort in correct units
