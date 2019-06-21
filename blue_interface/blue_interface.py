@@ -106,7 +106,6 @@ class BlueInterface:
         self._RBC.close()
 
     def calibrate_gripper(self):
-        #TODO: change robot-side so position and effort in correct units
         """Call the gripper calibration service
 
         Args:
