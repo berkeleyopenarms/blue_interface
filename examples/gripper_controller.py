@@ -6,7 +6,6 @@
 import sys
 from blue_interface import BlueInterface
 import numpy as np
-import consts
 
 side = "right"
 ip = "127.0.0.1"
