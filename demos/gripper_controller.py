@@ -8,23 +8,22 @@ from blue_interface import BlueInterface
 import numpy as np
 import consts
 
-if __name__ == '__main__':
-    blue = BlueInterface(consts.default_arm, consts.default_address) #creates object of class KokoInterface at the IP in quotes with the name 'blue'
-    opened = True
-    try:
-        while True:
-            input("Press enter to open/close the gripper. To exit, press <ctrl+c>.")
+side = "right"
+ip = "127.0.0.1"
+blue = BlueInterface(side, ip)
 
-            if opened:
-                blue.command_gripper(-1.5,20.0)
-                print("Closing...")
-            else:
-                blue.command_gripper(0.0,10.0)
-                print("Opening...")
-            opened = not opened
-    except:
-        pass
+blue.calibrate_gripper()
 
-    blue.disable_control()
-    blue.shutdown()
+opened = True
+while True:
+    input("Press enter to open/close the gripper. To exit, press <ctrl+c>.")
+
+    if opened:
+        print("Closing...")
+        blue.command_gripper(-1.5, 20.0, wait=True)
+    else:
+        print("Opening...")
+        blue.command_gripper(0.0, 10.0, wait=True)
+
+    opened = not opened
 
