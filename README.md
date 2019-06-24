@@ -8,17 +8,11 @@ cd blue_interface
 pip install -e .
 ```
 
-### Demos (`blue_interface/demos`)
-  - motion_record.py and motion_replay.py - A pair of scripts that record the state of the arm and then replay that motion.
-    - To record a motion, execute `python3 motion_record.py <file_name.pickle>`.
-    - To replay a motion, execute `python3 motion_replay.py <file_name.pickle>`.
-    - These can be executed from any computer with access to the control computer via an internet connection (i.e. LAN).
-  - rosbridge_client.py - A client that provides basic ROS functionality using rosbridge
-  - record_positions_example.py - A Hello World for controlling a Blue arm with joint position control
-  - record_pose_example.py - A Hello World for controlling a Blue arm with Cartesian pose control
-  - gripper_example.py - A Hello World for commanding a Blue arm's gripper
-  - consts.py - These values set up default arguments when running demo scripts. Adjust as needed!
+### Examples (`blue_interface/examples`)
+  - `gripper_controller.py` - An example of opening and closing Blue's gripper.
+  - `print_status.py` - An example of reading state and printing values from Blue.
+  - `zero_position.py` - An example of sending Blue a joint position command.
 
 ### API Documentation
 https://berkeleyopenarms.github.io/blue_interface/
-  
+
