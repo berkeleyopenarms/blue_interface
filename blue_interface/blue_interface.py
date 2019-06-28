@@ -293,19 +293,23 @@ class BlueInterface:
             numpy.ndarray: An array of 7 joint positions, or an empty array if no solution was found.
         """
 
-        output = None
+        output = []
         s = threading.Semaphore(0)
         def callback(success, values):
-            nonlocal output
-            output = np.asarray(values["ik_joint_positions"])
+            if success:
+                nonlocal output
+                output = values["ik_joint_positions"]
             s.release()
+
         request_msg = {
-            "header": {
-                "frame_id": self._WORLD_FRAME
-            },
-            "pose": {
-                "position": position,
-                "orientation": orientation
+            "end_effector_pose": {
+                "header": {
+                    "frame_id": self._WORLD_FRAME
+                },
+                "pose": {
+                    "position": dict(zip("xyz", position)),
+                    "orientation": dict(zip("xyzw", orientation))
+                }
             },
             "solver": solver,
             "seed_joint_positions": seed_joint_positions
@@ -313,7 +317,7 @@ class BlueInterface:
         self._inverse_kinematics_client.request(request_msg, callback)
         s.acquire()
 
-        return output
+        return np.asarray(output)
 
     def _joint_state_callback(self, message):
         joint_positions_temp = []
