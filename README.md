@@ -17,8 +17,9 @@ pip install -e .
 
 ### Examples (`blue_interface/examples`)
   - `gripper_controller.py` - An example of opening and closing Blue's gripper.
+  - `inverse_kinematics.py` - An example of sending Blue an end effector pose command.
   - `print_status.py` - An example of reading state and printing values from Blue.
-  - `zero_position.py` - An example of sending Blue a joint position command.
+  - `zero_position.py` - An example of sending Blue a command in joint space.
 
 ### API Documentation
 https://berkeleyopenarms.github.io/blue_interface/
