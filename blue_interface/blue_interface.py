@@ -297,8 +297,7 @@ class BlueInterface:
         s = threading.Semaphore(0)
         def callback(success, values):
             if success:
-                nonlocal output
-                output = values["ik_joint_positions"]
+                output.extend(values["ik_joint_positions"])
             s.release()
 
         request_msg = {
