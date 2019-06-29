@@ -69,6 +69,9 @@ class BlueInterface:
         self._load_controller_service_client = self._RBC.service(topic_prefix + "controller_manager/load_controller", "controller_manager_msgs/LoadController")
         self._unload_controller_service_client = self._RBC.service(topic_prefix + "controller_manager/unload_controller", "controller_manager_msgs/UnloadController")
 
+        # Inverse kinematics service
+        self._inverse_kinematics_client = self._RBC.service(topic_prefix + "inverse_kinematics", "blue_msgs/InverseKinematics")
+
         # Gripper calibration service
         self._calibrate_gripper_client = self._RBC.service(topic_prefix + "calibrate_gripper", "std_srvs/Trigger")
 
@@ -106,11 +109,9 @@ class BlueInterface:
         self._RBC.close()
 
     def calibrate_gripper(self):
-        """Call the gripper calibration service
-
-        Args:
-            N/A
-        """
+        """Run the gripper position calibration process.
+        This will automatically determine the gripper position by apply a closing
+        torque and detecting when the gripper has fully closed."""
 
         gripper_enabled = self._gripper_enabled
         if gripper_enabled:
@@ -258,16 +259,15 @@ class BlueInterface:
 
     def disable_control(self):
         """Set control mode to gravity compensation only."""
-
         self._set_control_mode(_BlueControlMode.OFF)
 
     def enable_gripper(self):
-        """Enable gripper."""
+        """Enables the gripper. The gripper will begin to hold position."""
         self._switch_controller([self._controller_lookup[_BlueControlMode.GRIPPER]], [])
         self._gripper_enabled = True
 
     def disable_gripper(self):
-        """Make gripper compliant."""
+        """Disables the gripper. The gripper will become compliant."""
         self._switch_controller([], [self._controller_lookup[_BlueControlMode.GRIPPER]])
         self._gripper_enabled = False
 
@@ -277,8 +277,46 @@ class BlueInterface:
         Returns:
             bool: True if enabled, False otherwise.
         """
-
         return self._gripper_enabled
+
+    def inverse_kinematics(self, position, orientation, solver="trac-ik", seed_joint_positions=[]):
+        """Given a desired cartesian pose for the end effector, compute the necessary joint angles.
+        Note that the system is underparameterized and there are an infinite number of possible solutions;
+        this will only return a single possible one.
+
+        Args:
+            position (iterable): A 3D array containing a cartesian position (x,y,z), wrt the world frame.
+            orientation (iterable): A 4D array containing a quaternion (x,y,z,w), wrt the world frame.
+            solver (string, optional): What IK solver to use? Currently, only trac-ik is supported.
+            seed_joint_positions (iterable, optional): An array of 7 joint positions, to be used to initalize the IK solver.
+        Returns:
+            numpy.ndarray: An array of 7 joint positions, or an empty array if no solution was found.
+        """
+
+        output = []
+        s = threading.Semaphore(0)
+        def callback(success, values):
+            if success:
+                output.extend(values["ik_joint_positions"])
+            s.release()
+
+        request_msg = {
+            "end_effector_pose": {
+                "header": {
+                    "frame_id": self._WORLD_FRAME
+                },
+                "pose": {
+                    "position": dict(zip("xyz", position)),
+                    "orientation": dict(zip("xyzw", orientation))
+                }
+            },
+            "solver": solver,
+            "seed_joint_positions": seed_joint_positions
+        }
+        self._inverse_kinematics_client.request(request_msg, callback)
+        s.acquire()
+
+        return np.asarray(output)
 
     def _joint_state_callback(self, message):
         joint_positions_temp = []
@@ -389,9 +427,8 @@ class _BlueControlMode(Enum):
     Attributes:
         OFF: Blue is in gravity componesation mode and can be manually manipulated.
         POSITION: Blue can be controlled by sending joint position targets.
-        POSE: Blue can be controlled by sending cartesian pose targets.
-        TORQUE: Blue can be controlled by setting joint torque targets.
         GRIPPER: Blue gripper can be commanded.
+        TORQUE: Blue can be controlled by setting joint torque targets.
     """
     OFF = 0
     POSITION = 1
