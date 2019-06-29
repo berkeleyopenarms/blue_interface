@@ -3,10 +3,34 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to the Blue Interface
+Blue Interface API Documentation
 ==========================================
 
-The Blue interface is a platform-agnostic Python API for communicating with the Blue robotic arm over a network connection.
+Blue Interface is a platform-agnostic Python API for communicating with the Blue robotic arm over a network connection.
+
+It features:
+
+- No dependency on ROS
+- Support for easy connections to multiple robots
+- Support for both Python 2 and 3
+- Support for Mac, Windows, and Linux
+- Support for Jupyter Notebooks
+
+It's designed to lightweight and easy-to-use! Sending a Blue "right" arm to its zero position, for example, is as simple as:
+
+.. code-block:: python
+
+   from blue_interface import BlueInterface
+
+   side = "right"
+   ip = "127.0.0.1"
+   blue = BlueInterface(side, ip)
+
+   blue.set_joint_positions([0] * 7)
+
+See Github_ for installation instructions and more usage examples.
+
+.. _Github: https://github.com/berkeleyopenarms/blue_interface
 
 .. .. toctree::
 ..    :maxdepth: 2
