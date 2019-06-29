@@ -148,7 +148,9 @@ class BlueInterface:
             time.sleep(.1)
 
     def shutdown(self):
-        """Clean up and close connection to host computer."""
+        """Clean up and close connection to host computer. All control will be disabled.
+        This can be called manually, but will also run automatically when your script exits.  """
+
         self._switch_controller([], [
             self._controller_lookup[_BlueController.POSITION],
             self._controller_lookup[_BlueController.GRIPPER],
@@ -187,7 +189,7 @@ class BlueInterface:
 
     def command_gripper(self, position, effort, wait=False):
         # TODO: change robot-side so position and effort in correct units
-        """Send a goal to gripper.
+        """Send a goal to gripper, and optionally wait for the goal to be reached.
 
         Args:
             position (float64): gap size between gripper fingers in cm.
@@ -239,7 +241,7 @@ class BlueInterface:
 
         Args:
             joint_positions (iterable): An array of 7 joint angles, in radians, ordered from proximal to distal.
-            duration (float, optional): Amount of time it takes to reach the target, in seconds. Defaults to 0.
+            duration (float, optional): Seconds to take to reach the target, interpolating in joint space. Defaults to 0.
         """
         joint_positions = np.asarray(joint_positions)
         assert len(joint_positions) == 7
@@ -284,7 +286,7 @@ class BlueInterface:
         self._joint_torque_publisher.publish(joint_torques_msg)
 
     def get_joint_positions(self):
-        """Get the current joint positions.
+        """Get the current joint angles, in radians.
 
         Returns:
             numpy.ndarray: An array of 7 angles, in radians, ordered from proximal to distal.
@@ -292,7 +294,7 @@ class BlueInterface:
         return self._joint_positions
 
     def get_cartesian_pose(self):
-        """Get the current cartesian pose of the end effector with respect to the world frame.
+        """Get the current cartesian pose of the end effector, with respect to the world frame.
 
         Returns:
             dict: Pose in the form {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]} defined with repect to the world frame.
@@ -316,7 +318,7 @@ class BlueInterface:
         return self._joint_velocities
 
     def disable_control(self):
-        """Set control mode to gravity compensation only."""
+        """Set joint control mode to gravity compensation only."""
         self._set_control_mode(_BlueController.GRAV_COMP)
 
     def enable_gripper(self):
@@ -341,8 +343,7 @@ class BlueInterface:
         """
         return self._gripper_enabled
 
-    def inverse_kinematics(self, position, orientation,
-                           solver="trac-ik", seed_joint_positions=[]):
+    def inverse_kinematics(self, position, orientation, seed_joint_positions=[]):
         """Given a desired cartesian pose for the end effector, compute the necessary joint angles.
         Note that the system is underparameterized and there are an infinite number of possible solutions;
         this will only return a single possible one.
@@ -350,10 +351,9 @@ class BlueInterface:
         Args:
             position (iterable): A 3D array containing a cartesian position (x,y,z), wrt the world frame.
             orientation (iterable): A 4D array containing a quaternion (x,y,z,w), wrt the world frame.
-            solver (string, optional): What IK solver to use? Currently, only trac-ik is supported.
-            seed_joint_positions (iterable, optional): An array of 7 joint positions, to be used to initalize the IK solver.
+            seed_joint_positions (iterable, optional): An array of 7 joint angles, to be used to initalize the IK solver.
         Returns:
-            numpy.ndarray: An array of 7 joint positions, or an empty array if no solution was found.
+            numpy.ndarray: An array of 7 joint angles, or an empty array if no solution was found.
         """
 
         output = []
@@ -374,7 +374,7 @@ class BlueInterface:
                     "orientation": dict(zip("xyzw", orientation))
                 }
             },
-            "solver": solver,
+            "solver": "trac-ik",
             "seed_joint_positions": seed_joint_positions
         }
         self._inverse_kinematics_client.request(request_msg, callback)
