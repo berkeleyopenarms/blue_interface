@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to the Blue Interface &mdash; Blue Interface  documentation</title>
+  <title>Blue Interface API Documentation &mdash; Blue Interface  documentation</title>
   
 
   
@@ -80,7 +80,7 @@
             
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Welcome to the Blue Interface</a></li>
+<li><a class="reference internal" href="#">Blue Interface API Documentation</a></li>
 </ul>
 </div>
             
@@ -126,7 +126,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>Welcome to the Blue Interface</li>
+      <li>Blue Interface API Documentation</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -145,143 +145,229 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="welcome-to-the-blue-interface">
-<h1>Welcome to the Blue Interface<a class="headerlink" href="#welcome-to-the-blue-interface" title="Permalink to this headline">¶</a></h1>
-<p>The Blue interface is a platform-agnostic Python API for communicating with the Blue robotic arm over a network connection.</p>
+  <div class="section" id="blue-interface-api-documentation">
+<h1>Blue Interface API Documentation<a class="headerlink" href="#blue-interface-api-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Blue Interface is a platform-agnostic Python API for communicating with the Blue robotic arm over a network connection.</p>
+<p>It features:</p>
+<ul class="simple">
+<li><p>No dependency on ROS</p></li>
+<li><p>Support for easy connections to multiple robots</p></li>
+<li><p>Support for both Python 2 and 3</p></li>
+<li><p>Support for Mac, Windows, and Linux</p></li>
+<li><p>Support for Jupyter Notebooks</p></li>
+</ul>
+<p>It’s designed to lightweight and easy-to-use! Sending a Blue “right” arm to its zero position, for example, is as simple as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">blue_interface</span> <span class="kn">import</span> <span class="n">BlueInterface</span>
+
+<span class="n">side</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span>
+<span class="n">ip</span> <span class="o">=</span> <span class="s2">&quot;127.0.0.1&quot;</span>
+<span class="n">blue</span> <span class="o">=</span> <span class="n">BlueInterface</span><span class="p">(</span><span class="n">side</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span>
+
+<span class="n">blue</span><span class="o">.</span><span class="n">set_joint_positions</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference external" href="https://github.com/berkeleyopenarms/blue_interface">Github</a> for installation instructions and more usage examples.</p>
 <hr class="docutils" />
 <span class="target" id="module-blue_interface"></span><dl class="class">
 <dt id="blue_interface.BlueInterface">
-<em class="property">class </em><code class="descclassname">blue_interface.</code><code class="descname">BlueInterface</code><span class="sig-paren">(</span><em>side</em>, <em>ip</em>, <em>port=9090</em><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">blue_interface.</code><code class="sig-name descname">BlueInterface</code><span class="sig-paren">(</span><em class="sig-param">side</em>, <em class="sig-param">ip</em>, <em class="sig-param">port=9090</em><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface" title="Permalink to this definition">¶</a></dt>
 <dd><p>A Python interface for controlling the Blue robot through rosbridge.</p>
 <dl class="method">
+<dt id="blue_interface.BlueInterface.calibrate_gripper">
+<code class="sig-name descname">calibrate_gripper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.calibrate_gripper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the gripper position calibration process.
+This will automatically determine the gripper position by apply a closing
+torque and detecting when the gripper has fully closed.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="blue_interface.BlueInterface.cancel_gripper_command">
-<code class="descname">cancel_gripper_command</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.cancel_gripper_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">cancel_gripper_command</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.cancel_gripper_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cancel current gripper command, halting gripper in current position.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.command_gripper">
-<code class="descname">command_gripper</code><span class="sig-paren">(</span><em>position</em>, <em>effort</em>, <em>wait=False</em><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.command_gripper" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">command_gripper</code><span class="sig-paren">(</span><em class="sig-param">position</em>, <em class="sig-param">effort</em>, <em class="sig-param">wait=False</em><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.command_gripper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send a goal to gripper.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>position (float64): gap size between gripper fingers in cm.
-effort (float64): maximum effort the gripper with exert before stalling in N.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> (<em>float64</em>) – gap size between gripper fingers in cm.</p></li>
+<li><p><strong>effort</strong> (<em>float64</em>) – maximum effort the gripper with exert before stalling in N.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.disable_control">
-<code class="descname">disable_control</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.disable_control" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">disable_control</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.disable_control" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set control mode to gravity compensation only.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.disable_gripper">
-<code class="descname">disable_gripper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.disable_gripper" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make gripper compliant.</p>
+<code class="sig-name descname">disable_gripper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.disable_gripper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disables the gripper. The gripper will become compliant.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.enable_gripper">
-<code class="descname">enable_gripper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.enable_gripper" title="Permalink to this definition">¶</a></dt>
-<dd><p>Enable gripper.</p>
+<code class="sig-name descname">enable_gripper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.enable_gripper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the gripper. The gripper will begin to hold position.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.get_cartesian_pose">
-<code class="descname">get_cartesian_pose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_cartesian_pose" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_cartesian_pose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_cartesian_pose" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current cartesian pose of the end effector with respect to the world frame.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>dict: Pose in the form {“position”: numpy.array([x,y,z]), “orientation”: numpy.array([x,y,z,w]} defined with repect to the world frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Pose in the form {“position”: numpy.array([x,y,z]), “orientation”: numpy.array([x,y,z,w]} defined with repect to the world frame.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.get_gripper_effort">
-<code class="descname">get_gripper_effort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_gripper_effort" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_gripper_effort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_gripper_effort" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current effort exerted by the gripper.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>float64: the gripper effort in N</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the gripper effort in N</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float64</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.get_gripper_position">
-<code class="descname">get_gripper_position</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_gripper_position" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_gripper_position</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_gripper_position" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current gap between gripper fingers.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>float64: the gripper gap in cm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the gripper gap in cm.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float64</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.get_joint_positions">
-<code class="descname">get_joint_positions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_joint_positions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_joint_positions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_joint_positions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current joint positions.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>numpy.ndarray: An array of 7 angles, in radians, ordered from proximal to distal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An array of 7 angles, in radians, ordered from proximal to distal.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.get_joint_torques">
-<code class="descname">get_joint_torques</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_joint_torques" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_joint_torques</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_joint_torques" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current joint torques.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>numpy.ndarray: An array of 7 joint torques, in Nm, ordered from proximal to distal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An array of 7 joint torques, in Nm, ordered from proximal to distal.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.get_joint_velocities">
-<code class="descname">get_joint_velocities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_joint_velocities" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_joint_velocities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.get_joint_velocities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current joint velocities.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>numpy.ndarray: An array of 7 joint torques, in Nm, ordered from proximal to distal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An array of 7 joint torques, in Nm, ordered from proximal to distal.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.gripper_enabled">
-<code class="descname">gripper_enabled</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.gripper_enabled" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">gripper_enabled</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.gripper_enabled" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if gripper is enabled to take commands.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>bool: True if enabled, False otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if enabled, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="blue_interface.BlueInterface.inverse_kinematics">
+<code class="sig-name descname">inverse_kinematics</code><span class="sig-paren">(</span><em class="sig-param">position</em>, <em class="sig-param">orientation</em>, <em class="sig-param">solver='trac-ik'</em>, <em class="sig-param">seed_joint_positions=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.inverse_kinematics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a desired cartesian pose for the end effector, compute the necessary joint angles.
+Note that the system is underparameterized and there are an infinite number of possible solutions;
+this will only return a single possible one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> (<em>iterable</em>) – A 3D array containing a cartesian position (x,y,z), wrt the world frame.</p></li>
+<li><p><strong>orientation</strong> (<em>iterable</em>) – A 4D array containing a quaternion (x,y,z,w), wrt the world frame.</p></li>
+<li><p><strong>solver</strong> (<em>string</em><em>, </em><em>optional</em>) – What IK solver to use? Currently, only trac-ik is supported.</p></li>
+<li><p><strong>seed_joint_positions</strong> (<em>iterable</em><em>, </em><em>optional</em>) – An array of 7 joint positions, to be used to initalize the IK solver.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An array of 7 joint positions, or an empty array if no solution was found.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.set_joint_positions">
-<code class="descname">set_joint_positions</code><span class="sig-paren">(</span><em>joint_positions</em>, <em>duration=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.set_joint_positions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_joint_positions</code><span class="sig-paren">(</span><em class="sig-param">joint_positions</em>, <em class="sig-param">duration=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.set_joint_positions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move arm to specified position in joint space.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>joint_positions (iterable): An array of 7 joint angles, in radians, ordered from proximal to distal.
-duration (float, optional): Amount of time it takes to reach the target, in seconds. Defaults to 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>joint_positions</strong> (<em>iterable</em>) – An array of 7 joint angles, in radians, ordered from proximal to distal.</p></li>
+<li><p><strong>duration</strong> (<em>float</em><em>, </em><em>optional</em>) – Amount of time it takes to reach the target, in seconds. Defaults to 0.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.set_joint_torques">
-<code class="descname">set_joint_torques</code><span class="sig-paren">(</span><em>joint_torques</em><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.set_joint_torques" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_joint_torques</code><span class="sig-paren">(</span><em class="sig-param">joint_torques</em><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.set_joint_torques" title="Permalink to this definition">¶</a></dt>
 <dd><p>Command joint torques to the arm.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>joint_torques (iterable): An array of 7 joint torques, in Nm, ordered from proximal to distal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>joint_torques</strong> (<em>iterable</em>) – An array of 7 joint torques, in Nm, ordered from proximal to distal.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="blue_interface.BlueInterface.shutdown">
-<code class="descname">shutdown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.shutdown" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">shutdown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blue_interface.BlueInterface.shutdown" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clean up and close connection to host computer.</p>
 </dd></dl>
 
