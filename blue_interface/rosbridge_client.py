@@ -3,7 +3,8 @@ call services and use action client.
 """
 
 # source: http://codegists.com/snippet/python/rosbridge_clientpy_le-kang_python
-# TODO: look into replacing this with something like https://github.com/gramaziokohler/roslibpy
+# TODO: look into replacing this with something like
+# https://github.com/gramaziokohler/roslibpy
 
 import threading
 import time
@@ -18,6 +19,7 @@ class ROSBridgeClient(WebSocketClient):
 
     It keeps a record of all publishers, subscriber, service request callbacks and action clients.
     """
+
     def __init__(self, ip, port=9090):
         """Constructor for ROSBridgeClient
 
@@ -67,7 +69,8 @@ class ROSBridgeClient(WebSocketClient):
             publisher.usage += 1
         else:
             print('Advertising topic {} for publishing'.format(topic_name))
-            publisher = _Publisher(self, topic_name, message_type, latch, queue_size)
+            publisher = _Publisher(
+                self, topic_name, message_type, latch, queue_size)
             self._publishers[topic_name] = publisher
         return publisher
 
@@ -97,9 +100,11 @@ class ROSBridgeClient(WebSocketClient):
         """
         subscriber = _Subscriber(self, topic_name, cb)
         if topic_name in self._subscribers:
-            self._subscribers.get(topic_name).get('subscribers').append(subscriber)
+            self._subscribers.get(topic_name).get(
+                'subscribers').append(subscriber)
         else:
-            subscribe_id = 'subscribe:{}:{}'.format(topic_name, self._id_counter)
+            subscribe_id = 'subscribe:{}:{}'.format(
+                topic_name, self._id_counter)
             print('Sending request to subscribe topic {}'.format(topic_name))
             self.send(json.dumps({
                 'op': 'subscribe',
@@ -170,7 +175,8 @@ class ROSBridgeClient(WebSocketClient):
             A _ActionClient object.
         """
         if server_name + ':' + action_name in self._action_clients:
-            action_client = self._action_clients.get(server_name + ':' + action_name).get('action_client')
+            action_client = self._action_clients.get(
+                server_name + ':' + action_name).get('action_client')
             action_client.usage += 1
         else:
             action_client = _ActionClient(self, server_name, action_name)
@@ -230,7 +236,8 @@ class ROSBridgeClient(WebSocketClient):
 
 
 class _Publisher(object):
-    def __init__(self, rosbridge, topic_name, message_type, latch=False, queue_size=1):
+    def __init__(self, rosbridge, topic_name,
+                 message_type, latch=False, queue_size=1):
         """Constructor for _Publisher.
 
         Args:
@@ -240,7 +247,8 @@ class _Publisher(object):
             latch (bool, optional): Whether the topic is latched when publishing. Defaults to False.
             queue_size (int): The queue created at bridge side for re-publishing. Defaults to 1.
         """
-        self._advertise_id = 'advertise:{}:{}'.format(topic_name, rosbridge.id_counter)
+        self._advertise_id = 'advertise:{}:{}'.format(
+            topic_name, rosbridge.id_counter)
         self._rosbridge = rosbridge
         self._topic_name = topic_name
         self._usage = 1
@@ -338,7 +346,8 @@ class _Service(object):
         Returns:
 
         """
-        service_id = 'call_service:{}:{}'.format(self._service_name, self._rosbridge.id_counter)
+        service_id = 'call_service:{}:{}'.format(
+            self._service_name, self._rosbridge.id_counter)
         if callable(cb):
             self._rosbridge.register_service_callback(service_id, cb)
         self._rosbridge.send(json.dumps({
@@ -364,11 +373,17 @@ class _ActionClient(object):
         self._goals = {}
         self._usage = 1
 
-        self._feedback_sub = rosbridge.subscriber(server_name+'/feedback', action_name+'Feedback', self.on_feedback)
-        self._result_sub = rosbridge.subscriber(server_name+'/result', action_name+'Result', self.on_result)
+        self._feedback_sub = rosbridge.subscriber(
+            server_name + '/feedback',
+            action_name + 'Feedback',
+            self.on_feedback)
+        self._result_sub = rosbridge.subscriber(
+            server_name + '/result', action_name + 'Result', self.on_result)
 
-        self._goal_pub = rosbridge.publisher(server_name+'/goal', action_name+'Goal')
-        self._cancel_pub = rosbridge.publisher(server_name+'/cancel', 'actionlib_msgs/GoalID')
+        self._goal_pub = rosbridge.publisher(
+            server_name + '/goal', action_name + 'Goal')
+        self._cancel_pub = rosbridge.publisher(
+            server_name + '/cancel', 'actionlib_msgs/GoalID')
 
     @property
     def usage(self):
@@ -386,7 +401,9 @@ class _ActionClient(object):
         """
         goal = self._goals.get(message.get('status').get('goal_id').get('id'))
         if goal:
-            goal.feedback_received(message.get('feedback'), message.get('status'))
+            goal.feedback_received(
+                message.get('feedback'),
+                message.get('status'))
 
     def on_result(self, message):
         """Callback when a result message received.
@@ -427,7 +444,8 @@ class _ActionClient(object):
             self._result_sub.unregister()
             self._goal_pub.unregister()
             self._cancel_pub.unregister()
-            self._rosbridge.unregister_action_client(self._server_name, self._action_name)
+            self._rosbridge.unregister_action_client(
+                self._server_name, self._action_name)
 
 
 class _Goal(object):
@@ -501,4 +519,3 @@ class _Goal(object):
         """
         if callable(self._on_feedback):
             self._on_feedback(feedback, status)
-
