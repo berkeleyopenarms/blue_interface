@@ -15,8 +15,10 @@ class BlueInterface:
 
         Args:
             side (str): side of the arm "left"
-            ip (str): The IP address of the robot, which by default should have a running rosbridge server.
-            port (int, optional): The websocket port number for rosbridge. Defaults to 9090.
+            ip (str): The IP address of the robot, which by default should have
+                a running rosbridge server.
+            port (int, optional): The websocket port number for rosbridge.
+                Defaults to 9090.
         """
 
         assert side == "left" or side == "right"
@@ -27,7 +29,10 @@ class BlueInterface:
         topic_prefix = "/" + side + "_arm/"
         ROS_POSITION_TOPIC = topic_prefix + \
             "blue_controllers/joint_position_controller/command"
-        ROS_TORQUE_TOPIC = topic_prefix + "blue_controllers/joint_torque_controller/command"
+        ROS_SOFT_POSITION_TOPIC = topic_prefix + \
+            "blue_controllers/joint_soft_position_controller/command"
+        ROS_TORQUE_TOPIC = topic_prefix + \
+            "blue_controllers/joint_torque_controller/command"
         ROS_JOINT_STATE_TOPIC = "/joint_states"
         ROS_GRIPPER_TOPIC = topic_prefix + \
             "blue_controllers/gripper_controller/gripper_cmd"
@@ -51,10 +56,16 @@ class BlueInterface:
 
         # Controller names
         self._controller_lookup = {
-            _BlueController.GRAV_COMP: "",
-            _BlueController.POSITION: "blue_controllers/joint_position_controller",
-            _BlueController.GRIPPER: "blue_controllers/gripper_controller",
-            _BlueController.TORQUE: "blue_controllers/joint_torque_controller"
+            _BlueController.GRAV_COMP:
+                "",
+            _BlueController.POSITION:
+                "blue_controllers/joint_position_controller",
+            _BlueController.SOFT_POSITION:
+                "blue_controllers/joint_soft_position_controller",
+            _BlueController.GRIPPER:
+                "blue_controllers/gripper_controller",
+            _BlueController.TORQUE:
+                "blue_controllers/joint_torque_controller"
         }
 
         # Robot state values! These will be populated later
@@ -74,6 +85,10 @@ class BlueInterface:
         )
         self._joint_position_publisher = self._RBC.publisher(
             ROS_POSITION_TOPIC,
+            "std_msgs/Float64MultiArray"
+        )
+        self._joint_soft_position_publisher = self._RBC.publisher(
+            ROS_SOFT_POSITION_TOPIC,
             "std_msgs/Float64MultiArray"
         )
         self._joint_torque_publisher = self._RBC.publisher(
@@ -130,6 +145,9 @@ class BlueInterface:
             self._controller_lookup[_BlueController.POSITION]
         )
         self._load_controller(
+            self._controller_lookup[_BlueController.SOFT_POSITION]
+        )
+        self._load_controller(
             self._controller_lookup[_BlueController.GRIPPER]
         )
         self._load_controller(
@@ -139,7 +157,9 @@ class BlueInterface:
         # Make controllers are stopped
         self._switch_controller([], [
             self._controller_lookup[_BlueController.POSITION],
-            self._controller_lookup[_BlueController.GRIPPER]
+            self._controller_lookup[_BlueController.SOFT_POSITION],
+            self._controller_lookup[_BlueController.GRIPPER],
+            self._controller_lookup[_BlueController.TORQUE]
         ])
         self._control_mode = _BlueController.GRAV_COMP
         self._gripper_enabled = False
@@ -148,16 +168,21 @@ class BlueInterface:
             time.sleep(.1)
 
     def shutdown(self):
-        """Clean up and close connection to host computer. All control will be disabled.
-        This can be called manually, but will also run automatically when your script exits.  """
+        """Clean up and close connection to host computer. All control will be
+        disabled. This can be called manually, but will also run automatically
+        when your script exits."""
 
         self._switch_controller([], [
             self._controller_lookup[_BlueController.POSITION],
+            self._controller_lookup[_BlueController.SOFT_POSITION],
             self._controller_lookup[_BlueController.GRIPPER],
             self._controller_lookup[_BlueController.TORQUE]
         ])
         self._unload_controller(
             self._controller_lookup[_BlueController.POSITION]
+        )
+        self._unload_controller(
+            self._controller_lookup[_BlueController.SOFT_POSITION]
         )
         self._unload_controller(
             self._controller_lookup[_BlueController.GRIPPER]
@@ -193,7 +218,8 @@ class BlueInterface:
 
         Args:
             position (float64): gap size between gripper fingers in cm.
-            effort (float64): maximum effort the gripper with exert before stalling in N.
+            effort (float64): maximum effort the gripper with exert before
+                stalling in N.
         """
 
         if not self._gripper_enabled:
@@ -236,17 +262,25 @@ class BlueInterface:
         """
         return self._gripper_effort
 
-    def set_joint_positions(self, joint_positions, duration=0.0):
+    def set_joint_positions(self, joint_positions,
+                            duration=0.0, soft_position_control=False):
         """Move arm to specified position in joint space.
 
         Args:
-            joint_positions (iterable): An array of 7 joint angles, in radians, ordered from proximal to distal.
-            duration (float, optional): Seconds to take to reach the target, interpolating in joint space. Defaults to 0.
+            joint_positions (iterable): An array of 7 joint angles, in radians,
+                ordered from proximal to distal.
+            duration (float, optional): Seconds to take to reach the target,
+                interpolating in joint space. Defaults to 0.
+            soft_position_control (bool, optional): Use "software" position
+                control, which runs position control loop at the ROS-level,
+                rather than on the motor drivers. This should be rarely needed.
+                Defaults to False.
         """
         joint_positions = np.asarray(joint_positions)
         assert len(joint_positions) == 7
 
-        self._set_control_mode(_BlueController.POSITION)
+        self._set_control_mode(
+            _BlueController.SOFT_POSITION if soft_position_control else _BlueController.POSITION)
 
         start_positions = self.get_joint_positions()
         start_time = time.time()
@@ -254,24 +288,29 @@ class BlueInterface:
         while time.time() < end_time:
             scale = (time.time() - start_time) / duration
             self._set_joint_positions(
-                start_positions + scale * (joint_positions - start_positions)
+                start_positions + scale * (joint_positions - start_positions),
+                soft_position_control
             )
             time.sleep(1.0 / 60.0)
 
-        self._set_joint_positions(joint_positions)
+        self._set_joint_positions(joint_positions, soft_position_control)
 
-    def _set_joint_positions(self, joint_positions):
+    def _set_joint_positions(self, joint_positions, soft_position_control):
         joint_positions_msg = {
             "layout": {},
             "data": list(joint_positions)
         }
-        self._joint_position_publisher.publish(joint_positions_msg)
+        if soft_position_control:
+            self._joint_soft_position_publisher.publish(joint_positions_msg)
+        else:
+            self._joint_position_publisher.publish(joint_positions_msg)
 
     def set_joint_torques(self, joint_torques):
         """Command joint torques to the arm.
 
         Args:
-            joint_torques (iterable): An array of 7 joint torques, in Nm, ordered from proximal to distal.
+            joint_torques (iterable): An array of 7 joint torques, in Nm,
+                ordered from proximal to distal.
         """
 
         joint_torques = list(joint_torques)
@@ -289,15 +328,19 @@ class BlueInterface:
         """Get the current joint angles, in radians.
 
         Returns:
-            numpy.ndarray: An array of 7 angles, in radians, ordered from proximal to distal.
+            numpy.ndarray: An array of 7 angles, in radians, ordered from
+                proximal to distal.
         """
         return self._joint_positions
 
     def get_cartesian_pose(self):
-        """Get the current cartesian pose of the end effector, with respect to the world frame.
+        """Get the current cartesian pose of the end effector, with respect to
+        the world frame.
 
         Returns:
-            dict: Pose in the form {"position": numpy.array([x,y,z]), "orientation": numpy.array([x,y,z,w]} defined with repect to the world frame.
+            dict: Pose in the form {"position": numpy.array([x,y,z]),
+                "orientation": numpy.array([x,y,z,w]} defined with repect to the
+                world frame.
         """
         return self._cartesian_pose
 
@@ -305,7 +348,8 @@ class BlueInterface:
         """Get the current joint torques.
 
         Returns:
-            numpy.ndarray: An array of 7 joint torques, in Nm, ordered from proximal to distal.
+            numpy.ndarray: An array of 7 joint torques, in Nm, ordered from
+                proximal to distal.
         """
         return self._joint_torques
 
@@ -313,7 +357,8 @@ class BlueInterface:
         """Get the current joint velocities.
 
         Returns:
-            numpy.ndarray: An array of 7 joint torques, in Nm, ordered from proximal to distal.
+            numpy.ndarray: An array of 7 joint torques, in Nm, ordered from
+                proximal to distal.
         """
         return self._joint_velocities
 
@@ -343,17 +388,23 @@ class BlueInterface:
         """
         return self._gripper_enabled
 
-    def inverse_kinematics(self, position, orientation, seed_joint_positions=[]):
-        """Given a desired cartesian pose for the end effector, compute the necessary joint angles.
-        Note that the system is underparameterized and there are an infinite number of possible solutions;
-        this will only return a single possible one.
+    def inverse_kinematics(self, position, orientation,
+                           seed_joint_positions=[]):
+        """Given a desired cartesian pose for the end effector, compute the
+        necessary joint angles. Note that the system is underparameterized and
+        there are an infinite number of possible solutions; this will only
+        return a single possible one.
 
         Args:
-            position (iterable): A 3D array containing a cartesian position (x,y,z), wrt the world frame.
-            orientation (iterable): A 4D array containing a quaternion (x,y,z,w), wrt the world frame.
-            seed_joint_positions (iterable, optional): An array of 7 joint angles, to be used to initalize the IK solver.
+            position (iterable): A 3D array containing a cartesian position
+                (x,y,z), wrt the world frame.
+            orientation (iterable): A 4D array containing a quaternion
+                (x,y,z,w), wrt the world frame.
+            seed_joint_positions (iterable, optional): An array of 7 joint
+                angles, to be used to initalize the IK solver.
         Returns:
-            numpy.ndarray: An array of 7 joint angles, or an empty array if no solution was found.
+            numpy.ndarray: An array of 7 joint angles, or an empty array if no
+                solution was found.
         """
 
         output = []
@@ -434,7 +485,8 @@ class BlueInterface:
         def _tf_service_callback(success, values):
             if success:
                 self._tf_subscriber = self._RBC.subscriber(
-                    values["topic_name"], "tf2_web_republisher/TFArray", self._process_tfs)
+                    values["topic_name"], "tf2_web_republisher/TFArray",
+                    self._process_tfs)
 
         self._tf_service_client.request(goal_msg, _tf_service_callback)
 
@@ -465,8 +517,8 @@ class BlueInterface:
         self._switch_controller_service_client.request(request_msg, callback)
         s.acquire()
 
-        # Even after the controller is successfully switched, it needs a moment to instantiate
-        # the command topic subscriber, etc
+        # Even after the controller is successfully switched, it needs a moment
+        # to instantiate the command topic subscriber, etc
         time.sleep(0.01)
 
     def _load_controller(self, name):
@@ -503,10 +555,16 @@ class _BlueController(Enum):
     Attributes:
         GRAV_COMP: No joint control; pure gravity compensation
         POSITION: Joint position controller
+        SOFT_POSITION: "Soft" joint position controller
+                       This runs control at the ROS-level at ~140Hz
+                       instead of on the motor drivers at ~20kHz --
+                       control is worse but allows gains to be tuned
+                       dynamically
         TORQUE: Joint torque controller
         GRIPPER: Gripper controller
     """
     GRAV_COMP = 0
     POSITION = 1
-    TORQUE = 2
-    GRIPPER = 3
+    SOFT_POSITION = 2
+    TORQUE = 3
+    GRIPPER = 4
