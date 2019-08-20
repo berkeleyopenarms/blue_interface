@@ -22,5 +22,4 @@ pip install -e .
   - `zero_position.py` - An example of sending Blue a command in joint space.
 
 ### API Documentation
-https://berkeleyopenarms.github.io/blue_interface/
-
+https://blue-interface.readthedocs.io/en/latest/
