@@ -310,7 +310,7 @@ class BlueInterface:
 
         Args:
             joint_torques (iterable): An array of 7 joint torques, in Nm,
-                ordered from proximal to distal.
+            ordered from proximal to distal.
         """
 
         joint_torques = list(joint_torques)
@@ -329,7 +329,7 @@ class BlueInterface:
 
         Returns:
             numpy.ndarray: An array of 7 angles, in radians, ordered from
-                proximal to distal.
+            proximal to distal.
         """
         return self._joint_positions
 
@@ -339,8 +339,8 @@ class BlueInterface:
 
         Returns:
             dict: Pose in the form {"position": numpy.array([x,y,z]),
-                "orientation": numpy.array([x,y,z,w]} defined with repect to the
-                world frame.
+            "orientation": numpy.array([x,y,z,w]} defined with repect to the
+            world frame.
         """
         return self._cartesian_pose
 
@@ -349,7 +349,7 @@ class BlueInterface:
 
         Returns:
             numpy.ndarray: An array of 7 joint torques, in Nm, ordered from
-                proximal to distal.
+            proximal to distal.
         """
         return self._joint_torques
 
@@ -358,7 +358,7 @@ class BlueInterface:
 
         Returns:
             numpy.ndarray: An array of 7 joint torques, in Nm, ordered from
-                proximal to distal.
+            proximal to distal.
         """
         return self._joint_velocities
 
