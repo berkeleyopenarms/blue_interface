@@ -16,7 +16,7 @@ It features:
 - Support for Mac, Windows, and Linux
 - Support for Jupyter Notebooks
 
-It's designed to lightweight and easy-to-use! Sending a Blue "right" arm to its zero position, for example, is as simple as:
+It's designed to be lightweight and easy-to-use! Sending a Blue "right" arm to its zero position, for example, is as simple as:
 
 .. code-block:: python
 
