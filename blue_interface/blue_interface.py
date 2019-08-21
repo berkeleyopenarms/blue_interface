@@ -396,15 +396,15 @@ class BlueInterface:
         return a single possible one.
 
         Args:
-            position (iterable): A 3D array containing a cartesian position
+            position (iterable): A length-3 array containing a cartesian position
                 (x,y,z), wrt the world frame.
-            orientation (iterable): A 4D array containing a quaternion
+            orientation (iterable): A length-4 array containing a quaternion
                 (x,y,z,w), wrt the world frame.
             seed_joint_positions (iterable, optional): An array of 7 joint
                 angles, to be used to initalize the IK solver.
         Returns:
             numpy.ndarray: An array of 7 joint angles, or an empty array if no
-                solution was found.
+            solution was found.
         """
 
         output = []
