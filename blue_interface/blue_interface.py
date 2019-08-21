@@ -339,7 +339,7 @@ class BlueInterface:
 
         Returns:
             dict: Pose in the form {"position": numpy.array([x,y,z]),
-            "orientation": numpy.array([x,y,z,w]} defined with repect to the
+            "orientation": numpy.array([x,y,z,w]} defined with respect to the
             world frame.
         """
         return self._cartesian_pose
