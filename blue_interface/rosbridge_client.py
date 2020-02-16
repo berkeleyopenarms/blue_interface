@@ -51,6 +51,23 @@ class ROSBridgeClient(WebSocketClient):
         self._id_counter += 1
         return self._id_counter
 
+    def get_topics(self, callback=None, errback=None):
+        """Retrieve list of topics in ROS.
+        Note:
+            To make this a blocking call, pass ``None`` to the ``callback`` parameter .
+        Returns:
+            list: List of topics if blocking, otherwise ``None``.
+        """
+        service = _Service(self, '/rosapi/topics', 'rosapi/Topics')
+
+        result = service.request({}, callback)
+
+        if callback:
+            return
+
+        assert 'topics' in result
+        return result['topics']
+
     def publisher(self, topic_name, message_type, latch=False, queue_size=1):
         """Create a _Publisher object if the given topic hasn't been advertised, otherwise return the existing
         publisher that is currently advertising the topic.
