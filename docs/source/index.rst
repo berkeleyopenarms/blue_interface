@@ -6,12 +6,12 @@
 Blue Interface API Documentation
 ==========================================
 
-Blue Interface is a platform-agnostic Python API for communicating with the Blue robotic arm over a network connection.
+Blue Interface is a platform-agnostic Python API for controlling Blue robotic arms over a network connection.
 
 It features:
 
-- No dependency on ROS
-- Support for easy connections to multiple robots
+- No dependency on ROS (or any particular version of Ubuntu)
+- Easy connection to multiple robots
 - Support for both Python 2 and 3
 - Support for Mac, Windows, and Linux
 - Support for Jupyter Notebooks
@@ -22,10 +22,7 @@ It's designed to be lightweight and easy-to-use! Sending a Blue "right" arm to i
 
    from blue_interface import BlueInterface
 
-   side = "right"
-   ip = "127.0.0.1"
-   blue = BlueInterface(side, ip)
-
+   blue = BlueInterface(side="right", ip="127.0.0.1")
    blue.set_joint_positions([0] * 7)
 
 See Github_ for installation instructions and more usage examples.
