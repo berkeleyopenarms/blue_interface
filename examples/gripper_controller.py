@@ -3,8 +3,6 @@
 # A basic example of using BlueInterface for gripper control.
 # It allows a user to open and close the gripper.
 
-import numpy as np
-
 from blue_interface import BlueInterface
 
 side = "right"

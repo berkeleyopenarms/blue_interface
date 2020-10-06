@@ -26,7 +26,12 @@ time.sleep(5)
 # Print results
 joint_positions = blue.get_joint_positions()
 pose = blue.get_cartesian_pose()
-print_aligned = lambda left, right: print("{:30} {}".format(left, np.round(right, 4)))
+
+
+def print_aligned(left, right):
+    print("{:30} {}".format(left, np.round(right, 4)))
+
+
 print_aligned("Target joint positions: ", target_joint_positions)
 print_aligned("End joint positions: ", joint_positions)
 print_aligned("Target cartesian position:", target_position)

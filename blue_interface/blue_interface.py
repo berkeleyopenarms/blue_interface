@@ -1,7 +1,6 @@
 import atexit
 import threading
 import time
-import warnings
 from enum import Enum
 from typing import Any, Dict, List, Optional, Sequence
 
@@ -46,7 +45,6 @@ class BlueInterface:
         ROS_GRIPPER_TOPIC = (
             topic_prefix + "blue_controllers/gripper_controller/gripper_cmd"
         )
-        ROS_TF_TOPIC = "/tf"
 
         # Frame names
         self._WORLD_FRAME = "base_link"

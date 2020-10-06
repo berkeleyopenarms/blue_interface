@@ -12,7 +12,11 @@ side = "right"
 ip = "127.0.0.1"
 blue = BlueInterface(side, ip)
 
-print_aligned = lambda left, right: print("{:30} {}".format(left, np.round(right, 4)))
+
+def print_aligned(left, right):
+    print("{:30} {}".format(left, np.round(right, 4)))
+
+
 while True:
     print_aligned("End Effector Position:", blue.get_cartesian_pose()["position"])
     print_aligned("End Effector Orientation:", blue.get_cartesian_pose()["orientation"])
