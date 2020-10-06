@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="blue_interface",
-    version="0.0",
+    version="0.1",
     description="Python API for controlling the Blue robot arm",
     long_description=long_description,
     long_description_content_type="text/markdown",
