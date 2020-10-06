@@ -1,137 +1,134 @@
-from .rosbridge_client import ROSBridgeClient
-import time
-import warnings
-import threading
-from enum import Enum
-import numpy as np
 import atexit
+import threading
+import time
+from enum import Enum
+from typing import Any, Dict, List, Optional, Sequence
+
+import numpy as np
+
+from .rosbridge_client import ROSBridgeClient
 
 
 class BlueInterface:
-    """A Python interface for controlling the Blue robot through rosbridge."""
+    """A Python interface for controlling the Blue robot through rosbridge.
 
-    def __init__(self, side, ip, port=9090):
-        """Constructer for BlueInterface.
+    Args:
+        side (str): side of the arm, "left" or "right"
+        ip (str): The IP address of the robot, which by default should have
+            a running rosbridge server.
+        port (int, optional): The websocket port number for rosbridge.
+            Defaults to 9090.
+    """
 
-        Args:
-            side (str): side of the arm "left"
-            ip (str): The IP address of the robot, which by default should have
-                a running rosbridge server.
-            port (int, optional): The websocket port number for rosbridge.
-                Defaults to 9090.
-        """
-
+    def __init__(
+        self,
+        side,  # type: str
+        ip,  # type: str
+        port=9090,  # type: int
+    ):  # type: (...) -> None
         assert side == "left" or side == "right"
 
         self._RBC = ROSBridgeClient(ip, port)
 
-        # ROS Topic Names
+        # ROS topic names
         topic_prefix = "/" + side + "_arm/"
-        ROS_POSITION_TOPIC = topic_prefix + \
-            "blue_controllers/joint_position_controller/command"
-        ROS_SOFT_POSITION_TOPIC = topic_prefix + \
-            "blue_controllers/joint_soft_position_controller/command"
-        ROS_TORQUE_TOPIC = topic_prefix + \
-            "blue_controllers/joint_torque_controller/command"
+        ROS_POSITION_TOPIC = (
+            topic_prefix + "blue_controllers/joint_position_controller/command"
+        )
+        ROS_SOFT_POSITION_TOPIC = (
+            topic_prefix + "blue_controllers/joint_soft_position_controller/command"
+        )
+        ROS_TORQUE_TOPIC = (
+            topic_prefix + "blue_controllers/joint_torque_controller/command"
+        )
         ROS_JOINT_STATE_TOPIC = "/joint_states"
-        ROS_GRIPPER_TOPIC = topic_prefix + \
-            "blue_controllers/gripper_controller/gripper_cmd"
-        ROS_TF_TOPIC = "/tf"
+        ROS_GRIPPER_TOPIC = (
+            topic_prefix + "blue_controllers/gripper_controller/gripper_cmd"
+        )
 
         # Frame names
         self._WORLD_FRAME = "base_link"
         self._END_EFFECTOR_FRAME = side + "_gripper_finger_link"
 
         # Joint names
-        self._joint_names = ["{}_{}".format(side, j) for j in [
-            "base_roll_joint",
-            "shoulder_lift_joint",
-            "shoulder_roll_joint",
-            "elbow_lift_joint",
-            "elbow_roll_joint",
-            "wrist_lift_joint",
-            "wrist_roll_joint"
-        ]]
+        self._joint_names = [
+            "{}_{}".format(side, j)
+            for j in [
+                "base_roll_joint",
+                "shoulder_lift_joint",
+                "shoulder_roll_joint",
+                "elbow_lift_joint",
+                "elbow_roll_joint",
+                "wrist_lift_joint",
+                "wrist_roll_joint",
+            ]
+        ]
         self._gripper_joint_name = side + "_gripper_joint"
 
         # Controller names
         self._controller_lookup = {
-            _BlueController.GRAV_COMP:
-                "",
-            _BlueController.POSITION:
-                "blue_controllers/joint_position_controller",
-            _BlueController.SOFT_POSITION:
-                "blue_controllers/joint_soft_position_controller",
-            _BlueController.GRIPPER:
-                "blue_controllers/gripper_controller",
-            _BlueController.TORQUE:
-                "blue_controllers/joint_torque_controller"
+            _BlueController.GRAV_COMP: "",
+            _BlueController.POSITION: "blue_controllers/joint_position_controller",
+            _BlueController.SOFT_POSITION: "blue_controllers/joint_soft_position_controller",
+            _BlueController.GRIPPER: "blue_controllers/gripper_controller",
+            _BlueController.TORQUE: "blue_controllers/joint_torque_controller",
         }
 
         # Robot state values! These will be populated later
-        self._joint_positions = None
-        self._cartesian_pose = None
-        self._joint_torques = None
-        self._joint_velocities = None
-        self._gripper_goal_id = None
-        self._gripper_position = None
-        self._gripper_effort = None
+        self._joint_positions = None  # type: Optional[np.ndarray]
+        self._cartesian_pose = None  # type: Optional[Dict[str, np.ndarray]]
+        self._joint_torques = None  # type: Optional[np.ndarray]
+        self._joint_velocities = None  # type: Optional[np.ndarray]
+        self._gripper_goal_id = None  # type: Optional[int]
+        self._gripper_position = None  # type: Optional[float]
+        self._gripper_effort = None  # type: Optional[float]
 
         # Joint state pub/sub
         self._joint_state_subscriber = self._RBC.subscriber(
-            ROS_JOINT_STATE_TOPIC,
-            "sensor_msgs/JointState",
-            self._joint_state_callback
+            ROS_JOINT_STATE_TOPIC, "sensor_msgs/JointState", self._joint_state_callback
         )
         self._joint_position_publisher = self._RBC.publisher(
-            ROS_POSITION_TOPIC,
-            "std_msgs/Float64MultiArray"
+            ROS_POSITION_TOPIC, "std_msgs/Float64MultiArray"
         )
         self._joint_soft_position_publisher = self._RBC.publisher(
-            ROS_SOFT_POSITION_TOPIC,
-            "std_msgs/Float64MultiArray"
+            ROS_SOFT_POSITION_TOPIC, "std_msgs/Float64MultiArray"
         )
         self._joint_torque_publisher = self._RBC.publisher(
-            ROS_TORQUE_TOPIC,
-            "std_msgs/Float64MultiArray"
+            ROS_TORQUE_TOPIC, "std_msgs/Float64MultiArray"
         )
 
         # Controller manager services
         self._switch_controller_service_client = self._RBC.service(
             topic_prefix + "controller_manager/switch_controller",
-            "controller_manager_msgs/SwitchController"
+            "controller_manager_msgs/SwitchController",
         )
         self._load_controller_service_client = self._RBC.service(
             topic_prefix + "controller_manager/load_controller",
-            "controller_manager_msgs/LoadController"
+            "controller_manager_msgs/LoadController",
         )
         self._unload_controller_service_client = self._RBC.service(
             topic_prefix + "controller_manager/unload_controller",
-            "controller_manager_msgs/UnloadController"
+            "controller_manager_msgs/UnloadController",
         )
 
         # Inverse kinematics service
         self._inverse_kinematics_client = self._RBC.service(
-            topic_prefix + "inverse_kinematics",
-            "blue_msgs/InverseKinematics"
+            topic_prefix + "inverse_kinematics", "blue_msgs/InverseKinematics"
         )
 
         # Gripper calibration service
         self._calibrate_gripper_client = self._RBC.service(
-            topic_prefix + "calibrate_gripper",
-            "std_srvs/Trigger"
+            topic_prefix + "calibrate_gripper", "std_srvs/Trigger"
         )
 
         # TF repub service
         self._tf_service_client = self._RBC.service(
-            "/republish_tfs",
-            "tf2_web_republisher/RepublishTFs"
+            "/republish_tfs", "tf2_web_republisher/RepublishTFs"
         )
 
         # Gripper action client
         self._gripper_action_client = self._RBC.action_client(
-            ROS_GRIPPER_TOPIC,
-            "control_msgs/GripperCommandAction"
+            ROS_GRIPPER_TOPIC, "control_msgs/GripperCommandAction"
         )
 
         # Start listening to world->end effector transforms
@@ -141,58 +138,48 @@ class BlueInterface:
         atexit.register(self.shutdown)
 
         # Load controllers
-        self._load_controller(
-            self._controller_lookup[_BlueController.POSITION]
-        )
-        self._load_controller(
-            self._controller_lookup[_BlueController.SOFT_POSITION]
-        )
-        self._load_controller(
-            self._controller_lookup[_BlueController.GRIPPER]
-        )
-        self._load_controller(
-            self._controller_lookup[_BlueController.TORQUE]
-        )
+        self._load_controller(self._controller_lookup[_BlueController.POSITION])
+        self._load_controller(self._controller_lookup[_BlueController.SOFT_POSITION])
+        self._load_controller(self._controller_lookup[_BlueController.GRIPPER])
+        self._load_controller(self._controller_lookup[_BlueController.TORQUE])
 
         # Make controllers are stopped
-        self._switch_controller([], [
-            self._controller_lookup[_BlueController.POSITION],
-            self._controller_lookup[_BlueController.SOFT_POSITION],
-            self._controller_lookup[_BlueController.GRIPPER],
-            self._controller_lookup[_BlueController.TORQUE]
-        ])
+        self._switch_controller(
+            [],
+            [
+                self._controller_lookup[_BlueController.POSITION],
+                self._controller_lookup[_BlueController.SOFT_POSITION],
+                self._controller_lookup[_BlueController.GRIPPER],
+                self._controller_lookup[_BlueController.TORQUE],
+            ],
+        )
         self._control_mode = _BlueController.GRAV_COMP
         self._gripper_enabled = False
 
         while self._cartesian_pose is None or self._joint_positions is None:
-            time.sleep(.1)
+            time.sleep(0.1)
 
-    def shutdown(self):
+    def shutdown(self):  # type: (...) -> None
         """Clean up and close connection to host computer. All control will be
         disabled. This can be called manually, but will also run automatically
         when your script exits."""
 
-        self._switch_controller([], [
-            self._controller_lookup[_BlueController.POSITION],
-            self._controller_lookup[_BlueController.SOFT_POSITION],
-            self._controller_lookup[_BlueController.GRIPPER],
-            self._controller_lookup[_BlueController.TORQUE]
-        ])
-        self._unload_controller(
-            self._controller_lookup[_BlueController.POSITION]
+        self._switch_controller(
+            [],
+            [
+                self._controller_lookup[_BlueController.POSITION],
+                self._controller_lookup[_BlueController.SOFT_POSITION],
+                self._controller_lookup[_BlueController.GRIPPER],
+                self._controller_lookup[_BlueController.TORQUE],
+            ],
         )
-        self._unload_controller(
-            self._controller_lookup[_BlueController.SOFT_POSITION]
-        )
-        self._unload_controller(
-            self._controller_lookup[_BlueController.GRIPPER]
-        )
-        self._unload_controller(
-            self._controller_lookup[_BlueController.TORQUE]
-        )
+        self._unload_controller(self._controller_lookup[_BlueController.POSITION])
+        self._unload_controller(self._controller_lookup[_BlueController.SOFT_POSITION])
+        self._unload_controller(self._controller_lookup[_BlueController.GRIPPER])
+        self._unload_controller(self._controller_lookup[_BlueController.TORQUE])
         self._RBC.close()
 
-    def calibrate_gripper(self):
+    def calibrate_gripper(self):  # type: (...) -> None
         """Run the gripper position calibration process.
         This will automatically determine the gripper position by apply a closing
         torque and detecting when the gripper has fully closed."""
@@ -212,8 +199,12 @@ class BlueInterface:
         if gripper_enabled:
             self.enable_gripper()
 
-    def command_gripper(self, position, effort, wait=False):
-        # TODO: change robot-side so position and effort in correct units
+    def command_gripper(
+        self,
+        position,  # type: float
+        effort,  # type: float
+        wait=False,  # type: bool
+    ):  # type: (...) -> None
         """Send a goal to gripper, and optionally wait for the goal to be reached.
 
         Args:
@@ -221,14 +212,12 @@ class BlueInterface:
             effort (float64): maximum effort the gripper with exert before
                 stalling in N.
         """
+        # TODO: change robot-side so position and effort in correct units
 
         if not self._gripper_enabled:
             self.enable_gripper()
 
-        goal_msg = {"command": {
-            "position": position,
-            "max_effort": effort
-        }}
+        goal_msg = {"command": {"position": position, "max_effort": effort}}
 
         s = threading.Semaphore(0)
 
@@ -237,33 +226,40 @@ class BlueInterface:
                 s.release()
 
         self._gripper_goal_id = self._gripper_action_client.send_goal(
-            goal_msg, callback, callback)
+            goal_msg, callback, callback
+        )
         if wait:
             s.acquire()
 
-    def cancel_gripper_command(self):
+    def cancel_gripper_command(self):  # type: (...) -> None
         """Cancel current gripper command, halting gripper in current position."""
         self._gripper_action_client.cancel_goal(self._gripper_goal_id)
 
-    def get_gripper_position(self):
-        """ Get the current gap between gripper fingers.
+    def get_gripper_position(self):  # type: (...) -> float
+        """Get the current gap between gripper fingers.
 
         Returns:
             float64: the gripper gap in cm.
 
         """
+        assert self._gripper_position is not None, "Gripper position not yet populated!"
         return self._gripper_position
 
-    def get_gripper_effort(self):
+    def get_gripper_effort(self):  # type: (...) -> float
         """Get the current effort exerted by the gripper.
 
         Returns:
             float64: the gripper effort in N
         """
+        assert self._gripper_effort is not None, "Gripper effort not yet populated!"
         return self._gripper_effort
 
-    def set_joint_positions(self, joint_positions,
-                            duration=0.0, soft_position_control=False):
+    def set_joint_positions(
+        self,
+        joint_positions,  # type: Sequence
+        duration=0.0,  # type: float
+        soft_position_control=False,  # type: bool
+    ):  # type: (...) -> None
         """Move arm to specified position in joint space.
 
         Args:
@@ -280,7 +276,10 @@ class BlueInterface:
         assert len(joint_positions) == 7
 
         self._set_control_mode(
-            _BlueController.SOFT_POSITION if soft_position_control else _BlueController.POSITION)
+            _BlueController.SOFT_POSITION
+            if soft_position_control
+            else _BlueController.POSITION
+        )
 
         start_positions = self.get_joint_positions()
         start_time = time.time()
@@ -289,23 +288,26 @@ class BlueInterface:
             scale = (time.time() - start_time) / duration
             self._set_joint_positions(
                 start_positions + scale * (joint_positions - start_positions),
-                soft_position_control
+                soft_position_control,
             )
             time.sleep(1.0 / 60.0)
 
         self._set_joint_positions(joint_positions, soft_position_control)
 
-    def _set_joint_positions(self, joint_positions, soft_position_control):
-        joint_positions_msg = {
-            "layout": {},
-            "data": list(joint_positions)
-        }
+    def _set_joint_positions(
+        self,
+        joint_positions,  # type: Sequence
+        soft_position_control,  # type: bool
+    ):  # type: (...) -> None
+        joint_positions_msg = {"layout": {}, "data": list(joint_positions)}
         if soft_position_control:
             self._joint_soft_position_publisher.publish(joint_positions_msg)
         else:
             self._joint_position_publisher.publish(joint_positions_msg)
 
-    def set_joint_torques(self, joint_torques):
+    def set_joint_torques(
+        self, joint_torques  # type: Sequence
+    ):  # type: (...) -> None
         """Command joint torques to the arm.
 
         Args:
@@ -318,22 +320,20 @@ class BlueInterface:
 
         self._set_control_mode(_BlueController.TORQUE)
 
-        joint_torques_msg = {
-            "layout": {},
-            "data": list(joint_torques)
-        }
+        joint_torques_msg = {"layout": {}, "data": list(joint_torques)}
         self._joint_torque_publisher.publish(joint_torques_msg)
 
-    def get_joint_positions(self):
+    def get_joint_positions(self):  # type: (...) -> np.ndarray
         """Get the current joint angles, in radians.
 
         Returns:
             numpy.ndarray: An array of 7 angles, in radians, ordered from
             proximal to distal.
         """
+        assert self._joint_positions is not None, "Joint positions not populated!"
         return self._joint_positions
 
-    def get_cartesian_pose(self):
+    def get_cartesian_pose(self):  # type: (...) -> Dict[str, np.ndarray]
         """Get the current cartesian pose of the end effector, with respect to
         the world frame.
 
@@ -342,45 +342,44 @@ class BlueInterface:
             "orientation": numpy.array([x,y,z,w]} defined with respect to the
             world frame.
         """
+        assert self._cartesian_pose is not None, "Cartesian pose not populated!"
         return self._cartesian_pose
 
-    def get_joint_torques(self):
+    def get_joint_torques(self):  # type: (...) -> np.ndarray
         """Get the current joint torques.
 
         Returns:
             numpy.ndarray: An array of 7 joint torques, in Nm, ordered from
             proximal to distal.
         """
+        assert self._joint_torques is not None, "Joint torques not populated!"
         return self._joint_torques
 
-    def get_joint_velocities(self):
+    def get_joint_velocities(self):  # type: (...) -> np.ndarray
         """Get the current joint velocities.
 
         Returns:
             numpy.ndarray: An array of 7 joint torques, in Nm, ordered from
             proximal to distal.
         """
+        assert self._joint_velocities is not None, "Joint velocities not populated!"
         return self._joint_velocities
 
-    def disable_control(self):
+    def disable_control(self):  # type: (...) -> None
         """Set joint control mode to gravity compensation only."""
         self._set_control_mode(_BlueController.GRAV_COMP)
 
-    def enable_gripper(self):
+    def enable_gripper(self):  # type: (...) -> None
         """Enables the gripper. The gripper will begin to hold position."""
-        self._switch_controller([
-            self._controller_lookup[_BlueController.GRIPPER]
-        ], [])
+        self._switch_controller([self._controller_lookup[_BlueController.GRIPPER]], [])
         self._gripper_enabled = True
 
-    def disable_gripper(self):
+    def disable_gripper(self):  # type: (...) -> None
         """Disables the gripper. The gripper will become compliant."""
-        self._switch_controller([], [
-            self._controller_lookup[_BlueController.GRIPPER]
-        ])
+        self._switch_controller([], [self._controller_lookup[_BlueController.GRIPPER]])
         self._gripper_enabled = False
 
-    def gripper_enabled(self):
+    def gripper_enabled(self):  # type: (...) -> bool
         """Check if gripper is enabled to take commands.
 
         Returns:
@@ -388,8 +387,12 @@ class BlueInterface:
         """
         return self._gripper_enabled
 
-    def inverse_kinematics(self, position, orientation,
-                           seed_joint_positions=[]):
+    def inverse_kinematics(
+        self,
+        position,  # type: np.ndarray
+        orientation,  # type: np.ndarray
+        seed_joint_positions=[],  # type: Sequence
+    ):  # type: (...) -> np.ndarray
         """Given a desired cartesian pose for the end effector, compute the
         necessary joint angles. Note that the system is underparameterized and
         there are an infinite number of possible solutions; this will only
@@ -417,23 +420,23 @@ class BlueInterface:
 
         request_msg = {
             "end_effector_pose": {
-                "header": {
-                    "frame_id": self._WORLD_FRAME
-                },
+                "header": {"frame_id": self._WORLD_FRAME},
                 "pose": {
                     "position": dict(zip("xyz", position)),
-                    "orientation": dict(zip("xyzw", orientation))
-                }
+                    "orientation": dict(zip("xyzw", orientation)),
+                },
             },
             "solver": "trac-ik",
-            "seed_joint_positions": seed_joint_positions
+            "seed_joint_positions": seed_joint_positions,
         }
         self._inverse_kinematics_client.request(request_msg, callback)
         s.acquire()
 
         return np.asarray(output)
 
-    def _joint_state_callback(self, message):
+    def _joint_state_callback(
+        self, message  # type: Dict[str, Any]
+    ):  # type: (...) -> None
         joint_positions_temp = []
         joint_torques_temp = []
         joint_velocities_temp = []
@@ -459,52 +462,61 @@ class BlueInterface:
         if len(joint_velocities_temp) != 0:
             self._joint_velocities = np.array(joint_velocities_temp)
 
-    def _process_tfs(self, message):
+    def _process_tfs(
+        self, message  # type: Dict[str, Any]
+    ):  # type: (...) -> None
         pose = message["transforms"][0]["transform"]
         trans = pose["translation"]
         rot = pose["rotation"]
         cartesian_pose_temp = {}
-        cartesian_pose_temp["position"] = np.array([
-            trans["x"], trans["y"], trans["z"]
-        ])
-        cartesian_pose_temp["orientation"] = np.array([
-            rot["x"], rot["y"], rot["z"], rot["w"]
-        ])
+        cartesian_pose_temp["position"] = np.array([trans["x"], trans["y"], trans["z"]])
+        cartesian_pose_temp["orientation"] = np.array(
+            [rot["x"], rot["y"], rot["z"], rot["w"]]
+        )
         self._cartesian_pose = cartesian_pose_temp
 
-    def _request_end_effector_tfs(self):
+    def _request_end_effector_tfs(self):  # type: (...) -> None
         goal_msg = {
             "source_frames": [self._END_EFFECTOR_FRAME],
             "target_frame": self._WORLD_FRAME,
             "angular_thres": 0,
             "trans_thres": 0,
             "rate": 30,
-            "timeout": {"secs": 2.0, "nsecs": 0.0}
+            "timeout": {"secs": 2.0, "nsecs": 0.0},
         }
 
         def _tf_service_callback(success, values):
             if success:
                 self._tf_subscriber = self._RBC.subscriber(
-                    values["topic_name"], "tf2_web_republisher/TFArray",
-                    self._process_tfs)
+                    values["topic_name"],
+                    "tf2_web_republisher/TFArray",
+                    self._process_tfs,
+                )
 
         self._tf_service_client.request(goal_msg, _tf_service_callback)
 
-    def _set_control_mode(self, mode):
+    def _set_control_mode(
+        self, mode  # type: _BlueController
+    ):  # type: (...) -> bool
         if mode == self._control_mode:
             return True
         self._switch_controller(
             [self._controller_lookup[mode]],
             [self._controller_lookup[self._control_mode]],
-            new_control_mode=mode
+            new_control_mode=mode,
         )
         return mode == self._control_mode
 
-    def _switch_controller(self, start, stop, new_control_mode=None):
+    def _switch_controller(
+        self,
+        start,  # type: List[str]
+        stop,  # type: List[str]
+        new_control_mode=None,  # type: Optional[_BlueController]
+    ):  # type: (...) -> None
         request_msg = {
             "start_controllers": start,
             "stop_controllers": stop,
-            "strictness": 1  # best effort
+            "strictness": 1,  # best effort
         }
 
         s = threading.Semaphore(0)
@@ -521,10 +533,10 @@ class BlueInterface:
         # to instantiate the command topic subscriber, etc
         time.sleep(0.01)
 
-    def _load_controller(self, name):
-        request_msg = {
-            "name": name
-        }
+    def _load_controller(
+        self, name  # type: str
+    ):  # type: (...) -> None
+        request_msg = {"name": name}
 
         s = threading.Semaphore(0)
 
@@ -534,10 +546,10 @@ class BlueInterface:
         self._load_controller_service_client.request(request_msg, callback)
         s.acquire()
 
-    def _unload_controller(self, name):
-        request_msg = {
-            "name": name
-        }
+    def _unload_controller(
+        self, name  # type: str
+    ):  # type: (...) -> None
+        request_msg = {"name": name}
 
         s = threading.Semaphore(0)
 
@@ -563,6 +575,7 @@ class _BlueController(Enum):
         TORQUE: Joint torque controller
         GRIPPER: Gripper controller
     """
+
     GRAV_COMP = 0
     POSITION = 1
     SOFT_POSITION = 2
