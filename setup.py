@@ -9,6 +9,6 @@ setup(
     author_email="brentyi@berkeley.edu",
     license="BSD",
     packages=["blue_interface"],
-    install_requires=["ws4py", "PyDispatcher", "numpy"],
+    install_requires=["ws4py", "PyDispatcher", "numpy", "enum34"],
     zip_safe=False,
 )
