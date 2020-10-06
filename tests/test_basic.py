@@ -10,5 +10,11 @@ def test_no_rosbridge():
 
     from blue_interface import BlueInterface
 
-    with pytest.raises(ConnectionRefusedError):
+    try:
+        error = ConnectionRefusedError
+    except NameError:
+        # Python 2.7
+        error = Exception
+
+    with pytest.raises(error):
         BlueInterface(side="left", ip="127.0.0.1", port=444)
