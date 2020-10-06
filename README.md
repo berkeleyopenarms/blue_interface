@@ -35,20 +35,17 @@ blue = BlueInterface(side="right", ip="127.0.0.1")
 blue.set_joint_positions([0] * 7)
 ```
 
-See the [**[API Reference](https://blue-interface.readthedocs.io/en/latest/)**]
-for full feature list.
-
 ### Installation
 
 From PyPi:
 
-```
+```sh
 pip install blue_interface
 ```
 
 From source:
 
-```
+```sh
 git clone https://github.com/berkeleyopenarms/blue_interface.git
 cd blue_interface
 pip install -e .
