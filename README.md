@@ -40,7 +40,7 @@ blue.set_joint_positions([0] * 7)
 From PyPi:
 
 ```sh
-pip install blue_interface
+pip install blue-interface
 ```
 
 From source:
