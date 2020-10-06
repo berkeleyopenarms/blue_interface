@@ -3,8 +3,9 @@
 # A basic example of using BlueInterface for gripper control.
 # It allows a user to open and close the gripper.
 
-from blue_interface import BlueInterface
 import numpy as np
+
+from blue_interface import BlueInterface
 
 side = "right"
 ip = "127.0.0.1"
@@ -25,4 +26,3 @@ while True:
         blue.command_gripper(0.0, 10.0, wait=True)
 
     opened = not opened
-

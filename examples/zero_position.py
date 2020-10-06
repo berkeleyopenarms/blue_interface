@@ -2,8 +2,9 @@
 
 # A basic example of using BlueInterface for joint positions control.
 
-from blue_interface import BlueInterface
 import numpy as np
+
+from blue_interface import BlueInterface
 
 side = "right"
 ip = "127.0.0.1"
@@ -16,4 +17,3 @@ while True:
 
 # When this script terminates (eg via Ctrl+C), the robot will automatically
 # stop all controllers and go back to gravity compensation mode
-
