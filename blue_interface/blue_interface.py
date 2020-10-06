@@ -3,6 +3,7 @@ import threading
 import time
 import warnings
 from enum import Enum
+from typing import Any, Dict, List, Optional, Sequence
 
 import numpy as np
 
@@ -13,14 +14,19 @@ class BlueInterface:
     """A Python interface for controlling the Blue robot through rosbridge.
 
     Args:
-        side (str): side of the arm "left"
+        side (str): side of the arm, "left" or "right"
         ip (str): The IP address of the robot, which by default should have
             a running rosbridge server.
         port (int, optional): The websocket port number for rosbridge.
             Defaults to 9090.
     """
 
-    def __init__(self, side, ip, port=9090):
+    def __init__(
+        self,
+        side,  # type: str
+        ip,  # type: str
+        port=9090,  # type: int
+    ):  # type: (...) -> None
         assert side == "left" or side == "right"
 
         self._RBC = ROSBridgeClient(ip, port)
@@ -71,13 +77,13 @@ class BlueInterface:
         }
 
         # Robot state values! These will be populated later
-        self._joint_positions = None
-        self._cartesian_pose = None
-        self._joint_torques = None
-        self._joint_velocities = None
-        self._gripper_goal_id = None
-        self._gripper_position = None
-        self._gripper_effort = None
+        self._joint_positions = None  # type: Optional[np.ndarray]
+        self._cartesian_pose = None  # type: Optional[Dict[str, np.ndarray]]
+        self._joint_torques = None  # type: Optional[np.ndarray]
+        self._joint_velocities = None  # type: Optional[np.ndarray]
+        self._gripper_goal_id = None  # type: Optional[int]
+        self._gripper_position = None  # type: Optional[float]
+        self._gripper_effort = None  # type: Optional[float]
 
         # Joint state pub/sub
         self._joint_state_subscriber = self._RBC.subscriber(
@@ -155,7 +161,7 @@ class BlueInterface:
         while self._cartesian_pose is None or self._joint_positions is None:
             time.sleep(0.1)
 
-    def shutdown(self):
+    def shutdown(self):  # type: (...) -> None
         """Clean up and close connection to host computer. All control will be
         disabled. This can be called manually, but will also run automatically
         when your script exits."""
@@ -175,7 +181,7 @@ class BlueInterface:
         self._unload_controller(self._controller_lookup[_BlueController.TORQUE])
         self._RBC.close()
 
-    def calibrate_gripper(self):
+    def calibrate_gripper(self):  # type: (...) -> None
         """Run the gripper position calibration process.
         This will automatically determine the gripper position by apply a closing
         torque and detecting when the gripper has fully closed."""
@@ -195,8 +201,12 @@ class BlueInterface:
         if gripper_enabled:
             self.enable_gripper()
 
-    def command_gripper(self, position, effort, wait=False):
-        # TODO: change robot-side so position and effort in correct units
+    def command_gripper(
+        self,
+        position,  # type: float
+        effort,  # type: float
+        wait=False,  # type: bool
+    ):  # type: (...) -> None
         """Send a goal to gripper, and optionally wait for the goal to be reached.
 
         Args:
@@ -204,6 +214,7 @@ class BlueInterface:
             effort (float64): maximum effort the gripper with exert before
                 stalling in N.
         """
+        # TODO: change robot-side so position and effort in correct units
 
         if not self._gripper_enabled:
             self.enable_gripper()
@@ -222,30 +233,35 @@ class BlueInterface:
         if wait:
             s.acquire()
 
-    def cancel_gripper_command(self):
+    def cancel_gripper_command(self):  # type: (...) -> None
         """Cancel current gripper command, halting gripper in current position."""
         self._gripper_action_client.cancel_goal(self._gripper_goal_id)
 
-    def get_gripper_position(self):
+    def get_gripper_position(self):  # type: (...) -> float
         """Get the current gap between gripper fingers.
 
         Returns:
             float64: the gripper gap in cm.
 
         """
+        assert self._gripper_position is not None, "Gripper position not yet populated!"
         return self._gripper_position
 
-    def get_gripper_effort(self):
+    def get_gripper_effort(self):  # type: (...) -> float
         """Get the current effort exerted by the gripper.
 
         Returns:
             float64: the gripper effort in N
         """
+        assert self._gripper_effort is not None, "Gripper effort not yet populated!"
         return self._gripper_effort
 
     def set_joint_positions(
-        self, joint_positions, duration=0.0, soft_position_control=False
-    ):
+        self,
+        joint_positions,  # type: Sequence
+        duration=0.0,  # type: float
+        soft_position_control=False,  # type: bool
+    ):  # type: (...) -> None
         """Move arm to specified position in joint space.
 
         Args:
@@ -280,14 +296,20 @@ class BlueInterface:
 
         self._set_joint_positions(joint_positions, soft_position_control)
 
-    def _set_joint_positions(self, joint_positions, soft_position_control):
+    def _set_joint_positions(
+        self,
+        joint_positions,  # type: Sequence
+        soft_position_control,  # type: bool
+    ):  # type: (...) -> None
         joint_positions_msg = {"layout": {}, "data": list(joint_positions)}
         if soft_position_control:
             self._joint_soft_position_publisher.publish(joint_positions_msg)
         else:
             self._joint_position_publisher.publish(joint_positions_msg)
 
-    def set_joint_torques(self, joint_torques):
+    def set_joint_torques(
+        self, joint_torques  # type: Sequence
+    ):  # type: (...) -> None
         """Command joint torques to the arm.
 
         Args:
@@ -303,16 +325,17 @@ class BlueInterface:
         joint_torques_msg = {"layout": {}, "data": list(joint_torques)}
         self._joint_torque_publisher.publish(joint_torques_msg)
 
-    def get_joint_positions(self):
+    def get_joint_positions(self):  # type: (...) -> np.ndarray
         """Get the current joint angles, in radians.
 
         Returns:
             numpy.ndarray: An array of 7 angles, in radians, ordered from
             proximal to distal.
         """
+        assert self._joint_positions is not None, "Joint positions not populated!"
         return self._joint_positions
 
-    def get_cartesian_pose(self):
+    def get_cartesian_pose(self):  # type: (...) -> Dict[str, np.ndarray]
         """Get the current cartesian pose of the end effector, with respect to
         the world frame.
 
@@ -321,41 +344,44 @@ class BlueInterface:
             "orientation": numpy.array([x,y,z,w]} defined with respect to the
             world frame.
         """
+        assert self._cartesian_pose is not None, "Cartesian pose not populated!"
         return self._cartesian_pose
 
-    def get_joint_torques(self):
+    def get_joint_torques(self):  # type: (...) -> np.ndarray
         """Get the current joint torques.
 
         Returns:
             numpy.ndarray: An array of 7 joint torques, in Nm, ordered from
             proximal to distal.
         """
+        assert self._joint_torques is not None, "Joint torques not populated!"
         return self._joint_torques
 
-    def get_joint_velocities(self):
+    def get_joint_velocities(self):  # type: (...) -> np.ndarray
         """Get the current joint velocities.
 
         Returns:
             numpy.ndarray: An array of 7 joint torques, in Nm, ordered from
             proximal to distal.
         """
+        assert self._joint_velocities is not None, "Joint velocities not populated!"
         return self._joint_velocities
 
-    def disable_control(self):
+    def disable_control(self):  # type: (...) -> None
         """Set joint control mode to gravity compensation only."""
         self._set_control_mode(_BlueController.GRAV_COMP)
 
-    def enable_gripper(self):
+    def enable_gripper(self):  # type: (...) -> None
         """Enables the gripper. The gripper will begin to hold position."""
         self._switch_controller([self._controller_lookup[_BlueController.GRIPPER]], [])
         self._gripper_enabled = True
 
-    def disable_gripper(self):
+    def disable_gripper(self):  # type: (...) -> None
         """Disables the gripper. The gripper will become compliant."""
         self._switch_controller([], [self._controller_lookup[_BlueController.GRIPPER]])
         self._gripper_enabled = False
 
-    def gripper_enabled(self):
+    def gripper_enabled(self):  # type: (...) -> bool
         """Check if gripper is enabled to take commands.
 
         Returns:
@@ -363,7 +389,12 @@ class BlueInterface:
         """
         return self._gripper_enabled
 
-    def inverse_kinematics(self, position, orientation, seed_joint_positions=[]):
+    def inverse_kinematics(
+        self,
+        position,  # type: np.ndarray
+        orientation,  # type: np.ndarray
+        seed_joint_positions=[],  # type: Sequence
+    ):  # type: (...) -> np.ndarray
         """Given a desired cartesian pose for the end effector, compute the
         necessary joint angles. Note that the system is underparameterized and
         there are an infinite number of possible solutions; this will only
@@ -405,7 +436,9 @@ class BlueInterface:
 
         return np.asarray(output)
 
-    def _joint_state_callback(self, message):
+    def _joint_state_callback(
+        self, message  # type: Dict[str, Any]
+    ):  # type: (...) -> None
         joint_positions_temp = []
         joint_torques_temp = []
         joint_velocities_temp = []
@@ -431,7 +464,9 @@ class BlueInterface:
         if len(joint_velocities_temp) != 0:
             self._joint_velocities = np.array(joint_velocities_temp)
 
-    def _process_tfs(self, message):
+    def _process_tfs(
+        self, message  # type: Dict[str, Any]
+    ):  # type: (...) -> None
         pose = message["transforms"][0]["transform"]
         trans = pose["translation"]
         rot = pose["rotation"]
@@ -442,7 +477,7 @@ class BlueInterface:
         )
         self._cartesian_pose = cartesian_pose_temp
 
-    def _request_end_effector_tfs(self):
+    def _request_end_effector_tfs(self):  # type: (...) -> None
         goal_msg = {
             "source_frames": [self._END_EFFECTOR_FRAME],
             "target_frame": self._WORLD_FRAME,
@@ -462,7 +497,9 @@ class BlueInterface:
 
         self._tf_service_client.request(goal_msg, _tf_service_callback)
 
-    def _set_control_mode(self, mode):
+    def _set_control_mode(
+        self, mode  # type: _BlueController
+    ):  # type: (...) -> bool
         if mode == self._control_mode:
             return True
         self._switch_controller(
@@ -472,7 +509,12 @@ class BlueInterface:
         )
         return mode == self._control_mode
 
-    def _switch_controller(self, start, stop, new_control_mode=None):
+    def _switch_controller(
+        self,
+        start,  # type: List[str]
+        stop,  # type: List[str]
+        new_control_mode=None,  # type: Optional[_BlueController]
+    ):  # type: (...) -> None
         request_msg = {
             "start_controllers": start,
             "stop_controllers": stop,
@@ -493,7 +535,9 @@ class BlueInterface:
         # to instantiate the command topic subscriber, etc
         time.sleep(0.01)
 
-    def _load_controller(self, name):
+    def _load_controller(
+        self, name  # type: str
+    ):  # type: (...) -> None
         request_msg = {"name": name}
 
         s = threading.Semaphore(0)
@@ -504,7 +548,9 @@ class BlueInterface:
         self._load_controller_service_client.request(request_msg, callback)
         s.acquire()
 
-    def _unload_controller(self, name):
+    def _unload_controller(
+        self, name  # type: str
+    ):  # type: (...) -> None
         request_msg = {"name": name}
 
         s = threading.Semaphore(0)
